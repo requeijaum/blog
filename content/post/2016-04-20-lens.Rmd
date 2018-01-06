@@ -8,6 +8,9 @@ categories:
   - R
 tags: [lens database, patent database, patent analytics, R]
 ---
+```{r opts, echo=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.align = "center", out.width = "600px")
+```
 ##Introduction
 
 In this article we provide a brief introduction to [The Lens](https://www.lens.org/lens/) patent database as a free source of data for patent analytics. 
@@ -20,11 +23,15 @@ This article is now a chapter in the [WIPO Manual on Open Source Patent Analytic
 
 To get the most out of the Lens the first step is to sign up for an account from the front page.
 
-![](/images/lens/fig1_front.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig1_front.png")
+```
 
 It is possible to begin searching directly from the front page. However, selecting the small button next to the search box takes you to the search controls. 
 
-![](/images/lens/fig2_controls.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig2_controls.png")
+```
 
 As we can see we can use boolean queries, for searching a range of fields including the full text, title, abstract or claims (a major plus). We can also select one or multiple jurisdictions. In addition the results can be refined to patent applications or grants, and there are options for full text or one doc per family (which greatly reduces the number of results). 
 
@@ -37,7 +44,9 @@ The Lens allows users to create collections of up to 10,000 results from a searc
 1. Check the arrow next to Document as in the image below. When the mouse hovers over the arrow a menu will pop up. Choose `Top 10k Results`.
 2. In the box displaying the name of the collection above the results press the + arrow to add the 10,000 documents to the Collection. 
 
-![](/images/lens/fig3_addtocollection.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig3_addtocollection.png")
+```
 
 Once you understand this process it is easy to add documents to collections. One very nice feature of the Lens is that when a collection has been created we can share it with others using the `Share` button. Users have the option of maintaining a private collection or publicly sharing. The URL for the collection we just generated is [https://www.lens.org/lens/collection/9606](https://www.lens.org/lens/collection/9606).
 
@@ -49,17 +58,23 @@ There are two main options for downloading data. The first is to download 1000 r
 
 When we select the export button we will be presented with a choice on the number of records to export and whether to export in JSON (for programmatic use), RIS for bibliographic software or .csv for use in tools such as Excel or other programmes. 
 
-![](/images/lens/fig4_exportoptions.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig4_exportoptions.png")
+```
 
 The outputs of the export are clean and clear about what they represent when compared with some patent databases. A `url` link to the relevant file on the Lens is also provided which can assist in reviewing documents. 
 
-![](/images/lens/fig5_export.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig5_export.png")
+```
 
 The JSON output (in the lower right of the image above) is also nice and clean. 
 
 The second route to exporting data is to download up to 10,000 results using the collections. When we select the `Work Area` icon at the top of the screen and select `Collections` we will see a new screen with a range of icons next to an individual collection.
 
-![](/images/lens/fig5a_export_collection.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig5a_export_collection.png")
+```
 
 When we select the download icon we can now download the 10,000 records in the collection in either .csv, ris or JSON formats. This is very easy to use once you understand how to navigate the interface. 
 
@@ -79,21 +94,29 @@ As such, one possible workflow using the Lens would involve initial exploratory 
 
 The Lens makes good use of online visualisation options using [Highcharts](http://www.highcharts.com) and HTML5. To access the visualisations choose the small icon on the right above the `Sort by` pull down menu. 
 
-![](/images/lens/fig6_visual.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig6_visual.png")
+```
 
 We now see a set of charts for our results. Using the up icon in the top right of each image we can get an expanded view and work with the charts. The Lens uses the Highcharts Javascript library and a very nice feature of this approach is that it the visuals are interactive and can be used to refine search results. In the image below we have opened the applicants image. As an aside, note that each image can be copied as an iframe to embed in your own web page.
 
-![](/images/lens/fig7_applicants.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig7_applicants.png")
+```
 
 This suggests that Google is the top user of the word pizza in the patent system with [880 documents in 353 families](https://www.lens.org/lens/collection/9608). We can then select the top result and the charts will regenerate focusing on our selection (in this case Google). To view the results we need to select the results button (the first on the right above the charts) to see the following. 
 
-![](/images/lens/fig8_google.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig8_google.png")
+```
 
 What is very useful about is that it is easy to create a [new collection](https://www.lens.org/lens/collection/9608) for an applicant of interest, to download the results or select areas of a portfolio based on a jurisdiction or technology area or to explore highly cited patents. In short, we can easily dig into the data.  
 
 Other interesting features of the chart area are references to authors, DOIs, and PubMed Ids for exploration of data extracted from the documents. This reflects the interest at the Lens in researching the relationship between basic scientific research and innovation. Accessing the literature related information requires opening a chart (for example authors) and selecting the top result and the moving into the results view. We then select one of the results such as [Voice Actions On Computing Devices](https://www.lens.org/lens/patent/US_8200847_B2/citations#c/publications) and the Citations tab. This reveals a publication from a workshop on Wireless Geographical Information Systems from 2003 as we can see below. 
 
-![](/images/lens/fig9_crossref.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig9_crossref.png")
+```
 
 An impressive feature of this approach is the effort that has been made to link the citation data to the publication using [crossref](http://www.crossref.org). According to the documentation around 15 million non-patent literature citations have been linked so far. Note that one additional feature of the Lens download data is that it includes a non-patent literature citation field. For example, downloading the [google pizza portfolio](https://www.lens.org/lens/collection/9608) and a search for the citation above will reveal the citation but without the added value of the DOI. As such, the download provided the raw NPL data.  
 
@@ -101,26 +124,34 @@ An impressive feature of this approach is the effort that has been made to link 
 
 In common with other free databases, the Lens is not designed to allow downloads of multiple full texts. However, you can access the full text of documents, including .pdf files, and you can make notes that will be stored with a collection in your account. The image below provides an example of our ongoing efforts to understand why Google is so dominant in the results of searches for pizza in patent documents. 
 
-![](/images/lens/fig10_notes.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig10_notes.png")
+```
 
 ##PatSeq
 
 One important focus of the development of the Lens has been DNA sequence data including an [ongoing series of articles](https://www.lens.org/about/) on the interpretation and significance of sequence data in patent activity. 
 
-![](/images/lens/fig11_patseq.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig11_patseq.png")
+```
 
 Patseq includes a number of tools. 
 
 1. PatSeq data permits access to patent documents disclosing sequences available for bulk download from a growing number of countries. This is a very useful site for obtaining sequence data. Note that you will need to request access to download sequence data in your account area. 
 2. Species finder and keyword search focuses on searching documents that contain a sequence for a species name or key term. 
 
-![](/images/lens/fig12_patseq_species.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig12_patseq_species.png")
+```
 
 A series of patent portfolios have been generated for some major plant and animal species, e.g. rice, maize, humans, chickens etc. That can be downloaded as collections. 
 
 3. The PatSeq Explorer allows the exploration of sequence data for four genomes (at present), notably the human and mouse genome for animals and the soybean, maize and rice genome for plants.
 
-![](/images/lens/fig13_patseq_explorer.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig13_patseq_explorer.png")
+```
 
 This is an area where researchers with [Cambia](http://www.cambia.org/daisy/cambia/home.html), the non-profit organisation behind the Lens, have invested considerable effort and it is well worth reading the research articles listed on the Cambia and Lens websites on this topic. PatSeq Analyzer is closely related to the Explorer and presently provides details on the genomes mentioned above with a detailed summary of sequences by document including the region, sequence, transcript, single nucleotide polymorphisms (SNPs) and grants with sequences in the patent claims. 
 
@@ -128,11 +159,15 @@ This is an area where researchers with [Cambia](http://www.cambia.org/daisy/camb
 
 The PatSeq Finder allows a user to enter a DNA or amino acid sequence into the search box and find applications and grants with identical or similar sequences. We selected a sequence at random from the WIPO Patentscope sequence listings browser [W016/026850](http://www.wipo.int/patentscope/search/en/detail.jsf?LANGUAGE=ENG&KEY=16/026850&ELEMENT_SET=F). 
 
-![](/images/lens/fig14_seq_explorer.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig14_seq_explorer.png")
+```
 
 After processing we will see a list of results that can be downloaded in a variety of formats. The results indicate that our random sequence does not appear in the claims of a granted patent or a patent application but does appear in a number of applications and grants. Further details are provided by hovering over the individual entries and additional controls are available for similarity and other scores to refine the results. 
 
-![](/images/lens/fig15_seq_results.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/lens/fig15_seq_results.png")
+```
 
 As far as we could tell, while the data can be downloaded, it is not presently possible to generate a collection of documents from the results of the PatSeq Finder. 
 

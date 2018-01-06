@@ -1,3 +1,0 @@
-"0","r <- searchplos(q = ""pizza"", fq = 'cross_published_journal_key:PLOSONE', limit = 0)$meta$numFound"
-"2","Error: 400 - undefined field cross_published_journal_key
-"

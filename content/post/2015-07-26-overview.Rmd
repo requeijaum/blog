@@ -7,6 +7,10 @@ categories:
   - Patents
 tags: [patent databases, patent analytics, patent analytics software]
 ---
+```{r opts, echo=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.align = "center", out.width = "600px")
+```
+
 ##Introduction
 
 This article provides an overview of the open source and free software tools that are available for patent analytics. The aim of the chapter is to serve as a quick reference guide for some of the main tools in the tool kit. 
@@ -45,19 +49,27 @@ Many patent analysts will use Excel as a default programme including basic clean
 
 Google Sheets require a free Google account and those who are comfortable with Excel may wonder why it is worth switching. However, Google Sheets can be shared online with others and there are a large number of free add ons that could be used to assist with cleaning data such as Split Names or Remove duplicates as shown below. 
 
-![](images/overview/google_sheets_addon.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/google_sheets_addon.png")
+```
 
 ###[Google Fusion Tables](https://support.google.com/fusiontables/answer/2571232?hl=en)
 
 Fusion Tables are similar to Google Sheets but can work with millions of records. However, it is worth trying with smaller datasets to see if Fusion Tables suit your needs. 
 
-![](images/overview/Fusion-Tables.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Fusion-Tables.png")
+```
 
 Fusion Tables appear very much like a spreadsheet. However, the Table also contains a `cards` feature which allows each record to be seen as a whole and easily filtered. The cards can be much easier to work with than the standard row format where information in a record can be difficult to take in. Fusion Tables also attempts to use geocoded data to draw a Google Map as we can see in the second image below for the publication country from a sample patent dataset.
 
-![](images/overview/Fusion-Tables-Cards.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Fusion-Tables-Cards.png")
+```
 
-![](images/overview/Fusion-Tables-Map.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Fusion-Tables-Map.png")
+```
 
 ##Cleaning Tools
 
@@ -67,7 +79,9 @@ A fundamental rule of data analysis and visualization is: `rubbish in = rubbish 
 
 An in depth chapter is available [here](http://poldham.github.io/openrefine-patent-cleaning/) on the use of [Open Refine](http://openrefine.org), formerly Google Refine, for cleaning patent data. For patent analytics Open Refine is an important free tool for cleaning applicant and inventor names. 
 
-![](images/openrefine/OpenRefine-download.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/openrefine/OpenRefine-download.png")
+```
 
 A number of platforms provide data cleaning facilities and it is possible to do quite a lot of basic cleaning in either Open Office or Excel. Open Refine is the most accessible tool for timely cleaning of patent name fields. In particular, it is very useful for splitting and cleaning thousands of patent applicant and inventor names. 
 
@@ -79,7 +93,9 @@ There are an ever growing number of data mining tools out there. Here are a few 
 
 A very powerful tool for working with data and visualising data using R and then writing about it (this chapter, and the wider Manual, is entirely written in Rmarkdown with RStudio). While the learning curve with R can be intimidating a great deal of effort goes in to making R accessible through [tutorials](http://www.rstudio.com/resources/training/online-learning/) such as those on [DataCamp](https://www.datacamp.com), [webinars](http://www.rstudio.com/resources/webinars/), [R-Bloggers](http://www.r-bloggers.com) and [Stack Overflow](http://stackoverflow.com/questions/tagged/r) and free university courses such as the well known John Hopkins University R Programming Course on [Coursera](https://www.coursera.org/course/rprog). Indeed, as with Python, there is so much support for users at different levels that it is hard ever to feel alone when using R and RStudio. 
 
-![](images/overview/RStudio.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/RStudio.png")
+```
 
 To get started with R download RStudio for your platform by [following these instructions](https://www.rstudio.com/products/rstudio/download/) and making sure to install R from the link provided. 
 
@@ -91,13 +107,18 @@ In developing this Manual we mainly focused on developing resources with R. Howe
 
 Comes with a free service and a variety of tiered paid plans. RapidMiner focuses on machine learning, data mining, text mining and analytics. 
 
-![](images/overview/RapidMiner.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/RapidMiner.png")
+```
+
 
 ###[KNIME](http://www.knime.org)
 
 An open platform for data mining. 
 
-![](images/overview/KNIME.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/KNIME.png")
+```
 
 Other data mining tools (such as [WEKA](http://www.cs.waikato.ac.nz/ml/weka/) and [NLTK](http://www.nltk.org) in Python are covered below). If you would like to explore other data mining software try this [article](http://www.predictiveanalyticstoday.com/top-free-data-mining-software/) for some ideas.
 
@@ -120,13 +141,18 @@ If you are completely new to data visualization [Tableau Public](https://public.
 - For an overview of using Google Charts in R then see the `GoogleVis` package and its examples [here](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf)
 - For an overview using Google Charts with Python see the [google-chartwrapper](https://code.google.com/p/google-chartwrapper/) or [Python Google Charts](http://python-google-charts.readthedocs.org/en/latest/#)
 
-![](images/overview/google_sheets_addon.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/google_sheets_addon.png")
+```
+
 
 ###[Tableau Public](https://public.tableau.com/s/)
 
 An in depth chapter on getting started with patent analysis and visualization using Tableau Public is available [here](http://poldham.github.io/tableau-patents/). When your patent data has been cleaned, Tableau Public is a powerful way of developing interactive dashboards and maps with your data and combining it with other data sources. Bear in mind that Tableau Public data is, by definition, public and it should not be used with sensitive data. 
 
-![](images/tableau/dashboard_completed.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/tableau/dashboard_completed.png")
+```
 
 The workbook can be viewed online [here](https://public.tableau.com/profile/wipo.open.source.patent.analytics.manual#!/).
 
@@ -147,13 +173,17 @@ We will cover `ggplot2` and `ggvis` in greater depth in future chapters. Until t
 
 Shiny from [RStudio]((http://www.rstudio.com/)) is a web application framework for R. What that means is that you can output tables and visual data from R such as those from the tools mentioned above to the web. 
 
-![](images/overview/Shiny.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Shiny.png")
+```
 
 [Shiny apps](http://shiny.rstudio.com) for R users allows for the creation of online interactive apps (upto 5 for free). See the [Gallery](http://shiny.rstudio.com/gallery/) for examples. See [RBloggers](http://www.r-bloggers.com/search/shiny) for more examples and tutorials.
 
 [Radiant](http://vnijs.github.io/radiant/index.html) is a browser based platform for business analytics in R. It is based on Shiny (above) but is specifically business focused. 
 
-![](images/overview/Radiant.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Radiant.png")
+```
 
 For a series of starter videos on Radiant see [here](http://vnijs.github.io/radiant/tutorials.html). 
 
@@ -161,7 +191,9 @@ For a series of starter videos on Radiant see [here](http://vnijs.github.io/radi
 
 You need to Register for a free account to really understand what this is about, [try this page](http://www-969.ibm.com/software/analytics/manyeyes/) and select register in the top right. 
 
-![](images/overview/manyeyes.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/manyeyes.png")
+```
 
 ###Other visualization Tools
 
@@ -183,17 +215,23 @@ Network visualization software is an important tool for visualising actors in a 
 
 1. Visualising networks of applicants and inventors in a particular field or scientific researchers. An example of this type of work for synthetic biology is [here](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0034368) for a network of approximately 2,000 authors of articles on synthetic biology. 
 
-![](images/overview/synbio.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/synbio.png")
+```
 
 2. Visualising areas of technology and their relationships using the International Patent Classification and the Cooperative Patent Classification (CPC). Previous work at WIPO pioneered the use of large scale patent network analysis to identify the [patent landscape for animal genetic resources](http://www.wipo.int/patentscope/en/programs/patent_landscapes/reports/animal_gr.html).
 
 The image below displays a network map of Cooperative Patent Classification Codes and International Patent Classification codes for 10s of thousands of patent documents that contain references to a range of farm animals (cows, pigs, sheep etc.). The dots are CPC/IPC codes describing areas of technology. The clusters show tightly linked documents that share the same codes that can then be described as 'modules' or clusters. The authors of the landscape report on animal genetic resources used this network as an exploratory tool to extract and examine the documents in the cluster for relevance. Distant clusters, such as Cooking equipment and Animal Husbandry (housing of animals etc.), were discarded. The authors later used network mapping to explore and classify the individual clusters. 
 
-![](images/overview/animals.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/animals.png")
+```
 
 3. Visualising networks of key terms in patent documents and their relationships with other terms as part of the exploration and refinement of analysis. In this case the authors have clustered similar terms onto each other using word stemming to understand the contents of the new breeds of animals cluster above in relation to animal breeding. 
 
-![](images/overview/breeds_cluster.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/breeds_cluster.png")
+```
 
 As such, network visualization can be seen as both an exploratory tool for defining the object of interest and as the end result (e.g. a defined network of actors in a specific area). 
 
@@ -201,7 +239,9 @@ As such, network visualization can be seen as both an exploratory tool for defin
 
 Gephi is Java based open source network generating software. It can cope with large datasets (depending on your computer) to produce powerful visualizations.
 
-![](images/overview/Gephi.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Gephi.png")
+```
 
 One issue that may be encountered, particularly by Mac users, is problems with installing the right Java version. This problem appears to have been solved with the latest release Version 0.9.
 
@@ -211,13 +251,17 @@ To create `.gexf` network files in R try the [gexf](http://cran.r-project.org/we
 
 For die hard Excel users, [NodeXL](http://nodexl.codeplex.com) is a plug in that can be used to visualise networks. It works well.
 
-![](images/overview/NodeXL.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/NodeXL.png")
+```
 
 ###[Cytoscape](http://www.cytoscape.org/what_is_cytoscape.html) 
 
 [Cytoscape](http://www.cytoscape.org/what_is_cytoscape.html) is another network visualization programme. It was originally designed for the visualization of biological networks and interactions but, as with so many other bioinformatics tools, can be applied to a wider range of visualization tasks. 
 
-![](images/overview/cytoscape.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/cytoscape.png")
+```
 
 We mainly have experience with using Gephi (above) but Cytoscape is well worth exploring. Cytoscape works with Windows, Mac and Linux. 
 
@@ -225,7 +269,9 @@ We mainly have experience with using Gephi (above) but Cytoscape is well worth e
 
 This is one of the oldest and most established of the free network tools and is Windows only (or run via a Virtual Machine). It is widely used in bibliometrics and can handle large datasets. It is a matter of personal preference but tools such as Gephi may be superseding Pajek because they are more flexible. However, Pajek may possibly have an edge in precision, ease of reproducibility and the important ability to easily save work that Gephi can lack as a Beta programme. 
 
-![](images/overview/Pajek.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Pajek.png")
+```
 
 Data can also be exported from Pajek to Gephi for those who prefer the look and feel of Gephi. 
 
@@ -233,13 +279,17 @@ Data can also be exported from Pajek to Gephi for those who prefer the look and 
 
 VOS Viewer from Leiden University is similar to Gephi and Cytoscape but also presents different types of landscape (as opposed to pure network node and edge visuals). The latest version can also speak to both Gephi and Cytoscape. It is worth testing for different visual display options and its ability to handle Web of Science and Scopus bibliographic data. 
 
-![](images/overview/VOSviewer.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/VOSviewer.png")
+```
 
 ###[Hive Plots](http://www.hiveplot.net)
 
 We are not entirely sure what to make of Hive Plots. However, we have a lot of sympathy with the aims. The aim of network visualization should be to clarify the complex... not "wow, look, I made something that looks like spaghetti" (although that is normally part of the process). So, we find Hive Plots developed by Martin Krzywinski at the Genome Sciences Center at the BC Cancer Agency interesting. 
 
-![](images/overview/HivePlots.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/HivePlots.png")
+```
 
 Designed for large networks there are packages for Hive plots in Python through [pyveplot](https://pypi.python.org/pypi/pyveplot/) and [hiveplot](https://github.com/ericmjl/hiveplot). For R there is [HiveR](http://academic.depauw.edu/~hanson/HiveR/HiveR.html) with documentation available on CRAN [here](http://cran.r-project.org/web/packages/HiveR/index.html). 
 
@@ -269,13 +319,17 @@ In addition to the ubiquitous [Google Maps](https://www.google.com/maps/) or wel
 
 Rightly popular. 
 
-![](images/overview/OpenStreetMap.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/OpenStreetMap.png")
+```
 
 ###[Leaflet](http://leafletjs.com)
 
 A very popular Open Source JavaScript library for interactive maps
 
-![](images/overview/Leaflet.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Leaflet.png")
+```
 
 Accessible through an API. R users could use the `leafletr` package with tutorials and walk throughs available at [R-bloggers](http://www.r-bloggers.com/?s=leaflet). For Python users try `folium` [here](https://github.com/python-visualization/folium) or [here](https://pypi.python.org/pypi/folium). 
 
@@ -284,8 +338,9 @@ Accessible through an API. R users could use the `leafletr` package with tutoria
 Already mentioned above. Tableau Public uses Open Street Map to create a powerful combination of interactive graphs that can be linked to maps geocoded at various levels of detail. See an example [here](https://public.tableau.com/profile/poldham#!/vizhome/SyntheticBiologyScientificLandscape/SyntheticBiologyTrends) for the scientific literature on synthetic biology. 
 
 Tableau Public is probably the easiest way to get started with creating your own maps with patent data. The map below was produced using custom geocoding and connecting the data to publication country and the titles of scientific publications. 
-
-![](images/overview/tableaumap.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/tableaumap.png")
+```
 
 To view the interactive version try this [page](http://public.tableau.com/profile/poldham#!/vizhome/SyntheticBiologyScientificLandscape/SyntheticBiologyTrends). It is possible to easily create simple yet effective maps in Tableau Public. 
 
@@ -293,59 +348,80 @@ To view the interactive version try this [page](http://public.tableau.com/profil
 
 A very popular and sophisticated software package running on all major platforms. 
 
-![](images/overview/QGIS.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/QGIS.png")
+```
 
 Using QGIS Oldham and Hall et al mapped the worldwide geographical locations of marine scientific research and patent documents making reference to deep sea locations such as hydrothermal vents (see [Valuing the Deep](https://www.researchgate.net/publication/273139809_Valuing_the_Deep_Marine_Genetic_Resources_in_Areas_Beyond_National_Jurisdiction)). This is a low resolution QGIS map of scientific research locations in the oceans based on text mining of the scientific literature. 
 
-![](images/overview/valuing1.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/valuing1.png")
+```
 
 ###[Geonames.org](http://www.geonames.org). 
 
 Not a mapping programme, instead geonames is an incredibly useful database of georeferenced place names from around the world along with a RESTful [web service](http://www.geonames.org/export/web-services.html). If you need to obtain the georeferenced data for a large number of places then this should be your first stop. geonames can be accessed in R using the [`geonames`](https://cran.r-project.org/web/packages/geonames/geonames.pdf) along with client libraries for Python, Ruby, PHP and others. 
 
-![](images/overview/GeoNames.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/GeoNames.png")
+```
 
 ###[iCharts](http://icharts.net/product/web-data-visualization)
 
 A Free and Premium data visualization service:
 
-![](images/overview/icharts.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/icharts.png")
+```
 
 ###[OpenLayers3](http://openlayers.org)
 
 OpenLayers3 allows you to add your own layers to OpenStreetMap and other data sources and may come in very useful if you are seeking to create your own layers. It also has an API and tutorials. 
 
-![](images/overview/OpenLayer.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/OpenLayer.png")
+```
 
 ###[CartoDB](https://cartodb.com/gallery/)
 
 Free and paid accounts with a nice looking gallery of examples
 
-![](images/overview/CartoDB.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/CartoDB.png")
+```
 
 ###[d3.js](http://d3js.org)
 
 A javascript library for manipulating data and documents. This is the library behind some of the other frequently mentioned visualization tools on the web. 
 
-![](images/overview/D3.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/D3.png")
+```
+
 
 ###[Highcharts](http://www.highcharts.com)
 
 Free for non-commercial use with a variety of pricing plans.
 
-![](images/overview/highcharts.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/highcharts.png")
+```
 
 ###[Datawrapper](https://datawrapper.de)
 
 An entirely open source service for creating charts and maps with your data. Widely used by big newspapers and so the graphics will seem familiar. Either create an account or fork the source from Github [here](https://github.com/datawrapper/datawrapper). There is a free option and a set of pricing plans. 
 
-![](images/overview/Datawrapper.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Datawrapper.png")
+```
 
 ###[Plotly](https://plot.ly/feed/)
 
 Free and with an API with clients for R, Python and Matlab, Plotly is an increasingly popular free service that uses the D3.js library mentioned above with the enterprise version used by companies such as Google. Plotly is increasingly popular and has a range of API clients for Python, Matlab, R, Node.js, and Excel. Plotly's ease of use and access from a range of environments are big reasons for its growing success. 
 
-![](images/overview/Plotly.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Plotly.png")
+```
 
 ##Text Mining
 
@@ -355,13 +431,17 @@ There are a lot of text mining tools out there and many of them are free or open
 
 For exploring and understanding document collections. 
 
-![](images/overview/Jigsaw.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Jigsaw.png")
+```
 
 ###[Weka](http://www.cs.waikato.ac.nz/ml/weka/) 
 
 Java based text mining software. 
 
-![](images/overview/Weka.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Weka.png")
+```
 
 ###Word Trees
 
@@ -369,15 +449,22 @@ Word trees can be used for detailed investigation of texts such as claims trees.
 
 ###[Google Word Trees](https://developers.google.com/chart/interactive/docs/gallery/wordtree) on the Google Developers site provides instructions for generating word trees using Javascript.
 
-![](images/overview/Word-Trees.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Word-Trees.png")
+```
 
 and [Jason Davies](https://www.jasondavies.com/wordtree/) tree creator. 
 
-![](images/overview/Word-Tree-Davies.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/Word-Tree-Davies.png")
+```
+
 
 ###[KH Coder](http://sourceforge.net/projects/khc/?source=directory): free software allowing quantitative content analysis/text mining.  
 
-![](images/overview/KHCoder.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/KHCoder.png")
+```
 
 ###R and the `tm` package
 
@@ -395,7 +482,9 @@ There are quite a few resources available on text mining using Python. Note that
 
 NTLK appears to be the leading package and covers almost all major needs. The accompanying book [Natural Language Processing with Python](http://shop.oreilly.com/product/9780596516499.do) may also be worth considering. The [Python Textmining Package](http://www.christianpeccei.com/textmining/) is simpler than the giant NTLK package but may suit your needs. 
 
-![](images/overview/ntlk.png)
+```{r echo=FALSE}
+knitr::include_graphics("/images/overview/ntlk.png")
+```
 
 This [detailed tutorial](http://textminingonline.com/dive-into-nltk-part-i-getting-started-with-nltk) may be helpful for those wanting to get started with the NTLK package in Python.
 
