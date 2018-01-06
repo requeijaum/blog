@@ -1,0 +1,12 @@
+"0","library(readr)"
+"0","pizza <- read_csv(""https://github.com/wipo-analytics/opensource-patent-analytics/blob/master/2_datasets/pizza_medium_clean/pizza.csv?raw=true"")"
+"2","Parsed with column specification:
+cols(
+  .default = col_character(),
+  publication_day = col_integer(),
+  publication_month = col_integer(),
+  publication_year = col_integer()
+)
+"
+"2","See spec(...) for full column specifications.
+"

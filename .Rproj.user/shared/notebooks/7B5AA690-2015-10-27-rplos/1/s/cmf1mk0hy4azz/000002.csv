@@ -1,0 +1,4 @@
+"0","p <- searchplos(q = ""pizza"", fl = c(""id"",""publication_date"", ""title"", ""abstract""), limit = 20)"
+"0","p"
+"1","$meta
+"

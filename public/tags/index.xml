@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Paul Oldham&#39;s Blog</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on Paul Oldham&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright @ Paul Oldham 2017</copyright>
+    <lastBuildDate>Tue, 27 Oct 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bibliometrics</title>
+      <link>/tags/bibliometrics/</link>
+      <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bibliometrics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dashboards</title>
+      <link>/tags/dashboards/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/dashboards/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gephi Tutorial</title>
+      <link>/tags/gephi-tutorial/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/gephi-tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Infogram</title>
+      <link>/tags/infogram/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/infogram/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Infographics</title>
+      <link>/tags/infographics/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/infographics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Lens Database</title>
+      <link>/tags/lens-database/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/lens-database/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Name Cleaning</title>
+      <link>/tags/name-cleaning/</link>
+      <pubDate>Sat, 02 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/name-cleaning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Network Analysis</title>
+      <link>/tags/network-analysis/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/network-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Open Refine</title>
+      <link>/tags/open-refine/</link>
+      <pubDate>Sat, 02 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/open-refine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patent Analytics</title>
+      <link>/tags/patent-analytics/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patent-analytics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patent Analytics Software</title>
+      <link>/tags/patent-analytics-software/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patent-analytics-software/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patent Data Fields</title>
+      <link>/tags/patent-data-fields/</link>
+      <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patent-data-fields/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patent Database</title>
+      <link>/tags/patent-database/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patent-database/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patent Databases</title>
+      <link>/tags/patent-databases/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patent-databases/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patent Datasets</title>
+      <link>/tags/patent-datasets/</link>
+      <pubDate>Fri, 07 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patent-datasets/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patent Networks</title>
+      <link>/tags/patent-networks/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patent-networks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patent Training Datasets</title>
+      <link>/tags/patent-training-datasets/</link>
+      <pubDate>Fri, 07 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patent-training-datasets/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patentscope</title>
+      <link>/tags/patentscope/</link>
+      <pubDate>Mon, 25 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patentscope/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Plos Api</title>
+      <link>/tags/plos-api/</link>
+      <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/plos-api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ropensci</title>
+      <link>/tags/ropensci/</link>
+      <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ropensci/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rplos</title>
+      <link>/tags/rplos/</link>
+      <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rplos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scientometrics</title>
+      <link>/tags/scientometrics/</link>
+      <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/scientometrics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tableau</title>
+      <link>/tags/tableau/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tableau/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

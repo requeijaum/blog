@@ -1,0 +1,1 @@
+{"frames":[{"character_number":0,"end_character_number":0,"end_line_number":0,"file":"","func":"setwd(\"/Users/pauloldham/Desktop/open_source_master/rplos\")","line_number":0}],"message":"Error in setwd(\"/Users/pauloldham/Desktop/open_source_master/rplos\") : \n  cannot change working directory\n"}
