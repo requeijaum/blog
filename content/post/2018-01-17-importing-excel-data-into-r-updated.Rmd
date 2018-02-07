@@ -12,7 +12,7 @@ tags:
 ```{r opts, echo=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.align = "center", out.width = "600px", cache = TRUE, tidy = TRUE)
 ```
-Back in 2015 I wrote a long blog post on [importing Excel tables into R](http://www.pauloldham.net/2015/04/30/reading-and-writing-an-excel-file-in-r/). Happily for everyone this is now a lot easier than it was. This post provides an update on importing spreadsheets into R and exporting from R to Excel. 
+Back in 2015 I wrote a long blog post on [importing Excel tables into R](http://www.pauloldham.net/2015/04/30/reading-and-writing-an-excel-file-in-r/). Happily for everyone this is now a lot easier than it was. This post provides an update on importing spreadsheets into R and exporting from R to Excel. I'll also cover reading an excel file into R from a url as that seems to be an ongoing struggle. 
 
 ### Import Directly from the RStudio Menu
 

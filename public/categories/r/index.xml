@@ -18,7 +18,7 @@
       <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/02/06/importing-excel-data-into-r-updated/</guid>
-      <description>Back in 2015 I wrote a long blog post on importing Excel tables into R. Happily for everyone this is now a lot easier than it was. This post provides an update on importing spreadsheets into R and exporting from R to Excel.
+      <description>Back in 2015 I wrote a long blog post on importing Excel tables into R. Happily for everyone this is now a lot easier than it was. This post provides an update on importing spreadsheets into R and exporting from R to Excel. I’ll also cover reading an excel file into R from a url as that seems to be an ongoing struggle.
 Import Directly from the RStudio Menu The big change is that it is now very easy to import from Excel using the RStudio Menu: File &amp;gt; Import Dataset &amp;gt; From Excel.</description>
     </item>
     
