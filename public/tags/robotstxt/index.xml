@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Robotstxt on Open Source Patent Analytics</title>
+    <link>/tags/robotstxt/</link>
+    <description>Recent content in Robotstxt on Open Source Patent Analytics</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright @ Paul Oldham 2017</copyright>
+    <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/robotstxt/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dr. Evil vs. the robotstxt package</title>
+      <link>/2018/01/08/using-robotstxt-in-r/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/08/using-robotstxt-in-r/</guid>
+      <description>I am fairly new to webscraping in R using rvest and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the ROpenSci robotstxt package by Peter Meissner that allows us to access the robots.txt for a domain from R.
+I am working on a new R data package of underwater geographic feature names as part of a Norwegian Research Council funded project biospolar on innovation involving biodiversity in marine polar areas.</description>
+    </item>
+    
+  </channel>
+</rss>

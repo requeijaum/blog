@@ -1,9 +1,13 @@
 {
-    "path" : "~",
+    "path" : "~/Desktop/open_source_master/blog/content/post",
     "sortOrder" : [
         {
             "ascending" : true,
             "columnIndex" : 2
+        },
+        {
+            "ascending" : false,
+            "columnIndex" : 4
         }
     ]
 }

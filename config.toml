@@ -1,15 +1,18 @@
 baseurl = "/"
 languageCode = "en-us"
-title = "Paul Oldham's Blog"
+title = "Open Source Patent Analytics"
 theme = "hugo-lithium-theme"
 author = "Paul Oldham"
-googleAnalytics = ""
-disqusShortname = ""
+discusShortname = "patentanalytics"
+GoogleAnalytics = "UA-62774602-1"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
 
+[[menu.main]]
+    name = "WIPO Analytics"
+    url = "https://github.com/wipo-analytics"
 [[menu.main]]
     name = "About"
     url = "/about/"
@@ -19,12 +22,9 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 [[menu.main]]
     name = "Twitter"
     url = "https://twitter.com/junglepaul"
-[[menu.main]]
-    name = "One World Analytics"
-    url = "http://oneworldanalytics.com/"    
 
 [params]
-    description = "Paul Oldham's Blog"
+    description = "Patent Analytics Blog"
     copyright = "Copyright @ Paul Oldham 2017"
 
     # options for highlight.js (version, additional languages, and theme)

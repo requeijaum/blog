@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Paul Oldham&#39;s Blog</title>
+    <title>Tags on Open Source Patent Analytics</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on Paul Oldham&#39;s Blog</description>
+    <description>Recent content in Tags on Open Source Patent Analytics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017</copyright>
@@ -22,11 +22,29 @@
     </item>
     
     <item>
+      <title>Biospolar</title>
+      <link>/tags/biospolar/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/biospolar/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Dashboards</title>
       <link>/tags/dashboards/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
       <guid>/tags/dashboards/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Excel</title>
+      <link>/tags/excel/</link>
+      <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/excel/</guid>
       <description></description>
     </item>
     
@@ -63,6 +81,15 @@
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
       <guid>/tags/lens-database/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Multidplyr</title>
+      <link>/tags/multidplyr/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/multidplyr/</guid>
       <description></description>
     </item>
     
@@ -186,9 +213,27 @@
     <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Robots</title>
+      <link>/tags/robots/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/robots/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Robotstxt</title>
+      <link>/tags/robotstxt/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/robotstxt/</guid>
       <description></description>
     </item>
     
@@ -225,6 +270,33 @@
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
       <guid>/tags/tableau/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Text Mining</title>
+      <link>/tags/text-mining/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/text-mining/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tidytext</title>
+      <link>/tags/tidytext/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tidytext/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Webscraping</title>
+      <link>/tags/webscraping/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/webscraping/</guid>
       <description></description>
     </item>
     
