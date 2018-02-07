@@ -4,7 +4,7 @@ title = "Open Source Patent Analytics"
 theme = "hugo-lithium-theme"
 author = "Paul Oldham"
 discusShortname = "patentanalytics"
-GoogleAnalytics = "UA-62774602-1"
+GoogleAnalytics = "UA-113668064-1"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
