@@ -1,10 +1,10 @@
 ---
-title: Dr. Evil vs. the robotstxt package
+title: Dr. Evil meets the robotstxt package
 author: Paul Oldham
 date: '2018-01-08'
 slug: using-robotstxt-in-r
 categories: [R]
-tags: [webscraping, robots, robotstxt, biospolar]
+tags: [webscraping, robots, robotstxt, biospolar, ropensci]
 ---
 ```{r opts, echo=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.align = "center", out.width = "600px")

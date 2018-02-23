@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017</copyright>
-    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Feb 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/patents/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Identifying the earliest patent priority number</title>
+      <link>/2018/02/09/identifying-the-earliest-patent-priority-number/</link>
+      <pubDate>Fri, 09 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/09/identifying-the-earliest-patent-priority-number/</guid>
+      <description>Introduction The international patent system as under the 1883 Paris Convention establishes a “priority” system it identify the earliest filing of an invention. In cases where an invention is filed by different applicants the priority number and date allows for the identification of the priority applicant. That is, the person or organisation that was the first to file for the claimed invention.
+The priority system is also important in patents stastics and economic analysis for two main reasons.</description>
+    </item>
     
     <item>
       <title>Creating an Infographic with infogram</title>
