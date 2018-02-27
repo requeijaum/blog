@@ -1,0 +1,176 @@
+---
+title: Identifying the earliest patent priority number
+author: Paul Oldham
+date: '2018-02-09'
+slug: identifying-the-earliest-patent-priority-number
+categories:
+  - Patents
+  - R
+tags:
+  - patent analytics
+---
+```{r opts, echo=FALSE}
+knitr::opts_chunk$set(cache = TRUE, warning = FALSE, message = FALSE, fig.align = "center", out.width = "600px")
+```
+
+### Introduction
+
+The international patent system as under the 1883 Paris Convention establishes a "priority" system it identify the earliest filing of an invention. In cases where an invention is filed by different applicants the priority number and date allows for the identification of the priority applicant. That is, the person or organisation that was the first to file for the claimed invention. 
+
+The priority system is also important in patents stastics and economic analysis for two main reasons. 
+
+a) it allows us to identify where the first filing took place
+b) For economic analysis the priority date of the first filing is the date closest to the underlying investemnt in Research and Development.
+
+### The challenge of multiple priority numbers
+
+A single patent filing may results in applications in multiple countries. At each stage the application will gain a new priority number (from the country where the application is filed) in addition to the original priority number. 
+
+This means that by the time a patent analyst comes to download the data a single document is likely to contain more than one priority number. 
+
+The challenge for the analyst is identifying the earliest of these priority nbumbers. Addressing this problem is not as straightfoward as it might first appear for two main reasons
+
+a) The priority number field will commonly contain multiple priority numbers for the same document (is concatenated) with a separator between the numbers that is commonly `;`. The first step therefore is to separate the numbers out into distinct rows. In the process however the original data table will be transformed to a length corresponding with the number of priority_numbers.
+
+b) Once we have separated out the priority numbers onto their own rows we then need to identify the date field and to separate that out into a new column. 
+
+c) While we can now work with this data our aim is not to identify the earliest data across a set of unrelated documents, but instead to identify the earliest priority date associated with an individual application (or publication). As such, we need to 
+  - group the data onto an id such as the application or publication number
+  - identify the earliest publication number accordingly. Indeed, we may wish to identify the filing order in order to identify the office of first, second, third etc. filing. 
+  
+## A solution in R
+
+We will work with a dataset from Clarivate Analytics Derwent Innovation created for the asean marine project. The dataset consists of 42,889 publication numbers, application numbers and the priority number field for patent documents published in Vietnam. 
+
+```{r}
+load("vietnam.rda")
+```
+
+```{r setup_data, eval=FALSE, echo=FALSE}
+library(tidyverse)
+vietnam <- vietnam %>% select(publication_number, application_numbers, priority_numbers_long, inpadoc_first_family_member_number, inpadoc_first_family_member_number)
+save(vietnam, file = "vietnam.rda")
+```
+
+```{r}
+library(tidyverse)
+vietnam %>% arrange(application_numbers)
+```
+
+One of the first points to note is that the dataset contains distinct publication numbers but **duplicated** application numbers. If we inspect the publication number field alongside the application number field we will see that the second application number AT2011234A has been published three times as an A2, A3 and B1 document. In this case A2 will refer the publication of the application, A3 refers to the publication of the application with the search report and B1 refers to the publication of a patent grant. Technically the kind codes refer to publication levels (the lower the number the earlier the publication level) and a list of kind codes compiled by WIPO can be reviewed [here](http://www.wipo.int/export/sites/www/standards/en/pdf/07-03-02.pdf).
+
+For the purpose of identifying the earliest priority filings and the order of filing we will want to deduplicate the dataset on the application number. The reason for this is that at the later stage the presence of duplicate application numbers (and the corresponding priority numbers and dates) will affect our ability to correctly rank the data by dates. In addition, when graphing application trends (using application numbers) we would logically want to remove any duplicates or we will over count.  
+
+To deduplicate the dataset in R we use the `duplicated` function to mark up the duplicate entries.
+
+```{r identify_duplicates}
+vietnam$appln_duplicated <- duplicated(vietnam$application_numbers)
+```
+
+Note that the duplicated function does not work in exactly the way you might expect. It does not identify all duplicated application numbers. It assumes that the first appearence of an application number is not duplicated (FALSE) and that any other appearences are duplicates (TRUE). This is precisely what we want in this case. 
+
+Having identified the duplicate entries the next step is to filter the table on those cases where the appln_duplicated is FALSE. For this dataset that reduces the data frame to 101,811 application numbers and thus removes `r 118792 - 101811`
+
+If we now inspect the priority number field we will see that it is concatenated with a `;` and also contains a date in YYYY_MM_DD format separated from the priority number by a space. 
+
+```{r separate_rows}
+vietpr <- vietnam %>%
+  filter(appln_duplicated == FALSE) %>% 
+  separate_rows(priority_numbers_long, sep = ";")
+```
+
+Now that we have deduplicated and separated out the priority numbers on to each row we need to do two things. The first is to trim any whitespace that may appear at the start or end of the numbers or the data will not separate correctly in the second step (a warning will be issued that there are too many values at 75,903 locations). That happens because in some cases there is a leading space so that it is actually read as _WO20112243 rather than WO20112243 resulting in an error. So, it is always good practice to trim whitespace after separating fields. 
+
+```{r trimws}
+vietpr$priority_numbers_long <- trimws(vietpr$priority_numbers_long, which = "both")  
+```
+
+Separate out the priority number and the date field into `priority_number` and `priority_date` based on the space. We will not remove the original column.
+
+```{r}
+vietpr <- vietpr  %>% separate(., priority_numbers_long, into = c("priority_number", "priority_date"), sep = " ", remove = FALSE)
+head(vietpr[5:6])
+```
+
+Convert the priority dates to date format in R. Note that the class of the column will change from character to date as we can see below. 
+
+```{r}
+vietpr$priority_date <- lubridate::ymd(vietpr$priority_date)
+head(vietpr[5:7])
+```
+
+### Using a grouping variable
+
+As mentioned above, a patent document may be published numerous times and this can lead to the duplication of application numbers and the corresponding priority numbers and dates for those records. We can see this in our original dataset below. 
+
+```{r}
+vietnam %>%
+  select(publication_number, application_numbers) %>% 
+  arrange(publication_number)
+```
+
+We have already deduplicated the dataset on the application number. However, if we attempt to identify the earliest priority dates on our new dataset we will end up __identifying the earliest dates across the entire set of rows__. We don't want that. What we need to do is to use the application_numbers as a grouping variable and identify the date rankings for each priority number linked with the distinct application number. We use the dplyr `group-by` function to do that. 
+
+The next step is to create a new field that marks the filing order for each priority based on the priority date. 
+
+The ranking is handled by the `rank` function in R. The `ties.method` argument is important here. The default `ties.method` is "average" as the calculation of the mean is a very common operation in R. However, that is not what we want. Instead we choose the "first" method. 
+
+To add the column we enclose the call to `rank()` inside the dplyr `mutate()` function (which adds new values) and give it the name `filing_order`. 
+
+```{r}
+vietpr <- vietpr %>% 
+  dplyr::group_by(application_numbers) %>%
+    dplyr::mutate(filing_order = rank(priority_date, ties.method = "first"))
+```
+
+When we take a look at this data (arranged by priority number) we will see that it has ranked the data correctly by date. 
+
+```{r arrange}
+vietpr %>% 
+  arrange(application_numbers) %>% 
+  select(application_numbers, priority_number, priority_date, filing_order)
+```
+
+Note here that where there is a tie (the same date) the `ties.method = "first"` simply takes the first appearence of the data as 1 and the second appearence as 2. We can see an example of this for BE2007534A
+
+```{r ties_example}
+ties_example <- vietpr %>% 
+  arrange(application_numbers) %>% 
+  select(application_numbers, priority_number, priority_date, filing_order) %>% 
+  filter(application_numbers == "BE2007534A") %>% 
+  arrange(filing_order)
+ties_example
+```
+
+In this case we can see that the priority numbers at the top for AU2008265219A, BR200813817A and CA2685155A and EP2008760991A share the priority date. In circumstances where we actually wanted to identify the records that share a priority date we would use the `ties.method = "min"`. We will add this as min_order in the code below.
+
+```{r add_min}
+ties_example <- ties_example %>% 
+  dplyr::group_by(application_numbers) %>%
+    dplyr::mutate(min_order = rank(priority_date, ties.method = "min"))
+ties_example
+```
+
+We now see that the min order shows the tie on the priority date. In practice, a review of the record on [espacenet](https://worldwide.espacenet.com/publicationDetails/biblio?CC=BE&NR=1017205A6&KC=A6&FT=D&ND=3&date=20080401&DB=EPODOC&locale=en_EP) reveals that as expected EP2007110219A is the first priority and that the dates for the subsequent priority_numbers are application dates linked to that priority number. This makes sense because by definition the priority_date is the date of application (e.g. in a specific jurisdiction). The Paris Convention priority (first filing) is the earliest dated document in the set. We will come back to this is a separate post on patent families.
+
+### Reducing the data to the first filing
+
+It is now a straightforward matter to reduce the dataset to the first filing by using filter. 
+
+```{r}
+viet_first <- vietpr %>% 
+  filter(filing_order == 1) %>% 
+  arrange(priority_date)
+viet_first[5:8]
+```
+
+This reduces our dataset to 37,739 documents based on the earliest filing date. We can see above that the first of our Vietnam records was filed in 1980 
+
+Identifying records by the earliest priority date matters for a number. 
+
+1. It allows us to identify the offices (countries) of first filing of the applications. Here we start by extracting the country code from the priority number which appears as the first two characters of the string. Here we use the function `substr()` for substring on the priority number field to extract the first two characters into a new priority_country field (in practice this is often done for you).
+
+```{r priority_country}
+viet_first$priority_country <- substr(viet_first$priority_number, 1,2)
+viet_first$priority_country[1:10]
+```

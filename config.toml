@@ -1,0 +1,44 @@
+baseurl = "/"
+languageCode = "en-us"
+title = "Paul Oldhams Analytics Blog"
+theme = "hugo-lithium-theme"
+author = "Paul Oldham"
+discusShortname = "poldham"
+GoogleAnalytics = "UA-113668064-1"
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
+
+[[menu.main]]
+    name = "WIPO Analytics"
+    url = "https://github.com/wipo-analytics"
+[[menu.main]]
+    name = "About"
+    url = "/about/"
+[[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/poldham"
+[[menu.main]]
+    name = "Twitter"
+    url = "https://twitter.com/junglepaul"
+
+[params]
+    description = "Paul Oldham's Analytics Blog: Patent Analytics, Bibliometrics and Data Visualization"
+    copyright = "Copyright @ Paul Oldham 2017-2018"
+
+    # options for highlight.js (version, additional languages, and theme)
+    highlightjsVersion = "9.11.0"
+    highlightjsCDN = "//cdn.bootcss.com"
+    highlightjsLang = ["r", "yaml"]
+    highlightjsTheme = "github"
+
+    MathJaxCDN = "//cdn.bootcss.com"
+    MathJaxVersion = "2.7.1"
+
+    [params.logo]
+    url = "paul-oval.png"
+    width = 50
+    height = 50
+    alt = "Logo"
+

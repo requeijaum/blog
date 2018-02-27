@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Paul Oldhams Analytics Blog</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on Paul Oldhams Analytics Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
+    <lastBuildDate>Fri, 09 Feb 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Identifying the earliest patent priority number</title>
+      <link>/2018/02/09/identifying-the-earliest-patent-priority-number/</link>
+      <pubDate>Fri, 09 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/09/identifying-the-earliest-patent-priority-number/</guid>
+      <description>Introduction The international patent system as under the 1883 Paris Convention establishes a “priority” system it identify the earliest filing of an invention. In cases where an invention is filed by different applicants the priority number and date allows for the identification of the priority applicant. That is, the person or organisation that was the first to file for the claimed invention.
+The priority system is also important in patents stastics and economic analysis for two main reasons.</description>
+    </item>
+    
+    <item>
+      <title>Importing Excel Data in R - A 2018 Update</title>
+      <link>/2018/02/06/importing-excel-data-into-r-updated/</link>
+      <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/06/importing-excel-data-into-r-updated/</guid>
+      <description>Back in 2015 I wrote a long blog post on importing Excel tables into R. Happily for everyone this is now a lot easier than it was. This post provides an update on importing spreadsheets into R and exporting from R to Excel. I’ll also cover reading an excel file into R from a url as that seems to be an ongoing struggle.
+Import Directly from the RStudio Menu The big change is that it is now very easy to import from Excel using the RStudio Menu: File &amp;gt; Import Dataset &amp;gt; From Excel.</description>
+    </item>
+    
+    <item>
+      <title>tidy text mining in parallel</title>
+      <link>/2018/01/10/tidy-text-mining-in-parallel/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/10/tidy-text-mining-in-parallel/</guid>
+      <description>I have been involved with text mining for quite a few years and I am a big fan of tidy text mining in R as popularised by Julia Silge and Daniel Robinson in Text Mining in R: A Tidy Approach. What I really like about tidy text mining is that we can keep track of the files where a word, a sentence or paragraph come from. This really matters when we want to join the results of tidy text mining to other data such as taxonomic information on species or to maps, or both.</description>
+    </item>
+    
+    <item>
+      <title>Dr. Evil meets the robotstxt package</title>
+      <link>/2018/01/08/using-robotstxt-in-r/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/08/using-robotstxt-in-r/</guid>
+      <description>I am fairly new to webscraping in R using rvest and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the ROpenSci robotstxt package by Peter Meissner that allows us to access the robots.txt for a domain from R.
+I am working on a new R data package of underwater geographic feature names as part of a Norwegian Research Council funded project biospolar on innovation involving biodiversity in marine polar areas.</description>
+    </item>
+    
+    <item>
+      <title>Creating an Infographic with infogram</title>
+      <link>/2016/04/20/infographics-tutorial/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/04/20/infographics-tutorial/</guid>
+      <description>In this article we will use RStudio to prepare patent data for visualisation in an infographic using the online software tool infogram.
+Infographics are a popular way of presenting data in a way that is easy for a reader to understand without reading a long report. Infographics are well suited to presenting summaries of data with simple messages about key findings. A good infographic can encourage the audience to read a detailed report and is a tool for engagement with audiences during presentations of the findings of patent research.</description>
+    </item>
+    
+    <item>
+      <title>Exploring Scientific Literature with rplos</title>
+      <link>/2015/10/27/rplos-tutorial/</link>
+      <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/10/27/rplos-tutorial/</guid>
+      <description>Introduction In this chapter we look at the use of the rplos package from rOpenSci to access the scientific literature from the Public Library of Science using the PLOS Search API.
+The Public Library of Science (PLOS) is the main champion of open access peer reviewed scientific publications and has published somewhere in the region of 140,000 articles. These articles are a fantastic resource. PLOS includes the following titles.
+ PLOS ONE PLOS Biology PLOS Medicine PLOS Computational Biology PLOS Genetics PLOS Pathogens PLOS Neglected Tropical Diseases PLOS Clinical Trials () PLOS Collections (collections of articles)  PLOS is important because it provides open access to the full text of peer reviewed research.</description>
+    </item>
+    
+    <item>
+      <title>Patent Datasets</title>
+      <link>/2015/08/07/patent-datasets-tutorial/</link>
+      <pubDate>Fri, 07 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/08/07/patent-datasets-tutorial/</guid>
+      <description>One problem for people seeking to learn patent analytics is a lack of access to patent data from different sources.
+In this article I introduce the patent datasets developed for the WIPO Open Source Patent Analytics Project as training sets for patent analytics. The datasets will be used in the walkthroughs. The datasets will grow over time but we will briefly introduce them and explain how to access them.
+The datasets are housed at the project GitHub repository.</description>
+    </item>
+    
+    <item>
+      <title>Accessing Patent Data with the Lens</title>
+      <link>/2015/07/26/lens-tutorial/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/07/26/lens-tutorial/</guid>
+      <description>Introduction In this article we provide a brief introduction to The Lens patent database as a free source of data for patent analytics.
+The Lens is a patent database based in Australia that describes itself as “an open global cyberinfrastructure to make the innovation system more efficient and fair, more transparent and inclusive.” The main way it seeks to do this is by providing access to patent information with a particular focus on sequence information as well as analysis of issues such as DNA related patent activity.</description>
+    </item>
+    
+    <item>
+      <title>An Overview of Patent Analytics Tools</title>
+      <link>/2015/07/26/overview-patent-analytics/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/07/26/overview-patent-analytics/</guid>
+      <description>Introduction This article provides an overview of the open source and free software tools that are available for patent analytics. The aim of the chapter is to serve as a quick reference guide for some of the main tools in the tool kit.
+This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
+    </item>
+    
+    <item>
+      <title>Accessing Patent Data with WIPO Patentscope</title>
+      <link>/2015/05/25/patentscope-tutorial/</link>
+      <pubDate>Mon, 25 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/05/25/patentscope-tutorial/</guid>
+      <description>Introduction Patentscope is the WIPO public access database. It includes coverage of the Patent Cooperation Treaty applications (administered by WIPO) and a wide range of other countries including the European Patent Office, USPTO and Japan totalling 51 million patent documents including 2.8 million PCT applications.
+This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
+    </item>
+    
+    <item>
+      <title>Network Visualisation with Gephi</title>
+      <link>/2015/05/17/gephi-tutorial/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/05/17/gephi-tutorial/</guid>
+      <description>Introduction This article focuses on visualising patent data in networks using the open source software Gephi.
+Gephi is one of a growing number of free network analysis and visualisation tools with others including Cytoscape, Tulip, GraphViz, Pajek for Windows, and VOSviewer to name but a few. In addition, network visualisation packages are available for R and Python. We have chosen to focus on Gephi because it is a good all round network visualisation tool that is quite easy to use and to learn.</description>
+    </item>
+    
+    <item>
+      <title>Understanding Patent Databases</title>
+      <link>/2015/05/17/patent-databases-tutorial/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/05/17/patent-databases-tutorial/</guid>
+      <description>Introduction This article provides a quick overview of some of the main sources of free patent data. It is intended for quick reference and points to some free tools for accessing patent databases that you may not be familiar with.
+This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
+    </item>
+    
+    <item>
+      <title>Visualising Data with Tableau Public</title>
+      <link>/2015/05/17/tableau-tutorial/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/05/17/tableau-tutorial/</guid>
+      <description>Introduction In this article we will be analysing and visualising patent data using Tableau Public.
+Tableau Public is a free version of Tableau Desktop and provides a very good practical introduction to the use of patent data for analysis and visualisation. In many cases Tableau Public will represent the standard that other open source and free tools will need to meet.
+This is a practical demonstration of the use of Tableau in patent analytics.</description>
+    </item>
+    
+    <item>
+      <title>Understanding Patent Data Fields</title>
+      <link>/2015/05/07/patent-datafields-tutorial/</link>
+      <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/05/07/patent-datafields-tutorial/</guid>
+      <description>Introduction This article provides a walk through of patent data fields for those who are completely new to patent analytics or want to understand the workings of patent data a little bit better. A video version of the walk through is available here and the slide deck is available for download in .pdf, powerpoint and apple keynote from GitHub. This article goes into greater depth on each data field and their use in patent analysis.</description>
+    </item>
+    
+    <item>
+      <title>Cleaning Patent Data with Open Refine</title>
+      <link>/2015/05/02/cleaning-patent-data/</link>
+      <pubDate>Sat, 02 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/05/02/cleaning-patent-data/</guid>
+      <description>Introduction Cleaning patent data is one of the most challenging and time consuming tasks involved in patent analysis. In this chapter we will cover.
+Basic data cleaning using Open Refine Separating a patent dataset on applicant names and cleaning the names. Exporting a dataset from Open Refine at different stages in the cleaning process.  Open Refine is an open source tool for working with all types of messy data. It started life as Google Refine but has since migrated to Open Refine.</description>
+    </item>
+    
+    <item>
+      <title>Reading and Writing an Excel File in R</title>
+      <link>/2015/04/30/reading-and-writing-an-excel-file-in-r/</link>
+      <pubDate>Thu, 30 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/04/30/reading-and-writing-an-excel-file-in-r/</guid>
+      <description>This post was updated in 2018 and you can read it here
+The CRAN Project has the following to say about importing Excel files into R.
+“The first piece of advice is to avoid doing so if possible! If you have access to Excel, export the data you want from Excel in tab-delimited or comma-separated form, and use read.delim or read.csv to import it into R. (You may need to use read.</description>
+    </item>
+    
+  </channel>
+</rss>

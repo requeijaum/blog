@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.32.2" />
+
+
+<title>Dr. Evil meets the robotstxt package - Paul Oldhams Analytics Blog</title>
+<meta property="og:title" content="Dr. Evil meets the robotstxt package - Paul Oldhams Analytics Blog">
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/paul-oval.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/poldham">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/junglepaul">Twitter</a></li>
+    
+    <li><a href="https://github.com/wipo-analytics">WIPO Analytics</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">7 min read</span>
+    
+
+    <h1 class="article-title">Dr. Evil meets the robotstxt package</h1>
+
+    
+    <span class="article-date">2018/01/08</span>
+    
+
+    <div class="article-content">
+      <p>I am fairly new to webscraping in R using <a href="https://github.com/hadley/rvest">rvest</a> and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the <a href="https://ropensci.org/">ROpenSci</a> <a href="https://github.com/ropenscilabs/robotstxt">robotstxt</a> package by <a href="https://github.com/petermeissnerpackage">Peter Meissner</a> that allows us to access the robots.txt for a domain from R.</p>
+<p>I am working on a new R data package of underwater geographic feature names as part of a Norwegian Research Council funded project <code>biospolar</code> on innovation involving biodiversity in marine polar areas. One of the main data sources for the package is the <a href="https://www.gebco.net/data_and_products/undersea_feature_names/">General Bathymetric Chart of the Oceans or GEBCO Gazeteer</a>. I’m also going to be bringing in data from the <a href="https://vents-data.interridge.org/">Interridge database of hydrothermal vents</a> and so wanted to understand whether I am just free to go ahead.</p>
+<p>The robots.txt content is advisory, and well we could always choose to be Dr. Evil. If my wife would let me have a cat it would definitely be called Mr. Bigglesworth. But it strikes me that building a package for a data source that tries to prohibit scraping might not be a brilliant idea.</p>
+<p>There are a bunch of functions in the <code>robotstxt</code> package but I’m just going to use the main one <code>robotstxt()</code>. Take a look at the <a href="https://cran.r-project.org/web/packages/robotstxt/vignettes/using_robotstxt.html">vignette</a> for more information. For a very quick check on whether scraping on a path is allowed try the <code>paths_allowed()</code> function.</p>
+<p>The first place I am going to look is the main GEBCO domain.</p>
+<pre class="r"><code>library(robotstxt)
+gebco &lt;- robotstxt(&quot;https://www.gebco.net&quot;)
+gebco</code></pre>
+<pre><code>## $domain
+## [1] &quot;https://www.gebco.net&quot;
+## 
+## $text
+## [1] &quot;Sitemap: https://www.gebco.net/sitemap.xml \r\n\r\nUser-agent: *\r\nHost: www.gebco.net\r\nDisallow: /cgi-bin/\r\nDisallow: /perl/\r\nDisallow: /css/\r\nDisallow: /js/\r\nDisallow: /_mm/\r\nDisallow: /_notes/\r\n\n[... 36 lines omitted ...]&quot;
+## 
+## $bots
+## [1] &quot;*&quot;                &quot;Googlebot&quot;        &quot;Googlebot-Image&quot; 
+## [4] &quot;Googlebot-Mobile&quot;
+## 
+## $comments
+## [1] line    comment
+## &lt;0 rows&gt; (or 0-length row.names)
+## 
+## $permissions
+##                         field useragent     value
+## 1                    Disallow         * /cgi-bin/
+## 2                    Disallow         *    /perl/
+## 3                    Disallow         *     /css/
+## 4                    Disallow         *      /js/
+## 5                    Disallow         *     /_mm/
+## 6                    Disallow         *  /_notes/
+## 7                                                
+## 8 [...  31 items omitted ...]                    
+## 
+## $crawl_delay
+## [1] field     useragent value    
+## &lt;0 rows&gt; (or 0-length row.names)
+## 
+## $host
+##   field useragent         value
+## 1  Host         * www.gebco.net
+## 
+## $sitemap
+##     field useragent                             value
+## 1 Sitemap         * https://www.gebco.net/sitemap.xml
+## 
+## $other
+## [1] field     useragent value    
+## &lt;0 rows&gt; (or 0-length row.names)
+## 
+## $check
+## function (paths = &quot;/&quot;, bot = &quot;*&quot;) 
+## {
+##     sapply(paths, path_allowed, permissions = self$permissions, 
+##         bot = bot)
+## }
+## &lt;environment: 0x7fbb9e5996b0&gt;
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;robotstxt&quot;</code></pre>
+<p>This returns a list from the robots txt where the main bit I am interested in is the data frame under gebco$permissions.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">field</th>
+<th align="left">useragent</th>
+<th align="left">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">*</td>
+<td align="left">/cgi-bin/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">*</td>
+<td align="left">/perl/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">*</td>
+<td align="left">/css/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">*</td>
+<td align="left">/js/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">*</td>
+<td align="left">/_mm/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">*</td>
+<td align="left">/_notes/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">*</td>
+<td align="left">/_baks/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">*</td>
+<td align="left">/MMWIP/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/cgi-bin/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/perl/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/css/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/js/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/_mm/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/_notes/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/_baks/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/MMWIP/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/*templates</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">*/log.gif</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/*_baks</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/*_notes</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">/js</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">*.csi</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot</td>
+<td align="left">*.vcf</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">/cgi-bin/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">/perl/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">/css/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">/js/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">/_mm/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">/_notes/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">/_baks/</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">/MMWIP/</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Image</td>
+<td align="left">*/log.gif</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Mobile</td>
+<td align="left">/*templates</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Mobile</td>
+<td align="left">*/log.gif</td>
+</tr>
+<tr class="odd">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Mobile</td>
+<td align="left">/*_baks</td>
+</tr>
+<tr class="even">
+<td align="left">Disallow</td>
+<td align="left">Googlebot-Mobile</td>
+<td align="left">/*_notes</td>
+</tr>
+</tbody>
+</table>
+<p>What is of interest here are the entries under Value which can be a bit difficult to interpret. With the help of the handy <a href="https://en.wikipedia.org/wiki/Robots_exclusion_standard">Wikipedia article on the Robots Exclusion Standard</a> I can see that:</p>
+<ul>
+<li><p><code>Disallow + *</code> means to stay out of the website altogether.</p></li>
+<li><p><code>Disallow + /xyz</code> means to stay out of the specific directories.</p></li>
+<li><p><code>Disallow Googlebot</code> means that the named bot should stay out of either the website or (as in this case) specific directories. Note that Googlebot appears to be in the naughty seat because the site is more specific about what it should stay out of while others would be free to enter?</p></li>
+</ul>
+<p>However, the GEBCO data files that I am interested in are not hosted on the gebco.net domain but on the <a href="https://www.ngdc.noaa.gov/">NOAA National Centers for Environmental Information domain</a>.</p>
+<pre class="r"><code>noaa &lt;- robotstxt(domain = &quot;https://www.ngdc.noaa.gov&quot;)
+noaa</code></pre>
+<pre><code>## $domain
+## [1] &quot;https://www.ngdc.noaa.gov&quot;
+## 
+## $text
+## [1] &quot;User-agent: *\nCrawl-delay: 60\nDisallow: /cgi-bin\nDisallow: /dmsp/cgi-bin\nDisallow: /dmsp/data\nDisallow: /dmsp/include\nDisallow: /dmsp/protected\nDisallow: /eog\nDisallow: /geomag/cdroms\nDisallow: /geomag/data\n\n[... 67 lines omitted ...]&quot;
+## 
+## $bots
+## [1] &quot;*&quot;                                                                                            
+## [2] &quot;LinkChecker&quot;                                                                                  
+## [3] &quot;siteimprove&quot;                                                                                  
+## [4] &quot;Mozilla/5.0(compatible;MSIE10.0;WindowsNT6.1;Trident/6.0)LinkCheckbySiteimprove.com&quot;          
+## [5] &quot;Mozilla/5.0(compatible;MSIE10.0;WindowsNT6.1;Trident/6.0)SiteCheck-sitecrawlbySiteimprove.com&quot;
+## [6] &quot;HTMLValidatorbysiteimprove.com/1.3&quot;                                                           
+## 
+## $comments
+## [1] line    comment
+## &lt;0 rows&gt; (or 0-length row.names)
+## 
+## $permissions
+##                         field useragent           value
+## 1                    Disallow         *        /cgi-bin
+## 2                    Disallow         *   /dmsp/cgi-bin
+## 3                    Disallow         *      /dmsp/data
+## 4                    Disallow         *   /dmsp/include
+## 5                    Disallow         * /dmsp/protected
+## 6                    Disallow         *            /eog
+## 7                                                      
+## 8 [...  73 items omitted ...]                          
+## 
+## $crawl_delay
+##         field useragent value
+## 1 Crawl-delay         *    60
+## 
+## $host
+## [1] field     useragent value    
+## &lt;0 rows&gt; (or 0-length row.names)
+## 
+## $sitemap
+## [1] field     useragent value    
+## &lt;0 rows&gt; (or 0-length row.names)
+## 
+## $other
+## [1] field     useragent value    
+## &lt;0 rows&gt; (or 0-length row.names)
+## 
+## $check
+## function (paths = &quot;/&quot;, bot = &quot;*&quot;) 
+## {
+##     sapply(paths, path_allowed, permissions = self$permissions, 
+##         bot = bot)
+## }
+## &lt;bytecode: 0x7fbb9f8ceb40&gt;
+## &lt;environment: 0x7fbb9cb58800&gt;
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;robotstxt&quot;</code></pre>
+<p>The NOAA robotstxt provides some different information. For example, NOAA specifies a crawl delay of 60 seconds which tells me to build in a delay of 60 seconds to a call.</p>
+<pre class="r"><code>noaa$text</code></pre>
+<pre><code>## User-agent: *
+## Crawl-delay: 60
+## Disallow: /cgi-bin
+## Disallow: /dmsp/cgi-bin
+## Disallow: /dmsp/data
+## Disallow: /dmsp/include
+## Disallow: /dmsp/protected
+## Disallow: /eog
+## Disallow: /geomag/cdroms
+## Disallow: /geomag/data
+## Disallow: /geomag/EMM/data
+## Disallow: /geomag/pmag/datafiles
+## Disallow: /geomag/WMM/data
+## Disallow: /globe
+## Disallow: /hazard/data
+## Disallow: /hazard/img 
+## Disallow: /IAGA/cgi-bin
+## Disallow: /idb
+## Disallow: /ionosonde
+## Disallow: /mgg/cgi-bin
+## Disallow: /mgg/curator/data
+## Disallow: /mgg/curator/userfiles
+## Disallow: /mgg/dat
+## Disallow: /mgg/ecs/data
+## Disallow: /mgg/gdas/data
+## Disallow: /mgg/geology/data
+## Disallow: /mgg/geology/odp/data
+## Disallow: /mgg/grids/data
+## Disallow: /mgg/oracle
+## Disallow: /mgg/tmp
+## Disallow: /mgg/trk
+## Disallow: /ngdc/cgi-bin
+## Disallow: /ngdc/hn
+## Disallow: /ngdc/Counter
+## Disallow: /ngdc/NOAAServer/adm
+## Disallow: /ngdc/NOAAServer/converters
+## Disallow: /ngdc/NOAAServer/gif
+## Disallow: /ngdc/NOAAServer/java
+## Disallow: /ngdc/NOAAServer/lib
+## Disallow: /ngdc/NOAAServer_N
+## Disallow: /ngdc/Store
+## Disallow: /nmmr
+## Disallow: /nndc
+## Disallow: /paleo
+## Disallow: /riwebapp/rest
+## Disallow: /seg/cgi-bin
+## Disallow: /stp/bin
+## Disallow: /stp/cgi-bin
+## Disallow: /stp/drap/data
+## Disallow: /stp/include
+## Disallow: /stp/image
+## Disallow: /stp/images
+## Disallow: /stp/include
+## Disallow: /stp/iono/drap
+## Disallow: /stp/iono/ustec/products
+## Disallow: /stp/satellite/poes/dataaccess.html
+## Disallow: /stp/satellite/goes/dataaccess.html
+## Disallow: /sxi/servlet/sxibrowse
+## Disallow: /sxi/servlet/sximovie
+## Disallow: /sxi/servlet/sxisearch
+## Disallow: /stp/IONO/ionosonde
+## Disallow: /thredds
+## Disallow: /wdc/cgi-bin
+## 
+## 
+## User-agent: LinkChecker
+## Disallow:
+## 
+## User-agent: siteimprove
+## Disallow: /
+## User-agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0) LinkCheck by Siteimprove.com
+## Disallow: /
+## User-agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0) SiteCheck-sitecrawl by Siteimprove.com
+## Disallow: /
+## User-agent: HTML Validator by siteimprove.com/1.3
+## Disallow: /</code></pre>
+<p>We then see a list of disallowed directories and in this case I am interested in the <code>https://www.ngdc.noaa.gov/gazetteer/</code></p>
+<p>The dir I am interested in for the package is not on the list so I think I am free to go ahead… yay!</p>
+<p>If I wanted to do this more quickly I would use the <code>paths_allowed()</code> function.</p>
+<pre class="r"><code>paths_allowed(&quot;https://www.ngdc.noaa.gov/gazetteer/&quot;)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>So, there we have it. If we prefer to be good web scraping citizens rather than the Dr. Evil of web scraping in R then the <code>robotstxt</code> package will help us out. On the other hand we could just be evil and see what happens. I’m off to stroke Mr. Bigglesworth.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113668064-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+</html>
+

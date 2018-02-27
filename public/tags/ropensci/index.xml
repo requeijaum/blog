@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ropensci on Paul Oldhams Analytics Blog</title>
+    <link>/tags/ropensci/</link>
+    <description>Recent content in Ropensci on Paul Oldhams Analytics Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
+    <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ropensci/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dr. Evil meets the robotstxt package</title>
+      <link>/2018/01/08/using-robotstxt-in-r/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/08/using-robotstxt-in-r/</guid>
+      <description>I am fairly new to webscraping in R using rvest and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the ROpenSci robotstxt package by Peter Meissner that allows us to access the robots.txt for a domain from R.
+I am working on a new R data package of underwater geographic feature names as part of a Norwegian Research Council funded project biospolar on innovation involving biodiversity in marine polar areas.</description>
+    </item>
+    
+    <item>
+      <title>Exploring Scientific Literature with rplos</title>
+      <link>/2015/10/27/rplos-tutorial/</link>
+      <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/2015/10/27/rplos-tutorial/</guid>
+      <description>Introduction In this chapter we look at the use of the rplos package from rOpenSci to access the scientific literature from the Public Library of Science using the PLOS Search API.
+The Public Library of Science (PLOS) is the main champion of open access peer reviewed scientific publications and has published somewhere in the region of 140,000 articles. These articles are a fantastic resource. PLOS includes the following titles.
+ PLOS ONE PLOS Biology PLOS Medicine PLOS Computational Biology PLOS Genetics PLOS Pathogens PLOS Neglected Tropical Diseases PLOS Clinical Trials () PLOS Collections (collections of articles)  PLOS is important because it provides open access to the full text of peer reviewed research.</description>
+    </item>
+    
+  </channel>
+</rss>
