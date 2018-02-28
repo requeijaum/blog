@@ -8,13 +8,19 @@ categories:
 tags:
   - Excel
   - R
+output:
+  blogdown::html_page:
+    toc: true
 ---
 ```{r opts, echo=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.align = "center", out.width = "600px", cache = TRUE, tidy = TRUE)
 ```
+
+##Introduction
+
 Back in 2015 I wrote a long blog post on [importing Excel tables into R](http://www.pauloldham.net/2015/04/30/reading-and-writing-an-excel-file-in-r/). Happily for everyone this is now a lot easier than it was. This post provides an update on importing spreadsheets into R and exporting from R to Excel. I'll also cover reading an excel file into R from a url as that seems to be an ongoing struggle. 
 
-### Import Directly from the RStudio Menu
+## Import Directly from the RStudio Menu
 
 The big change is that it is now very easy to import from Excel using the RStudio Menu: `File > Import Dataset > From Excel`. 
 
@@ -145,7 +151,7 @@ df
 
 Charlotte Wickham offers an incredibly useful DataCamp course [Working with Dates and Times in R](https://www.datacamp.com/courses/working-with-dates-and-times-in-r) that will have you up and running in no time. 
 
-### Reading an Excel file from a URL
+## Reading an Excel file from a URL
 
 In the 2015 post on importing Excel I wrote:
 
@@ -234,7 +240,7 @@ This prints the expected message.
 
 "Expecting file extension of type .xlsx, .xls or .zip. Check the URL or the data source for the correct file extension and use the type argument"
 
-## Tidying column names
+## Tidying column names with `janitor`
 
 One issue once you have your data in R is that column names in excel files often contain mixed case names and spaces or other characters such as brackets that can be awkward to work with in R. To solve that an easy option is to use the recent `janitor` package. 
 
@@ -289,7 +295,7 @@ tmp <- list(df, noisycols1)
 write_xlsx(tmp, "tmp.xlsx")
 ```
 
-### Round Up
+##Round Up
 
 There we have it. Reading and writing Excel files in R is now way way easier than it was just a couple of years ago thanks to the dedicated work of those behind `readxl` (Hadley Wickham and Jenny Bryan) and `writexl` by Jeroen Ooms and John McNamara. Other packages will take you to the same place but these are my go to packages. Community contributions are helping to solve the mystery of reading Excel files from urls and we might hope that at some point `readxl` may address this problem. 
 

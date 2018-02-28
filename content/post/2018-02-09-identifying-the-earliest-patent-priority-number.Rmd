@@ -8,6 +8,9 @@ categories:
   - R
 tags:
   - patent analytics
+output:
+  blogdown::html_page:
+    toc: true  
 ---
 ```{r opts, echo=FALSE}
 knitr::opts_chunk$set(cache = TRUE, warning = FALSE, message = FALSE, fig.align = "center", out.width = "600px")
@@ -15,7 +18,7 @@ knitr::opts_chunk$set(cache = TRUE, warning = FALSE, message = FALSE, fig.align 
 
 ### Introduction
 
-The international patent system as under the 1883 Paris Convention establishes a "priority" system it identify the earliest filing of an invention. In cases where an invention is filed by different applicants the priority number and date allows for the identification of the priority applicant. That is, the person or organisation that was the first to file for the claimed invention. 
+The international patent system under the 1883 Paris Convention establishes a "priority" system to identify the earliest filing of an invention. In cases where an invention is filed by different applicants the priority number and date allows for the identification of the priority applicant. That is, the person or organisation that was the first to file for the claimed invention. 
 
 The priority system is also important in patents stastics and economic analysis for two main reasons. 
 

@@ -1,9 +1,9 @@
-baseurl = "/"
+baseurl = "https://www.pauloldham.net"
 languageCode = "en-us"
 title = "Paul Oldhams Analytics Blog"
 theme = "hugo-lithium-theme"
 author = "Paul Oldham"
-discusShortname = "poldham"
+discusShortname = "pauloldham"
 GoogleAnalytics = "UA-113668064-1"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
