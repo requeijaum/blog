@@ -1,8 +1,9 @@
 ---
-title: Importing Excel Data in R - A 2018 Update
+title: An Update on Importing Excel Data in R
 author: "Paul Oldham"
 date: '2018-02-06'
 slug: importing-excel-data-into-r-updated
+description: "Importing Excel into R is much easier than it was. Here's an update"
 categories:
   - R
 tags:

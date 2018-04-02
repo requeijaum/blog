@@ -29,7 +29,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
     # dont need two descriptions 
     twitterAuthor = "@junglepaul"
-    twitterSite = "@invalid_input" #I think this is his stite
+    #twitterSite = "@invalid_input" #I think this is his stite
 
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.11.0"

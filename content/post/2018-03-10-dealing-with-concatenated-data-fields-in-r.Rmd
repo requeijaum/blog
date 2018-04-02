@@ -1,8 +1,10 @@
 ---
 title: Escaping concatenated data hell in R...deconcatenate and trim
 author: Paul Oldham
+draft: true
 date: '2018-03-10'
 slug: dealing-with-concatenated-data-fields-in-r
+description: "Learning to love separate_rows and trim."
 categories:
   - R
 tags: [text fields, tidyr, separate_rows, clarivate analytics, web of science]

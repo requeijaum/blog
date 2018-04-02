@@ -2,346 +2,274 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Paul Oldhams Analytics Blog</title>
-    <link>/tags/</link>
+    <link>https://www.pauloldham.net/tags/</link>
     <description>Recent content in Tags on Paul Oldhams Analytics Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Tue, 27 Oct 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Bibliometrics</title>
-      <link>/tags/bibliometrics/</link>
+      <link>https://www.pauloldham.net/tags/bibliometrics/</link>
       <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/bibliometrics/</guid>
+      <guid>https://www.pauloldham.net/tags/bibliometrics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Biospolar</title>
-      <link>/tags/biospolar/</link>
+      <link>https://www.pauloldham.net/tags/biospolar/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/biospolar/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Clarivate Analytics</title>
-      <link>/tags/clarivate-analytics/</link>
-      <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/clarivate-analytics/</guid>
+      <guid>https://www.pauloldham.net/tags/biospolar/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Dashboards</title>
-      <link>/tags/dashboards/</link>
+      <link>https://www.pauloldham.net/tags/dashboards/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/dashboards/</guid>
+      <guid>https://www.pauloldham.net/tags/dashboards/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Excel</title>
-      <link>/tags/excel/</link>
+      <link>https://www.pauloldham.net/tags/excel/</link>
       <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/excel/</guid>
+      <guid>https://www.pauloldham.net/tags/excel/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Gephi Tutorial</title>
-      <link>/tags/gephi-tutorial/</link>
+      <link>https://www.pauloldham.net/tags/gephi-tutorial/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/gephi-tutorial/</guid>
+      <guid>https://www.pauloldham.net/tags/gephi-tutorial/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Infogram</title>
-      <link>/tags/infogram/</link>
+      <link>https://www.pauloldham.net/tags/infogram/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/tags/infogram/</guid>
+      <guid>https://www.pauloldham.net/tags/infogram/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Infographics</title>
-      <link>/tags/infographics/</link>
+      <link>https://www.pauloldham.net/tags/infographics/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/tags/infographics/</guid>
+      <guid>https://www.pauloldham.net/tags/infographics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Lens Database</title>
-      <link>/tags/lens-database/</link>
+      <link>https://www.pauloldham.net/tags/lens-database/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/lens-database/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Multidplyr</title>
-      <link>/tags/multidplyr/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/multidplyr/</guid>
+      <guid>https://www.pauloldham.net/tags/lens-database/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Name Cleaning</title>
-      <link>/tags/name-cleaning/</link>
+      <link>https://www.pauloldham.net/tags/name-cleaning/</link>
       <pubDate>Sat, 02 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/name-cleaning/</guid>
+      <guid>https://www.pauloldham.net/tags/name-cleaning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Network Analysis</title>
-      <link>/tags/network-analysis/</link>
+      <link>https://www.pauloldham.net/tags/network-analysis/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/network-analysis/</guid>
+      <guid>https://www.pauloldham.net/tags/network-analysis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Open Refine</title>
-      <link>/tags/open-refine/</link>
+      <link>https://www.pauloldham.net/tags/open-refine/</link>
       <pubDate>Sat, 02 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/open-refine/</guid>
+      <guid>https://www.pauloldham.net/tags/open-refine/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patent Analytics</title>
-      <link>/tags/patent-analytics/</link>
-      <pubDate>Fri, 09 Feb 2018 00:00:00 +0000</pubDate>
+      <link>https://www.pauloldham.net/tags/patent-analytics/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patent-analytics/</guid>
+      <guid>https://www.pauloldham.net/tags/patent-analytics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patent Analytics Software</title>
-      <link>/tags/patent-analytics-software/</link>
+      <link>https://www.pauloldham.net/tags/patent-analytics-software/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patent-analytics-software/</guid>
+      <guid>https://www.pauloldham.net/tags/patent-analytics-software/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patent Data Fields</title>
-      <link>/tags/patent-data-fields/</link>
+      <link>https://www.pauloldham.net/tags/patent-data-fields/</link>
       <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patent-data-fields/</guid>
+      <guid>https://www.pauloldham.net/tags/patent-data-fields/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patent Database</title>
-      <link>/tags/patent-database/</link>
+      <link>https://www.pauloldham.net/tags/patent-database/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patent-database/</guid>
+      <guid>https://www.pauloldham.net/tags/patent-database/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patent Databases</title>
-      <link>/tags/patent-databases/</link>
+      <link>https://www.pauloldham.net/tags/patent-databases/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patent-databases/</guid>
+      <guid>https://www.pauloldham.net/tags/patent-databases/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patent Datasets</title>
-      <link>/tags/patent-datasets/</link>
+      <link>https://www.pauloldham.net/tags/patent-datasets/</link>
       <pubDate>Fri, 07 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patent-datasets/</guid>
+      <guid>https://www.pauloldham.net/tags/patent-datasets/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patent Networks</title>
-      <link>/tags/patent-networks/</link>
+      <link>https://www.pauloldham.net/tags/patent-networks/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patent-networks/</guid>
+      <guid>https://www.pauloldham.net/tags/patent-networks/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patent Training Datasets</title>
-      <link>/tags/patent-training-datasets/</link>
+      <link>https://www.pauloldham.net/tags/patent-training-datasets/</link>
       <pubDate>Fri, 07 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patent-training-datasets/</guid>
+      <guid>https://www.pauloldham.net/tags/patent-training-datasets/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Patentscope</title>
-      <link>/tags/patentscope/</link>
+      <link>https://www.pauloldham.net/tags/patentscope/</link>
       <pubDate>Mon, 25 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/patentscope/</guid>
+      <guid>https://www.pauloldham.net/tags/patentscope/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Plos Api</title>
-      <link>/tags/plos-api/</link>
+      <link>https://www.pauloldham.net/tags/plos-api/</link>
       <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/plos-api/</guid>
+      <guid>https://www.pauloldham.net/tags/plos-api/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/tags/r/</link>
+      <link>https://www.pauloldham.net/tags/r/</link>
       <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>https://www.pauloldham.net/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Robots</title>
-      <link>/tags/robots/</link>
+      <link>https://www.pauloldham.net/tags/robots/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/robots/</guid>
+      <guid>https://www.pauloldham.net/tags/robots/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Robotstxt</title>
-      <link>/tags/robotstxt/</link>
+      <link>https://www.pauloldham.net/tags/robotstxt/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/robotstxt/</guid>
+      <guid>https://www.pauloldham.net/tags/robotstxt/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Ropensci</title>
-      <link>/tags/ropensci/</link>
+      <link>https://www.pauloldham.net/tags/ropensci/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ropensci/</guid>
+      <guid>https://www.pauloldham.net/tags/ropensci/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Rplos</title>
-      <link>/tags/rplos/</link>
+      <link>https://www.pauloldham.net/tags/rplos/</link>
       <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/rplos/</guid>
+      <guid>https://www.pauloldham.net/tags/rplos/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Scientometrics</title>
-      <link>/tags/scientometrics/</link>
+      <link>https://www.pauloldham.net/tags/scientometrics/</link>
       <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/scientometrics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Separate_rows</title>
-      <link>/tags/separate_rows/</link>
-      <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/separate_rows/</guid>
+      <guid>https://www.pauloldham.net/tags/scientometrics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tableau</title>
-      <link>/tags/tableau/</link>
+      <link>https://www.pauloldham.net/tags/tableau/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tags/tableau/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Text Fields</title>
-      <link>/tags/text-fields/</link>
-      <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/text-fields/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Text Mining</title>
-      <link>/tags/text-mining/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/text-mining/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tidyr</title>
-      <link>/tags/tidyr/</link>
-      <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/tidyr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tidytext</title>
-      <link>/tags/tidytext/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/tidytext/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Web of Science</title>
-      <link>/tags/web-of-science/</link>
-      <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/web-of-science/</guid>
+      <guid>https://www.pauloldham.net/tags/tableau/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Webscraping</title>
-      <link>/tags/webscraping/</link>
+      <link>https://www.pauloldham.net/tags/webscraping/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/webscraping/</guid>
+      <guid>https://www.pauloldham.net/tags/webscraping/</guid>
       <description></description>
     </item>
     
