@@ -14,10 +14,10 @@
     
     <item>
       <title>Escaping concatenated data hell in R...deconcatenate and trim</title>
-      <link>/2018/03/10/dealing-with-concatenated-data-fields-in-r/</link>
+      <link>/dealing-with-concatenated-data-fields-in-r/</link>
       <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/03/10/dealing-with-concatenated-data-fields-in-r/</guid>
+      <guid>/dealing-with-concatenated-data-fields-in-r/</guid>
       <description>In this post I want to talk about concateted fields… er what on earth are you talking about…. you know the spreadsheets or data frames with cells lumped together stuff, like this.
 INSERT concatenated
 tibble::tibble(messy = c(&amp;quot;this is not the messiest; only a man could be this messy&amp;quot;, &amp;quot;mess; in the world&amp;quot;, &amp;quot;it&amp;#39;s just; a; tribute; honestly&amp;quot;)) ## # A tibble: 3 x 1 ## messy ## &amp;lt;chr&amp;gt; ## 1 this is not the messiest; only a man could be this messy ## 2 mess; in the world ## 3 it&amp;#39;s just; a; tribute; honestly Or, if we wanted something a bit more real world we could take this list of author of scientific articles from south east asia working on marine organisms</description>

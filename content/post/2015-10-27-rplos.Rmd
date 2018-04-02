@@ -2,7 +2,7 @@
 title: Exploring Scientific Literature with rplos
 author: Paul Oldham
 date: '2015-10-27'
-slug: rplos-tutorial
+slug: plos-walkthrough
 categories:
   - Patents
   - R

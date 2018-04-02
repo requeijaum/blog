@@ -2,7 +2,7 @@
 title: Understanding Patent Databases
 author: Paul Oldham
 date: '2015-05-17'
-slug: patent-databases-tutorial
+slug: Patent-Databases
 categories:
   - Patents
 tags: [patent databases]

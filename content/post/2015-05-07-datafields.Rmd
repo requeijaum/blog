@@ -2,7 +2,7 @@
 title: Understanding Patent Data Fields
 author: Paul Oldham
 date: '2015-05-07'
-slug: patent-datafields-tutorial
+slug: Patent-Data-Fields
 categories:
   - Patents
 tags: [patent data fields]
