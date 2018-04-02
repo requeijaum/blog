@@ -2,41 +2,41 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Patents on Paul Oldhams Analytics Blog</title>
-    <link>https://www.pauloldham.net/categories/patents/</link>
+    <link>/categories/patents/</link>
     <description>Recent content in Patents on Paul Oldhams Analytics Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Fri, 09 Feb 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.pauloldham.net/categories/patents/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/patents/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Identifying the earliest patent priority number</title>
-      <link>https://www.pauloldham.net/2018/02/09/identifying-the-earliest-patent-priority-number/</link>
+      <link>/2018/02/09/identifying-the-earliest-patent-priority-number/</link>
       <pubDate>Fri, 09 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2018/02/09/identifying-the-earliest-patent-priority-number/</guid>
+      <guid>/2018/02/09/identifying-the-earliest-patent-priority-number/</guid>
       <description>Introduction The challenge of multiple priority numbers A solution in R Using a grouping variable Reducing the data to the first filing    Introduction The international patent system under the 1883 Paris Convention establishes a “priority” system to identify the earliest filing of an invention. In cases where an invention is filed by different applicants the priority number and date allows for the identification of the priority applicant.</description>
     </item>
     
     <item>
       <title>Creating an Infographic with infogram</title>
-      <link>https://www.pauloldham.net/2016/04/20/infographics-tutorial/</link>
+      <link>/2016/04/20/infographics-tutorial/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2016/04/20/infographics-tutorial/</guid>
+      <guid>/2016/04/20/infographics-tutorial/</guid>
       <description>In this article we will use RStudio to prepare patent data for visualisation in an infographic using the online software tool infogram.
 Infographics are a popular way of presenting data in a way that is easy for a reader to understand without reading a long report. Infographics are well suited to presenting summaries of data with simple messages about key findings. A good infographic can encourage the audience to read a detailed report and is a tool for engagement with audiences during presentations of the findings of patent research.</description>
     </item>
     
     <item>
       <title>Exploring Scientific Literature with rplos</title>
-      <link>https://www.pauloldham.net/2015/10/27/rplos-tutorial/</link>
+      <link>/2015/10/27/rplos-tutorial/</link>
       <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/10/27/rplos-tutorial/</guid>
+      <guid>/2015/10/27/rplos-tutorial/</guid>
       <description>Introduction In this chapter we look at the use of the rplos package from rOpenSci to access the scientific literature from the Public Library of Science using the PLOS Search API.
 The Public Library of Science (PLOS) is the main champion of open access peer reviewed scientific publications and has published somewhere in the region of 140,000 articles. These articles are a fantastic resource. PLOS includes the following titles.
  PLOS ONE PLOS Biology PLOS Medicine PLOS Computational Biology PLOS Genetics PLOS Pathogens PLOS Neglected Tropical Diseases PLOS Clinical Trials () PLOS Collections (collections of articles)  PLOS is important because it provides open access to the full text of peer reviewed research.</description>
@@ -44,10 +44,10 @@ The Public Library of Science (PLOS) is the main champion of open access peer re
     
     <item>
       <title>Patent Datasets</title>
-      <link>https://www.pauloldham.net/2015/08/07/patent-datasets-tutorial/</link>
+      <link>/2015/08/07/patent-datasets-tutorial/</link>
       <pubDate>Fri, 07 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/08/07/patent-datasets-tutorial/</guid>
+      <guid>/2015/08/07/patent-datasets-tutorial/</guid>
       <description>One problem for people seeking to learn patent analytics is a lack of access to patent data from different sources.
 In this article I introduce the patent datasets developed for the WIPO Open Source Patent Analytics Project as training sets for patent analytics. The datasets will be used in the walkthroughs. The datasets will grow over time but we will briefly introduce them and explain how to access them.
 The datasets are housed at the project GitHub repository.</description>
@@ -55,60 +55,60 @@ The datasets are housed at the project GitHub repository.</description>
     
     <item>
       <title>Accessing Patent Data with the Lens</title>
-      <link>https://www.pauloldham.net/2015/07/26/lens-tutorial/</link>
+      <link>/2015/07/26/lens-tutorial/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/07/26/lens-tutorial/</guid>
+      <guid>/2015/07/26/lens-tutorial/</guid>
       <description>Introduction In this article we provide a brief introduction to The Lens patent database as a free source of data for patent analytics.
 The Lens is a patent database based in Australia that describes itself as “an open global cyberinfrastructure to make the innovation system more efficient and fair, more transparent and inclusive.” The main way it seeks to do this is by providing access to patent information with a particular focus on sequence information as well as analysis of issues such as DNA related patent activity.</description>
     </item>
     
     <item>
       <title>An Overview of Patent Analytics Tools</title>
-      <link>https://www.pauloldham.net/2015/07/26/overview-patent-analytics/</link>
+      <link>/2015/07/26/overview-patent-analytics/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/07/26/overview-patent-analytics/</guid>
+      <guid>/2015/07/26/overview-patent-analytics/</guid>
       <description>Introduction This article provides an overview of the open source and free software tools that are available for patent analytics. The aim of the chapter is to serve as a quick reference guide for some of the main tools in the tool kit.
 This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
     </item>
     
     <item>
       <title>Accessing Patent Data with WIPO Patentscope</title>
-      <link>https://www.pauloldham.net/2015/05/25/patentscope-tutorial/</link>
+      <link>/2015/05/25/patentscope-tutorial/</link>
       <pubDate>Mon, 25 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/05/25/patentscope-tutorial/</guid>
+      <guid>/2015/05/25/patentscope-tutorial/</guid>
       <description>Introduction Patentscope is the WIPO public access database. It includes coverage of the Patent Cooperation Treaty applications (administered by WIPO) and a wide range of other countries including the European Patent Office, USPTO and Japan totalling 51 million patent documents including 2.8 million PCT applications.
 This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
     </item>
     
     <item>
       <title>Network Visualisation with Gephi</title>
-      <link>https://www.pauloldham.net/2015/05/17/gephi-tutorial/</link>
+      <link>/2015/05/17/gephi-tutorial/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/05/17/gephi-tutorial/</guid>
+      <guid>/2015/05/17/gephi-tutorial/</guid>
       <description>Introduction This article focuses on visualising patent data in networks using the open source software Gephi.
 Gephi is one of a growing number of free network analysis and visualisation tools with others including Cytoscape, Tulip, GraphViz, Pajek for Windows, and VOSviewer to name but a few. In addition, network visualisation packages are available for R and Python. We have chosen to focus on Gephi because it is a good all round network visualisation tool that is quite easy to use and to learn.</description>
     </item>
     
     <item>
       <title>Understanding Patent Databases</title>
-      <link>https://www.pauloldham.net/2015/05/17/patent-databases-tutorial/</link>
+      <link>/2015/05/17/patent-databases-tutorial/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/05/17/patent-databases-tutorial/</guid>
+      <guid>/2015/05/17/patent-databases-tutorial/</guid>
       <description>Introduction This article provides a quick overview of some of the main sources of free patent data. It is intended for quick reference and points to some free tools for accessing patent databases that you may not be familiar with.
 This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
     </item>
     
     <item>
       <title>Visualising Data with Tableau Public</title>
-      <link>https://www.pauloldham.net/2015/05/17/tableau-tutorial/</link>
+      <link>/2015/05/17/tableau-tutorial/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/05/17/tableau-tutorial/</guid>
+      <guid>/2015/05/17/tableau-tutorial/</guid>
       <description>Introduction In this article we will be analysing and visualising patent data using Tableau Public.
 Tableau Public is a free version of Tableau Desktop and provides a very good practical introduction to the use of patent data for analysis and visualisation. In many cases Tableau Public will represent the standard that other open source and free tools will need to meet.
 This is a practical demonstration of the use of Tableau in patent analytics.</description>
@@ -116,19 +116,19 @@ This is a practical demonstration of the use of Tableau in patent analytics.</de
     
     <item>
       <title>Understanding Patent Data Fields</title>
-      <link>https://www.pauloldham.net/2015/05/07/patent-datafields-tutorial/</link>
+      <link>/2015/05/07/patent-datafields-tutorial/</link>
       <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/05/07/patent-datafields-tutorial/</guid>
+      <guid>/2015/05/07/patent-datafields-tutorial/</guid>
       <description>Introduction This article provides a walk through of patent data fields for those who are completely new to patent analytics or want to understand the workings of patent data a little bit better. A video version of the walk through is available here and the slide deck is available for download in .pdf, powerpoint and apple keynote from GitHub. This article goes into greater depth on each data field and their use in patent analysis.</description>
     </item>
     
     <item>
       <title>Cleaning Patent Data with Open Refine</title>
-      <link>https://www.pauloldham.net/2015/05/02/cleaning-patent-data/</link>
+      <link>/2015/05/02/cleaning-patent-data/</link>
       <pubDate>Sat, 02 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2015/05/02/cleaning-patent-data/</guid>
+      <guid>/2015/05/02/cleaning-patent-data/</guid>
       <description>Introduction Cleaning patent data is one of the most challenging and time consuming tasks involved in patent analysis. In this chapter we will cover.
 Basic data cleaning using Open Refine Separating a patent dataset on applicant names and cleaning the names. Exporting a dataset from Open Refine at different stages in the cleaning process.  Open Refine is an open source tool for working with all types of messy data. It started life as Google Refine but has since migrated to Open Refine.</description>
     </item>

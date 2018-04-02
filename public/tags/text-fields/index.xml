@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Text Fields on Paul Oldhams Analytics Blog</title>
-    <link>https://www.pauloldham.net/tags/text-fields/</link>
+    <link>/tags/text-fields/</link>
     <description>Recent content in Text Fields on Paul Oldhams Analytics Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Sat, 10 Mar 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.pauloldham.net/tags/text-fields/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/text-fields/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Escaping concatenated data hell in R...deconcatenate and trim</title>
-      <link>https://www.pauloldham.net/2018/03/10/dealing-with-concatenated-data-fields-in-r/</link>
+      <link>/2018/03/10/dealing-with-concatenated-data-fields-in-r/</link>
       <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/2018/03/10/dealing-with-concatenated-data-fields-in-r/</guid>
+      <guid>/2018/03/10/dealing-with-concatenated-data-fields-in-r/</guid>
       <description>In this post I want to talk about concateted fields… er what on earth are you talking about…. you know the spreadsheets or data frames with cells lumped together stuff, like this.
 INSERT concatenated
 tibble::tibble(messy = c(&amp;quot;this is not the messiest; only a man could be this messy&amp;quot;, &amp;quot;mess; in the world&amp;quot;, &amp;quot;it&amp;#39;s just; a; tribute; honestly&amp;quot;)) ## # A tibble: 3 x 1 ## messy ## &amp;lt;chr&amp;gt; ## 1 this is not the messiest; only a man could be this messy ## 2 mess; in the world ## 3 it&amp;#39;s just; a; tribute; honestly Or, if we wanted something a bit more real world we could take this list of author of scientific articles from south east asia working on marine organisms</description>
