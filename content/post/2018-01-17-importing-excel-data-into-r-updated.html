@@ -206,10 +206,11 @@ str(df)</code></pre>
     }
     if (!is.null(type)) {
         type = type
+        
     }
-    
     df &lt;- httr::GET(url, write_disk(paste0(&quot;tmp&quot;, type), overwrite = TRUE))
     df &lt;- readxl::read_excel(paste0(&quot;tmp&quot;, type))
+    
 }</code></pre>
 <p>This is not perfect, but it is a start. We can now run a test on different data types to see if it will work. These urls are all from excel files on Github. Github file urls are actually placeholders and so we need to follow the link and copy the Raw file url (see raw=true in the url). Note also that these urls are all <code>https:</code></p>
 <p>The .xls case:</p>

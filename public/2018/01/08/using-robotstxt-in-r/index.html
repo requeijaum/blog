@@ -8,7 +8,21 @@
 
 <title>Dr. Evil meets the robotstxt package - Paul Oldhams Analytics Blog</title>
 <meta property="og:title" content="Dr. Evil meets the robotstxt package - Paul Oldhams Analytics Blog">
+<meta property="og:type" content="article">
 
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="http://pauloldham.net/images/paul-oval.png" >
+  
+
+
+<meta property="description" content="Article posted by Paul Oldham, on Monday, January 8nd, 2018">
+<meta property="og:description" content="Article posted by Paul Oldham, on Monday, January 8nd, 2018">
+
+
+
+<meta name="twitter:creator" content="@junglepaul">
+<meta name="twitter:site" content="@invalid_input">
 
 
   
@@ -43,11 +57,11 @@
 
   <ul class="nav-links">
     
+    <li><a href="https://twitter.com/junglepaul">@junglepaul</a></li>
+    
     <li><a href="/about/">About</a></li>
     
     <li><a href="https://github.com/poldham">GitHub</a></li>
-    
-    <li><a href="https://twitter.com/junglepaul">Twitter</a></li>
     
     <li><a href="https://github.com/wipo-analytics">WIPO Analytics</a></li>
     
@@ -120,13 +134,15 @@ gebco</code></pre>
 ## [1] field     useragent value    
 ## &lt;0 rows&gt; (or 0-length row.names)
 ## 
+## $robexclobj
+## &lt;Robots Exclusion Protocol Object&gt;
 ## $check
 ## function (paths = &quot;/&quot;, bot = &quot;*&quot;) 
 ## {
-##     sapply(paths, path_allowed, permissions = self$permissions, 
-##         bot = bot)
+##     spiderbar::can_fetch(obj = self$robexclobj, path = paths, 
+##         user_agent = bot)
 ## }
-## &lt;environment: 0x7f8822996780&gt;
+## &lt;environment: 0x7f8ccbca03f8&gt;
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;robotstxt&quot;</code></pre>
@@ -376,14 +392,16 @@ noaa</code></pre>
 ## [1] field     useragent value    
 ## &lt;0 rows&gt; (or 0-length row.names)
 ## 
+## $robexclobj
+## &lt;Robots Exclusion Protocol Object&gt;
 ## $check
 ## function (paths = &quot;/&quot;, bot = &quot;*&quot;) 
 ## {
-##     sapply(paths, path_allowed, permissions = self$permissions, 
-##         bot = bot)
+##     spiderbar::can_fetch(obj = self$robexclobj, path = paths, 
+##         user_agent = bot)
 ## }
-## &lt;bytecode: 0x7f8823090e60&gt;
-## &lt;environment: 0x7f8821704ee0&gt;
+## &lt;bytecode: 0x7f8ccfb3dae8&gt;
+## &lt;environment: 0x7f8cccde28d8&gt;
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;robotstxt&quot;</code></pre>

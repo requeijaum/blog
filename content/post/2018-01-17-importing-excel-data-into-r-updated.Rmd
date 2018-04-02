@@ -203,10 +203,11 @@ readxl_online <- function(url, type = NULL, ...){
   }
   if (!is.null(type)) {
     type = type
+    
   }
-  
   df <- httr::GET(url, write_disk(paste0("tmp", type), overwrite = TRUE)) 
-   df <- readxl::read_excel(paste0("tmp", type))
+  df <- readxl::read_excel(paste0("tmp", type)) 
+  
 }
 ```
 

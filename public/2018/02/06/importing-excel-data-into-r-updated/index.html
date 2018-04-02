@@ -8,7 +8,21 @@
 
 <title>Importing Excel Data in R - A 2018 Update - Paul Oldhams Analytics Blog</title>
 <meta property="og:title" content="Importing Excel Data in R - A 2018 Update - Paul Oldhams Analytics Blog">
+<meta property="og:type" content="article">
 
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="http://pauloldham.net/images/paul-oval.png" >
+  
+
+
+<meta property="description" content="Article posted by Paul Oldham, on Tuesday, February 6nd, 2018">
+<meta property="og:description" content="Article posted by Paul Oldham, on Tuesday, February 6nd, 2018">
+
+
+
+<meta name="twitter:creator" content="@junglepaul">
+<meta name="twitter:site" content="@invalid_input">
 
 
   
@@ -43,11 +57,11 @@
 
   <ul class="nav-links">
     
+    <li><a href="https://twitter.com/junglepaul">@junglepaul</a></li>
+    
     <li><a href="/about/">About</a></li>
     
     <li><a href="https://github.com/poldham">GitHub</a></li>
-    
-    <li><a href="https://twitter.com/junglepaul">Twitter</a></li>
     
     <li><a href="https://github.com/wipo-analytics">WIPO Analytics</a></li>
     
@@ -263,10 +277,11 @@ str(df)</code></pre>
     }
     if (!is.null(type)) {
         type = type
+        
     }
-    
     df &lt;- httr::GET(url, write_disk(paste0(&quot;tmp&quot;, type), overwrite = TRUE))
     df &lt;- readxl::read_excel(paste0(&quot;tmp&quot;, type))
+    
 }</code></pre>
 <p>This is not perfect, but it is a start. We can now run a test on different data types to see if it will work. These urls are all from excel files on Github. Github file urls are actually placeholders and so we need to follow the link and copy the Raw file url (see raw=true in the url). Note also that these urls are all <code>https:</code></p>
 <p>The .xls case:</p>

@@ -1,7 +1,0 @@
-base
-readr
-dplyr
-bindrcpp
-ggplot2
-tidyr
-stringr

@@ -20,12 +20,16 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     name = "GitHub"
     url = "https://github.com/poldham"
 [[menu.main]]
-    name = "Twitter"
+    name = "@junglepaul"
     url = "https://twitter.com/junglepaul"
 
 [params]
-    description = "Paul Oldham's Analytics Blog: Patent Analytics, Bibliometrics and Data Visualization"
+    description = "Patent Analytics, Bibliometrics and Data Visualization"
     copyright = "Copyright @ Paul Oldham 2017-2018"
+
+    # dont need two descriptions 
+    twitterAuthor = "@junglepaul"
+    twitterSite = "@invalid_input" #I think this is his stite
 
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.11.0"
