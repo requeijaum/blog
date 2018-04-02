@@ -9,7 +9,7 @@
 <meta property="description" content="{{ .Site.Params.description }}">
 <meta property="og:description" content="{{ .Site.Params.description }}">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://pauloldham.net/images/{{ .Site.Params.logo.url }}">
+<meta name="twitter:image" content="https://www.pauloldham.net/images/{{ .Site.Params.logo.url }}">
 {{ else }}
 <title>{{ .Title }}{{ with .Params.subtitle }} - {{ . }} {{ end }} - {{ .Site.Title }}</title>
 <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}">
@@ -17,10 +17,10 @@
 
 {{ if .Params.twitterImg }}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="http://pauloldham.net/{{ .Params.twitterImg }}" >
+  <meta name="twitter:image" content="https://www.pauloldham.net/{{ .Params.twitterImg }}" >
   {{ else }}
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:image" content="http://pauloldham.net/images/{{ .Site.Params.logo.url }}" >
+  <meta name="twitter:image" content="https://www.pauloldham.net/images/{{ .Site.Params.logo.url }}" >
   {{ end }}
 
 {{ $defaultDescription := printf "Article posted by %s, on %s" .Params.author (.Date.Format "Monday, January 2nd, 2006") }}

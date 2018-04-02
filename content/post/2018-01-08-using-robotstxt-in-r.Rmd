@@ -13,7 +13,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.align = "center", ou
 ```
 
 ```{r echo=FALSE}
-knitr::include_graphics("https://media.giphy.com/media/X0sAT1NVHUQHS/giphy.gif")
+#knitr::include_graphics("https://media.giphy.com/media/X0sAT1NVHUQHS/giphy.gif")
 ```
 
 I am fairly new to webscraping in R using [rvest](https://github.com/hadley/rvest) and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I'm briefly going to explore the [ROpenSci](https://ropensci.org/) [robotstxt](https://github.com/ropenscilabs/robotstxt) package by [Peter Meissner](https://github.com/petermeissnerpackage) that allows us to access the robots.txt for a domain from R. 
