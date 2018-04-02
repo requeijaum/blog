@@ -18,8 +18,8 @@
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://www.pauloldham.net/2018/01/08/using-robotstxt-in-r/</guid>
-      <description>I am fairly new to webscraping in R using rvest and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the ROpenSci robotstxt package by Peter Meissner that allows us to access the robots.txt for a domain from R.
-I am working on a new R data package of underwater geographic feature names as part of a Norwegian Research Council funded project biospolar on innovation involving biodiversity in marine polar areas.</description>
+      <description>I am fairly new to webscraping in R using rvest and one question is whether a site gives permission for scraping. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the ROpenSci robotstxt package by Peter Meissner. robotstxt provides easy access to the robots.txt file for a domain from R.
+I’m slowly working on a new R data package for underwater geographic feature names as part of a Norwegian Research Council funded project biospolar on innovation involving biodiversity in marine polar areas.</description>
     </item>
     
   </channel>

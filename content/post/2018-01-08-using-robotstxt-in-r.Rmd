@@ -3,7 +3,7 @@ title: Dr. Evil meets the robotstxt package
 author: Paul Oldham
 date: '2018-01-08'
 slug: using-robotstxt-in-r
-description: "A quick and evil guide to the @ROpensci robotstxt package #rstats"
+description: "A quick and mildly evil guide to the @ROpensci robotstxt package #rstats"
 twitterImg: "images/austin_powers_gangsta.gif"
 categories: [R]
 tags: [webscraping, robots, robotstxt, biospolar, ropensci]
@@ -16,13 +16,13 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.align = "center", ou
 #knitr::include_graphics("https://media.giphy.com/media/X0sAT1NVHUQHS/giphy.gif")
 ```
 
-I am fairly new to webscraping in R using [rvest](https://github.com/hadley/rvest) and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I'm briefly going to explore the [ROpenSci](https://ropensci.org/) [robotstxt](https://github.com/ropenscilabs/robotstxt) package by [Peter Meissner](https://github.com/petermeissnerpackage) that allows us to access the robots.txt for a domain from R. 
+I am fairly new to webscraping in R using [rvest](https://github.com/hadley/rvest) and one question is whether a site gives permission for scraping. This information is often contained in the robots.txt file on a website. So, I'm briefly going to explore the [ROpenSci](https://ropensci.org/) [robotstxt](https://github.com/ropenscilabs/robotstxt) package by [Peter Meissner](https://github.com/petermeissnerpackage). [robotstxt](https://github.com/ropenscilabs/robotstxt) provides easy access to the robots.txt file for a domain from R. 
 
-I am working on a new R data package of underwater geographic feature names as part of a Norwegian Research Council funded project `biospolar` on innovation involving biodiversity in marine polar areas. One of the main data sources for the package is the [General Bathymetric Chart of the Oceans or GEBCO Gazeteer](https://www.gebco.net/data_and_products/undersea_feature_names/). I'm also going to be bringing in data from the [Interridge database of hydrothermal vents](https://vents-data.interridge.org/) and so wanted to understand whether I am just free to go ahead.
+I'm slowly working on a new R data package for underwater geographic feature names as part of a Norwegian Research Council funded project `biospolar` on innovation involving biodiversity in marine polar areas. One of the main data sources for the package is the [General Bathymetric Chart of the Oceans or GEBCO Gazeteer](https://www.gebco.net/data_and_products/undersea_feature_names/). I'm also going to be bringing in data from the [Interridge database of hydrothermal vents](https://vents-data.interridge.org/) and so wanted to understand whether I am just free to go ahead.
 
 The robots.txt content is advisory, and well we could always choose to be Dr. Evil. If my wife would let me have a cat it would definitely be called Mr. Bigglesworth. But it strikes me that building a package for a data source that tries to prohibit scraping might not be a brilliant idea.
 
-There are a bunch of functions in the `robotstxt` package but I'm just going to use the main one `robotstxt()`. Take a look at the [vignette](https://cran.r-project.org/web/packages/robotstxt/vignettes/using_robotstxt.html) for more information. For a very quick check on whether scraping on a path is allowed try the `paths_allowed()` function. 
+There are a bunch of functions in the `robotstxt` package but I'm just going to use the main one `robotstxt()`. Take a look at the [vignette](https://cran.r-project.org/web/packages/robotstxt/vignettes/using_robotstxt.html) for more information. For a very quick check on whether scraping on a path is allowed try the `paths_allowed()` function. I'll come back to that at the end. 
 
 The first place I am going to look is the main GEBCO domain.
 
