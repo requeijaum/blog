@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Patent Datasets on Paul Oldham&#39;s Blog</title>
-    <link>/tags/patent-datasets/</link>
+    <link>https://www.pauloldham.net/tags/patent-datasets/</link>
     <description>Recent content in Patent Datasets on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Fri, 07 Aug 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/patent-datasets/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/patent-datasets/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Patent Datasets</title>
-      <link>/patent-datasets/</link>
+      <link>https://www.pauloldham.net/patent-datasets/</link>
       <pubDate>Fri, 07 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>/patent-datasets/</guid>
+      <guid>https://www.pauloldham.net/patent-datasets/</guid>
       <description>One problem for people seeking to learn patent analytics is a lack of access to patent data from different sources.
 In this article I introduce the patent datasets developed for the WIPO Open Source Patent Analytics Project as training sets for patent analytics. The datasets will be used in the walkthroughs. The datasets will grow over time but we will briefly introduce them and explain how to access them.
 The datasets are housed at the project GitHub repository.</description>

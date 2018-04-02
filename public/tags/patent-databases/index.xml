@@ -2,42 +2,42 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Patent Databases on Paul Oldham&#39;s Blog</title>
-    <link>/tags/patent-databases/</link>
+    <link>https://www.pauloldham.net/tags/patent-databases/</link>
     <description>Recent content in Patent Databases on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Sun, 26 Jul 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/patent-databases/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/patent-databases/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>An Overview of Patent Analytics Tools</title>
-      <link>/overview-open-tools/</link>
+      <link>https://www.pauloldham.net/overview-open-tools/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>/overview-open-tools/</guid>
+      <guid>https://www.pauloldham.net/overview-open-tools/</guid>
       <description>Introduction This article provides an overview of the open source and free software tools that are available for patent analytics. The aim of the chapter is to serve as a quick reference guide for some of the main tools in the tool kit.
 This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
     </item>
     
     <item>
       <title>Accessing Patent Data with WIPO Patentscope</title>
-      <link>/patentscope/</link>
+      <link>https://www.pauloldham.net/patentscope/</link>
       <pubDate>Mon, 25 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/patentscope/</guid>
+      <guid>https://www.pauloldham.net/patentscope/</guid>
       <description>Introduction Patentscope is the WIPO public access database. It includes coverage of the Patent Cooperation Treaty applications (administered by WIPO) and a wide range of other countries including the European Patent Office, USPTO and Japan totalling 51 million patent documents including 2.8 million PCT applications.
 This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
     </item>
     
     <item>
       <title>Understanding Patent Databases</title>
-      <link>/patent-databases/</link>
+      <link>https://www.pauloldham.net/patent-databases/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/patent-databases/</guid>
+      <guid>https://www.pauloldham.net/patent-databases/</guid>
       <description>Introduction This article provides a quick overview of some of the main sources of free patent data. It is intended for quick reference and points to some free tools for accessing patent databases that you may not be familiar with.
 This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
     </item>

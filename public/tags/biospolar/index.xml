@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Biospolar on Paul Oldham&#39;s Blog</title>
-    <link>/tags/biospolar/</link>
+    <link>https://www.pauloldham.net/tags/biospolar/</link>
     <description>Recent content in Biospolar on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/biospolar/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/biospolar/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Dr. Evil meets the robotstxt package</title>
-      <link>/using-robotstxt-in-r/</link>
+      <link>https://www.pauloldham.net/using-robotstxt-in-r/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/using-robotstxt-in-r/</guid>
+      <guid>https://www.pauloldham.net/using-robotstxt-in-r/</guid>
       <description>I am fairly new to webscraping in R using rvest and one question is whether a site gives permission for scraping. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the ROpenSci robotstxt package by Peter Meissner. robotstxt provides easy access to the robots.txt file for a domain from R.
 I’m slowly working on a new R data package for underwater geographic feature names as part of a Norwegian Research Council funded project biospolar on innovation involving biodiversity in marine polar areas.</description>
     </item>

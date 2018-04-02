@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Excel on Paul Oldham&#39;s Blog</title>
-    <link>/tags/excel/</link>
+    <link>https://www.pauloldham.net/tags/excel/</link>
     <description>Recent content in Excel on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Tue, 06 Feb 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/excel/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/excel/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>An Update on Importing Excel Data in R</title>
-      <link>/importing-excel-data-into-r-updated/</link>
+      <link>https://www.pauloldham.net/importing-excel-data-into-r-updated/</link>
       <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/importing-excel-data-into-r-updated/</guid>
+      <guid>https://www.pauloldham.net/importing-excel-data-into-r-updated/</guid>
       <description>Introduction Import Directly from the RStudio Menu Reading an Excel file from a URL Tidying column names with janitor Exporting to Excel Round Up   Introduction Back in 2015 I wrote a long blog post on importing Excel tables into R. Happily for everyone this is now a lot easier than it was. This post provides an update on importing spreadsheets into R and exporting from R to Excel.</description>
     </item>
     
     <item>
       <title>Reading and Writing an Excel File in R</title>
-      <link>/reading-writing-excel-files-r/</link>
+      <link>https://www.pauloldham.net/reading-writing-excel-files-r/</link>
       <pubDate>Thu, 30 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>/reading-writing-excel-files-r/</guid>
+      <guid>https://www.pauloldham.net/reading-writing-excel-files-r/</guid>
       <description>This post was updated in 2018 and you can read it here
 The CRAN Project has the following to say about importing Excel files into R.
 “The first piece of advice is to avoid doing so if possible! If you have access to Excel, export the data you want from Excel in tab-delimited or comma-separated form, and use read.delim or read.csv to import it into R. (You may need to use read.</description>

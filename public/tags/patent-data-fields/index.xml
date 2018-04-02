@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Patent Data Fields on Paul Oldham&#39;s Blog</title>
-    <link>/tags/patent-data-fields/</link>
+    <link>https://www.pauloldham.net/tags/patent-data-fields/</link>
     <description>Recent content in Patent Data Fields on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Thu, 07 May 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/patent-data-fields/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/patent-data-fields/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Understanding Patent Data Fields</title>
-      <link>/patent-data-fields/</link>
+      <link>https://www.pauloldham.net/patent-data-fields/</link>
       <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/patent-data-fields/</guid>
+      <guid>https://www.pauloldham.net/patent-data-fields/</guid>
       <description>Introduction This article provides a walk through of patent data fields for those who are completely new to patent analytics or want to understand the workings of patent data a little bit better. A video version of the walk through is available here and the slide deck is available for download in .pdf, powerpoint and apple keynote from GitHub. This article goes into greater depth on each data field and their use in patent analysis.</description>
     </item>
     

@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Network Analysis on Paul Oldham&#39;s Blog</title>
-    <link>/tags/network-analysis/</link>
+    <link>https://www.pauloldham.net/tags/network-analysis/</link>
     <description>Recent content in Network Analysis on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Sun, 17 May 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/network-analysis/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/network-analysis/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Network Visualisation with Gephi</title>
-      <link>/gephi_patent_network/</link>
+      <link>https://www.pauloldham.net/gephi_patent_network/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/gephi_patent_network/</guid>
+      <guid>https://www.pauloldham.net/gephi_patent_network/</guid>
       <description>Introduction This article focuses on visualising patent data in networks using the open source software Gephi.
 Gephi is one of a growing number of free network analysis and visualisation tools with others including Cytoscape, Tulip, GraphViz, Pajek for Windows, and VOSviewer to name but a few. In addition, network visualisation packages are available for R and Python. We have chosen to focus on Gephi because it is a good all round network visualisation tool that is quite easy to use and to learn.</description>
     </item>

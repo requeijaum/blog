@@ -3,360 +3,297 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/dealing-with-concatenated-data-fields-in-r/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/identifying-the-earliest-patent-priority-number/</loc>
-    <lastmod>2018-02-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/importing-excel-data-into-r-updated/</loc>
+    <loc>https://www.pauloldham.net/importing-excel-data-into-r-updated/</loc>
     <lastmod>2018-02-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tidy-text-mining-in-parallel/</loc>
-    <lastmod>2018-01-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/using-robotstxt-in-r/</loc>
+    <loc>https://www.pauloldham.net/using-robotstxt-in-r/</loc>
     <lastmod>2018-01-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/about/</loc>
+    <loc>https://www.pauloldham.net/about/</loc>
     <lastmod>2017-12-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/infographics/</loc>
+    <loc>https://www.pauloldham.net/infographics/</loc>
     <lastmod>2016-04-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/plos-walkthrough/</loc>
+    <loc>https://www.pauloldham.net/plos-walkthrough/</loc>
     <lastmod>2015-10-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/patent-datasets/</loc>
+    <loc>https://www.pauloldham.net/patent-datasets/</loc>
     <lastmod>2015-08-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/lens/</loc>
+    <loc>https://www.pauloldham.net/lens/</loc>
     <lastmod>2015-07-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/overview-open-tools/</loc>
+    <loc>https://www.pauloldham.net/overview-open-tools/</loc>
     <lastmod>2015-07-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/patentscope/</loc>
+    <loc>https://www.pauloldham.net/patentscope/</loc>
     <lastmod>2015-05-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/gephi_patent_network/</loc>
+    <loc>https://www.pauloldham.net/gephi_patent_network/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/patent-databases/</loc>
+    <loc>https://www.pauloldham.net/patent-databases/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tableau-patents/</loc>
+    <loc>https://www.pauloldham.net/tableau-patents/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/patent-data-fields/</loc>
+    <loc>https://www.pauloldham.net/patent-data-fields/</loc>
     <lastmod>2015-05-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/openrefine-patent-cleaning/</loc>
+    <loc>https://www.pauloldham.net/openrefine-patent-cleaning/</loc>
     <lastmod>2015-05-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/reading-writing-excel-files-r/</loc>
+    <loc>https://www.pauloldham.net/reading-writing-excel-files-r/</loc>
     <lastmod>2015-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/bibliometrics/</loc>
+    <loc>https://www.pauloldham.net/tags/bibliometrics/</loc>
     <lastmod>2015-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/biospolar/</loc>
+    <loc>https://www.pauloldham.net/tags/biospolar/</loc>
     <lastmod>2018-01-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>https://www.pauloldham.net/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/clarivate-analytics/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/dashboards/</loc>
+    <loc>https://www.pauloldham.net/tags/dashboards/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/excel/</loc>
+    <loc>https://www.pauloldham.net/tags/excel/</loc>
     <lastmod>2018-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/gephi-tutorial/</loc>
+    <loc>https://www.pauloldham.net/tags/gephi-tutorial/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/infogram/</loc>
+    <loc>https://www.pauloldham.net/tags/infogram/</loc>
     <lastmod>2016-04-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/infographics/</loc>
+    <loc>https://www.pauloldham.net/tags/infographics/</loc>
     <lastmod>2016-04-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/janitor/</loc>
+    <loc>https://www.pauloldham.net/tags/janitor/</loc>
     <lastmod>2018-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/lens-database/</loc>
+    <loc>https://www.pauloldham.net/tags/lens-database/</loc>
     <lastmod>2015-07-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/multidplyr/</loc>
-    <lastmod>2018-01-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/name-cleaning/</loc>
+    <loc>https://www.pauloldham.net/tags/name-cleaning/</loc>
     <lastmod>2015-05-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/network-analysis/</loc>
+    <loc>https://www.pauloldham.net/tags/network-analysis/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/open-refine/</loc>
+    <loc>https://www.pauloldham.net/tags/open-refine/</loc>
     <lastmod>2015-05-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patent-analytics/</loc>
-    <lastmod>2018-02-09T00:00:00+00:00</lastmod>
+    <loc>https://www.pauloldham.net/tags/patent-analytics/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patent-analytics-software/</loc>
+    <loc>https://www.pauloldham.net/tags/patent-analytics-software/</loc>
     <lastmod>2015-07-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patent-data-fields/</loc>
+    <loc>https://www.pauloldham.net/tags/patent-data-fields/</loc>
     <lastmod>2015-05-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patent-database/</loc>
+    <loc>https://www.pauloldham.net/tags/patent-database/</loc>
     <lastmod>2015-07-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patent-databases/</loc>
+    <loc>https://www.pauloldham.net/tags/patent-databases/</loc>
     <lastmod>2015-07-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patent-datasets/</loc>
+    <loc>https://www.pauloldham.net/tags/patent-datasets/</loc>
     <lastmod>2015-08-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patent-networks/</loc>
+    <loc>https://www.pauloldham.net/tags/patent-networks/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patent-training-datasets/</loc>
+    <loc>https://www.pauloldham.net/tags/patent-training-datasets/</loc>
     <lastmod>2015-08-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/patents/</loc>
-    <lastmod>2018-02-09T00:00:00+00:00</lastmod>
+    <loc>https://www.pauloldham.net/categories/patents/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/patentscope/</loc>
+    <loc>https://www.pauloldham.net/tags/patentscope/</loc>
     <lastmod>2015-05-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/plos-api/</loc>
-    <lastmod>2015-10-27T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
+    <loc>https://www.pauloldham.net/</loc>
     <lastmod>2018-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/robots/</loc>
-    <lastmod>2018-01-08T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/robotstxt/</loc>
-    <lastmod>2018-01-08T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/ropensci/</loc>
-    <lastmod>2018-01-08T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/rplos/</loc>
+    <loc>https://www.pauloldham.net/tags/plos-api/</loc>
     <lastmod>2015-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/scientometrics/</loc>
+    <loc>https://www.pauloldham.net/post/</loc>
+    <lastmod>2018-02-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/tags/r/</loc>
+    <lastmod>2018-02-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/categories/r/</loc>
+    <lastmod>2018-02-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/tags/robots/</loc>
+    <lastmod>2018-01-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/tags/robotstxt/</loc>
+    <lastmod>2018-01-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/tags/ropensci/</loc>
+    <lastmod>2018-01-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/tags/rplos/</loc>
     <lastmod>2015-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/separate_rows/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
+    <loc>https://www.pauloldham.net/tags/scientometrics/</loc>
+    <lastmod>2015-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/tableau/</loc>
+    <loc>https://www.pauloldham.net/tags/tableau/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>https://www.pauloldham.net/tags/</loc>
     <lastmod>2015-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/text-fields/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/text-mining/</loc>
-    <lastmod>2018-01-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/tidyr/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/tidytext/</loc>
-    <lastmod>2018-01-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/web-of-science/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/webscraping/</loc>
+    <loc>https://www.pauloldham.net/tags/webscraping/</loc>
     <lastmod>2018-01-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/writexl/</loc>
+    <loc>https://www.pauloldham.net/tags/writexl/</loc>
     <lastmod>2018-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>

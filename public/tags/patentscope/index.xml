@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Patentscope on Paul Oldham&#39;s Blog</title>
-    <link>/tags/patentscope/</link>
+    <link>https://www.pauloldham.net/tags/patentscope/</link>
     <description>Recent content in Patentscope on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Mon, 25 May 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/patentscope/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/patentscope/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Accessing Patent Data with WIPO Patentscope</title>
-      <link>/patentscope/</link>
+      <link>https://www.pauloldham.net/patentscope/</link>
       <pubDate>Mon, 25 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/patentscope/</guid>
+      <guid>https://www.pauloldham.net/patentscope/</guid>
       <description>Introduction Patentscope is the WIPO public access database. It includes coverage of the Patent Cooperation Treaty applications (administered by WIPO) and a wide range of other countries including the European Patent Office, USPTO and Japan totalling 51 million patent documents including 2.8 million PCT applications.
 This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
     </item>

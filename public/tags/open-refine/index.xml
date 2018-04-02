@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Open Refine on Paul Oldham&#39;s Blog</title>
-    <link>/tags/open-refine/</link>
+    <link>https://www.pauloldham.net/tags/open-refine/</link>
     <description>Recent content in Open Refine on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Sat, 02 May 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/open-refine/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/open-refine/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Cleaning Patent Data with Open Refine</title>
-      <link>/openrefine-patent-cleaning/</link>
+      <link>https://www.pauloldham.net/openrefine-patent-cleaning/</link>
       <pubDate>Sat, 02 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/openrefine-patent-cleaning/</guid>
+      <guid>https://www.pauloldham.net/openrefine-patent-cleaning/</guid>
       <description>Introduction Cleaning patent data is one of the most challenging and time consuming tasks involved in patent analysis. In this chapter we will cover.
 Basic data cleaning using Open Refine Separating a patent dataset on applicant names and cleaning the names. Exporting a dataset from Open Refine at different stages in the cleaning process.  Open Refine is an open source tool for working with all types of messy data. It started life as Google Refine but has since migrated to Open Refine.</description>
     </item>

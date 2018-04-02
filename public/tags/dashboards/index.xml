@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dashboards on Paul Oldham&#39;s Blog</title>
-    <link>/tags/dashboards/</link>
+    <link>https://www.pauloldham.net/tags/dashboards/</link>
     <description>Recent content in Dashboards on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Sun, 17 May 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/dashboards/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pauloldham.net/tags/dashboards/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Visualising Data with Tableau Public</title>
-      <link>/tableau-patents/</link>
+      <link>https://www.pauloldham.net/tableau-patents/</link>
       <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>/tableau-patents/</guid>
+      <guid>https://www.pauloldham.net/tableau-patents/</guid>
       <description>Introduction In this article we will be analysing and visualising patent data using Tableau Public.
 Tableau Public is a free version of Tableau Desktop and provides a very good practical introduction to the use of patent data for analysis and visualisation. In many cases Tableau Public will represent the standard that other open source and free tools will need to meet.
 This is a practical demonstration of the use of Tableau in patent analytics.</description>
