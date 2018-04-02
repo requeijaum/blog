@@ -11,13 +11,13 @@
 <meta property="og:type" content="article">
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:image" content="https://www.pauloldham.net/images/paul-oval.png" >
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.pauloldham.net/images/excellent-GIF-downsized.gif" >
   
 
 
-<meta property="description" content="Importing Excel into R is much easier than it was. Here&#39;s an update">
-<meta property="og:description" content="Importing Excel into R is much easier than it was. Here&#39;s an update">
+<meta property="description" content="Importing Excel into R is so much easier than it was. Here&#39;s an update including the dreaded https problem and using [writexl](https://github.com/ropensci/writexl) from @RIp">
+<meta property="og:description" content="Importing Excel into R is so much easier than it was. Here&#39;s an update including the dreaded https problem and using [writexl](https://github.com/ropensci/writexl) from @RIp">
 
 
 
@@ -26,7 +26,7 @@
 
 
   
-  <meta property="description" content="Importing Excel into R is much easier than it was. Here&#39;s an update">
+  <meta property="description" content="Importing Excel into R is so much easier than it was. Here&#39;s an update including the dreaded https problem and using [writexl](https://github.com/ropensci/writexl) from @RIp">
   
 
 
@@ -181,7 +181,7 @@ df</code></pre>
 ## 1     1     a  TRUE 2017-12-10
 ## 2     2     b FALSE   20170815
 ## 3     3     c  TRUE 2017_06_12</code></pre>
-<p>The documentation for read_excel (?read_excel) sets out quite a few other options. For example we could specify the format of some columns and leave the function to guess the others. That would look like this.</p>
+<p>The documentation for read_excel (<code>?read_excel</code>) sets out quite a few other options. For example we could specify the format of some columns and leave the function to guess the others. That would look like this.</p>
 <pre class="r"><code>df &lt;- read_excel(&quot;/Users/pauloldham17inch/Desktop/open_source_master/blog/content/post/df.xlsx&quot;, 
     col_names = TRUE, col_types = c(&quot;guess&quot;, &quot;guess&quot;, &quot;logical&quot;, &quot;guess&quot;))</code></pre>
 <p><strong>3. Convert all columns to a single type</strong></p>

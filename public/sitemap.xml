@@ -125,6 +125,12 @@
   </url>
   
   <url>
+    <loc>https://www.pauloldham.net/tags/janitor/</loc>
+    <lastmod>2018-02-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://www.pauloldham.net/tags/lens-database/</loc>
     <lastmod>2015-07-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -227,13 +233,13 @@
   </url>
   
   <url>
-    <loc>https://www.pauloldham.net/tags/r/</loc>
+    <loc>https://www.pauloldham.net/categories/r/</loc>
     <lastmod>2018-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.pauloldham.net/categories/r/</loc>
+    <loc>https://www.pauloldham.net/tags/r/</loc>
     <lastmod>2018-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -283,6 +289,12 @@
   <url>
     <loc>https://www.pauloldham.net/tags/webscraping/</loc>
     <lastmod>2018-01-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/tags/writexl/</loc>
+    <lastmod>2018-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

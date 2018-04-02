@@ -3,12 +3,15 @@ title: An Update on Importing Excel Data in R
 author: "Paul Oldham"
 date: '2018-02-06'
 slug: importing-excel-data-into-r-updated
-description: "Importing Excel into R is much easier than it was. Here's an update"
+description: "Importing Excel into R is so much easier than it was. Here's an update including the dreaded https problem and using [writexl](https://github.com/ropensci/writexl) from @RIp"
+twitterImg: "images/excellent-GIF-downsized.gif"
 categories:
   - R
 tags:
   - Excel
   - R
+  - janitor
+  - writexl
 output:
   blogdown::html_page:
     toc: true
@@ -112,7 +115,7 @@ df <- read_excel("/Users/pauloldham17inch/Desktop/open_source_master/blog/conten
 df
 ```
 
-The documentation for read_excel (?read_excel) sets out quite a few other options. For example we could specify the format of some columns and leave the function to guess the others. That would look like this. 
+The documentation for read_excel (`?read_excel`) sets out quite a few other options. For example we could specify the format of some columns and leave the function to guess the others. That would look like this. 
 
 ```{r guess_cols}
 df <- read_excel("/Users/pauloldham17inch/Desktop/open_source_master/blog/content/post/df.xlsx", col_names = TRUE, col_types = c("guess", "guess", "logical", "guess"))
