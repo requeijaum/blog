@@ -1,6 +1,6 @@
 baseurl = "https://www.pauloldham.net"
 languageCode = "en-us"
-title = "Paul Oldhams Analytics Blog"
+title = "Paul Oldham's Blog"
 theme = "hugo-lithium-theme"
 author = "Paul Oldham"
 discusShortname = "pauloldham"
@@ -27,10 +27,8 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     description = "Patent Analytics, Bibliometrics and Data Visualization"
     copyright = "Copyright @ Paul Oldham 2017-2018"
 
-    # dont need two descriptions 
     twitterAuthor = "@junglepaul"
-    #twitterSite = "@invalid_input" #I think this is his stite
-
+    
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.11.0"
     highlightjsCDN = "//cdn.bootcss.com"

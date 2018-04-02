@@ -6,18 +6,18 @@
 <meta name="generator" content="Hugo 0.32.2" />
 
 
-<title>Dr. Evil meets the robotstxt package - Paul Oldhams Analytics Blog</title>
-<meta property="og:title" content="Dr. Evil meets the robotstxt package - Paul Oldhams Analytics Blog">
+<title>Dr. Evil meets the robotstxt package - Paul Oldham&#39;s Blog</title>
+<meta property="og:title" content="Dr. Evil meets the robotstxt package - Paul Oldham&#39;s Blog">
 <meta property="og:type" content="article">
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:image" content="http://pauloldham.net/images/paul-oval.png" >
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://pauloldham.net/images/austin_powers_gangsta.gif" >
   
 
 
-<meta property="description" content="Article posted by Paul Oldham, on Monday, January 8nd, 2018">
-<meta property="og:description" content="Article posted by Paul Oldham, on Monday, January 8nd, 2018">
+<meta property="description" content="A quick and evil guide to the @ROpensci robotstxt package #rstats">
+<meta property="og:description" content="A quick and evil guide to the @ROpensci robotstxt package #rstats">
 
 
 
@@ -25,6 +25,8 @@
 <meta name="twitter:site" content="">
 
 
+  
+  <meta property="description" content="A quick and evil guide to the @ROpensci robotstxt package #rstats">
   
 
 
@@ -85,7 +87,8 @@
     
 
     <div class="article-content">
-      <p>I am fairly new to webscraping in R using <a href="https://github.com/hadley/rvest">rvest</a> and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the <a href="https://ropensci.org/">ROpenSci</a> <a href="https://github.com/ropenscilabs/robotstxt">robotstxt</a> package by <a href="https://github.com/petermeissnerpackage">Peter Meissner</a> that allows us to access the robots.txt for a domain from R.</p>
+      <p><img src="https://media.giphy.com/media/X0sAT1NVHUQHS/giphy.gif" width="600px" style="display: block; margin: auto;" /></p>
+<p>I am fairly new to webscraping in R using <a href="https://github.com/hadley/rvest">rvest</a> and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the <a href="https://ropensci.org/">ROpenSci</a> <a href="https://github.com/ropenscilabs/robotstxt">robotstxt</a> package by <a href="https://github.com/petermeissnerpackage">Peter Meissner</a> that allows us to access the robots.txt for a domain from R.</p>
 <p>I am working on a new R data package of underwater geographic feature names as part of a Norwegian Research Council funded project <code>biospolar</code> on innovation involving biodiversity in marine polar areas. One of the main data sources for the package is the <a href="https://www.gebco.net/data_and_products/undersea_feature_names/">General Bathymetric Chart of the Oceans or GEBCO Gazeteer</a>. I’m also going to be bringing in data from the <a href="https://vents-data.interridge.org/">Interridge database of hydrothermal vents</a> and so wanted to understand whether I am just free to go ahead.</p>
 <p>The robots.txt content is advisory, and well we could always choose to be Dr. Evil. If my wife would let me have a cat it would definitely be called Mr. Bigglesworth. But it strikes me that building a package for a data source that tries to prohibit scraping might not be a brilliant idea.</p>
 <p>There are a bunch of functions in the <code>robotstxt</code> package but I’m just going to use the main one <code>robotstxt()</code>. Take a look at the <a href="https://cran.r-project.org/web/packages/robotstxt/vignettes/using_robotstxt.html">vignette</a> for more information. For a very quick check on whether scraping on a path is allowed try the <code>paths_allowed()</code> function.</p>
@@ -142,7 +145,7 @@ gebco</code></pre>
 ##     spiderbar::can_fetch(obj = self$robexclobj, path = paths, 
 ##         user_agent = bot)
 ## }
-## &lt;environment: 0x7fd199f365f8&gt;
+## &lt;environment: 0x7f8e0e238240&gt;
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;robotstxt&quot;</code></pre>
@@ -400,8 +403,8 @@ noaa</code></pre>
 ##     spiderbar::can_fetch(obj = self$robexclobj, path = paths, 
 ##         user_agent = bot)
 ## }
-## &lt;bytecode: 0x7fd197cadae8&gt;
-## &lt;environment: 0x7fd19b1560d8&gt;
+## &lt;bytecode: 0x7f8e0d4b0d90&gt;
+## &lt;environment: 0x7f8e0ff77698&gt;
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;robotstxt&quot;</code></pre>

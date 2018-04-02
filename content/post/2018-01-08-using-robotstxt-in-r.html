@@ -3,12 +3,15 @@ title: Dr. Evil meets the robotstxt package
 author: Paul Oldham
 date: '2018-01-08'
 slug: using-robotstxt-in-r
+description: "A quick and evil guide to the @ROpensci robotstxt package #rstats"
+twitterImg: "images/austin_powers_gangsta.gif"
 categories: [R]
 tags: [webscraping, robots, robotstxt, biospolar, ropensci]
 ---
 
 
 
+<p><img src="https://media.giphy.com/media/X0sAT1NVHUQHS/giphy.gif" width="600px" style="display: block; margin: auto;" /></p>
 <p>I am fairly new to webscraping in R using <a href="https://github.com/hadley/rvest">rvest</a> and wanted to get a better understanding of the issues involved in permission to scrape websites. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the <a href="https://ropensci.org/">ROpenSci</a> <a href="https://github.com/ropenscilabs/robotstxt">robotstxt</a> package by <a href="https://github.com/petermeissnerpackage">Peter Meissner</a> that allows us to access the robots.txt for a domain from R.</p>
 <p>I am working on a new R data package of underwater geographic feature names as part of a Norwegian Research Council funded project <code>biospolar</code> on innovation involving biodiversity in marine polar areas. One of the main data sources for the package is the <a href="https://www.gebco.net/data_and_products/undersea_feature_names/">General Bathymetric Chart of the Oceans or GEBCO Gazeteer</a>. I’m also going to be bringing in data from the <a href="https://vents-data.interridge.org/">Interridge database of hydrothermal vents</a> and so wanted to understand whether I am just free to go ahead.</p>
 <p>The robots.txt content is advisory, and well we could always choose to be Dr. Evil. If my wife would let me have a cat it would definitely be called Mr. Bigglesworth. But it strikes me that building a package for a data source that tries to prohibit scraping might not be a brilliant idea.</p>
@@ -66,7 +69,7 @@ gebco</code></pre>
 ##     spiderbar::can_fetch(obj = self$robexclobj, path = paths, 
 ##         user_agent = bot)
 ## }
-## &lt;environment: 0x7fd199f365f8&gt;
+## &lt;environment: 0x7f8e0e238240&gt;
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;robotstxt&quot;</code></pre>
@@ -324,8 +327,8 @@ noaa</code></pre>
 ##     spiderbar::can_fetch(obj = self$robexclobj, path = paths, 
 ##         user_agent = bot)
 ## }
-## &lt;bytecode: 0x7fd197cadae8&gt;
-## &lt;environment: 0x7fd19b1560d8&gt;
+## &lt;bytecode: 0x7f8e0d4b0d90&gt;
+## &lt;environment: 0x7f8e0ff77698&gt;
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;robotstxt&quot;</code></pre>
