@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Read_csv on Paul Oldham&#39;s Blog</title>
+    <link>https://www.pauloldham.net/tags/read_csv/</link>
+    <description>Recent content in Read_csv on Paul Oldham&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
+    <lastBuildDate>Wed, 29 Apr 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.pauloldham.net/tags/read_csv/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Importing CSV files into R</title>
+      <link>https://www.pauloldham.net/importing-csv-files-into-r/</link>
+      <pubDate>Wed, 29 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.pauloldham.net/importing-csv-files-into-r/</guid>
+      <description>A Quick 2018 Update Introduction Reading in a file using read.table (utils package) Reading a .csv from the web Downloading From Google Drive Downloading from GitHub  Writing a .csv file Reading in multiple .csv files Using the new readr package. Writing a .csv file using write_csv() Round Up   A Quick 2018 Update This post is now showing its age and was the first thing I wrote about R.</description>
+    </item>
+    
+  </channel>
+</rss>

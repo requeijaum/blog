@@ -152,5 +152,14 @@ This is a practical demonstration of the use of Tableau in patent analytics.</de
 Basic data cleaning using Open Refine Separating a patent dataset on applicant names and cleaning the names. Exporting a dataset from Open Refine at different stages in the cleaning process.  Open Refine is an open source tool for working with all types of messy data. It started life as Google Refine but has since migrated to Open Refine.</description>
     </item>
     
+    <item>
+      <title>Importing CSV files into R</title>
+      <link>https://www.pauloldham.net/importing-csv-files-into-r/</link>
+      <pubDate>Wed, 29 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.pauloldham.net/importing-csv-files-into-r/</guid>
+      <description>A Quick 2018 Update Introduction Reading in a file using read.table (utils package) Reading a .csv from the web Downloading From Google Drive Downloading from GitHub  Writing a .csv file Reading in multiple .csv files Using the new readr package. Writing a .csv file using write_csv() Round Up   A Quick 2018 Update This post is now showing its age and was the first thing I wrote about R.</description>
+    </item>
+    
   </channel>
 </rss>
