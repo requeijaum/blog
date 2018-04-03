@@ -63,6 +63,24 @@ The Lens is a patent database based in Australia that describes itself as “an 
     </item>
     
     <item>
+      <title>Graphing Patent Data with ggplot2 part2</title>
+      <link>https://www.pauloldham.net/graphing-patent-data-with-ggplot2-part2/</link>
+      <pubDate>Mon, 20 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.pauloldham.net/graphing-patent-data-with-ggplot2-part2/</guid>
+      <description>Introduction The Grammar of Graphics Getting Started Loading the Data Reviewing and Preparing the Dataset with dplyr Creating a Publication Country Table Creating a Publication Country by Year Table  Getting Going with ggplot in ggplot2 Establishing the Base Object Adding a geom Changing the Geom Adding a trend line Statistical Transformations Adding Labels Publication Country Charts A Bar chart Adding labels to columns A Ranked Bar Chart A Dot Plot A Balloon Plot A Stacked Bar Chart Faceting facet_wrap  Pie and Coxcomb Plots Creating a Pie Chart (aaaargh) The Coxcomb Plot  Round Up Useful Resources   Introduction This is Part 2 of an article introducing R for patent analytics that focuses on visualising patent data in R using the ggplot2 package.</description>
+    </item>
+    
+    <item>
+      <title>Wrangling Pizza Patents in R</title>
+      <link>https://www.pauloldham.net/wrangling-pizza-patents-in-r/</link>
+      <pubDate>Thu, 25 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.pauloldham.net/wrangling-pizza-patents-in-r/</guid>
+      <description>Getting Started with R Getting Started About the pizza patent dataset Reading in the Data Creating a numeric field Renaming Columns Selecting Columns for plotting  Creating Counts Total by Year Round Up    This is the first part of a two part article on using R and the ggplot2 package to visualise patent data. In a previous article we looked at visualising pizza related patent activity in Tableau Public.</description>
+    </item>
+    
+    <item>
       <title>Reading and Writing an Excel File in R</title>
       <link>https://www.pauloldham.net/reading-writing-excel-files-r/</link>
       <pubDate>Thu, 30 Apr 2015 00:00:00 +0000</pubDate>

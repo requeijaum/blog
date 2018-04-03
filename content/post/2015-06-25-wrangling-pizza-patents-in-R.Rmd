@@ -1,0 +1,255 @@
+---
+title: 'Wrangling Pizza Patents in R'
+author: Paul Oldham
+date: '2015-06-25'
+slug: wrangling-pizza-patents-in-R
+categories:
+  - Patents
+  - R
+tags:
+  - ggplot2
+output:
+  blogdown::html_page:
+    toc: true   
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE, tidy=TRUE, out.width = "800px", fig.align = "center", echo=TRUE, warning=FALSE, message=FALSE)
+options(width = 80)
+```
+
+This is the first part of a two part article on using R and the `ggplot2` package to visualise patent data. In a previous article we looked at visualising pizza related patent activity in Tableau Public. In this article we look at how to wrangle our `pizza` dataset using `dplyr` package in RStudio to prepare the data for graphing. This is intended as a gentle introduction and you do not need to know anything about R to follow this article. You will however need to install  [RStudio Desktop](http://www.rstudio.com/products/rstudio/) for your operating system (see below).
+
+Part 1 will introduce the basics of handling data in R in preparation for plotting and will then use the quick plot or `qplot` function in `ggplot2` to start graphing elements of the pizza patents dataset. 
+
+Part 2 will go into more depth on handling data in R and the use of ggplot2.
+
+ggplot2 is an implementation of the theory behind the Grammar of Graphics. The theory was originally developed by Leland Wilkinson and reinterpreted with considerable success by Hadley Wickham at Rice University and RStudio. The basic idea behind the Grammar of Graphics is that any statistical graphic can be built using a set of simple layers consisting of: 
+
+1. A dataset containing the data we want to see (e.g x and y axes and data points)
+2. A geometric object (or `geom`) that defines the form we want to see (points, lines, shapes etc.) known as a `geom`. Multiple `geoms` can be used to build a graphic (e.g, points and lines etc.). 
+3. A coordinate system (e.g. a grid, a map etc.).
+
+On top of these three basic components, the grammar includes statistical transformations (or `stats`) describing the statistics to be applied to the data to create a bar chart or trend line. The grammar also describes the use of faceting (trellising) to break a dataset down into smaller components (see Part 2).  
+
+A very useful article explaining this approach is [Hadley Wickham's 2010 A Layered Grammar of Graphics](http://vita.had.co.nz/papers/layered-grammar.pdf) (preprint) and is recommended reading. 
+
+The power of this approach is that it allows us to build complex graphs from simple layers while being able to control each element and understand what is happening. One way to think of this is as stripping back a graph to its basic elements and allowing you to decide what each element (layer) should contain and look like. In short, you get to decide what your graphs look like.  
+
+`ggplot2` contains two main functions:
+
+1. qplot (quick plot)
+2. ggplot()
+
+The main difference between the two is that quick plot makes assumptions for you and, as the name suggests, is used for quick plots. In contrast, with ggplot we build graphics from scratch with helpful defaults that give us full control over what we see. 
+
+In this article we will start with qplot and increasingly merge into developing plots by adding layers in what could be called a ggplot kind of way. We will develop that further in the Part 2.  
+
+##Getting Started with R
+
+This article assumes that you are new to using R. You do not need any knowledge of programming in R to follow this article. While you don't need to know anything about R to follow the article, you may find it helpful to know that :
+
+1. R is a statistical programming language. That can sound a bit intimidating. However, R can handle lots of other tasks a patent analyst might need such as cleaning and tidying data or text mining. This makes it a good choice for a patent analyst.
+2. R works using packages (libraries) for performing tasks such as importing files, manipulating files and graphics. There are around 6,819 packages and they are open source (mainly it seems under the MIT licence). If you can think of it there is probably a package that meets (or almost meets) your analysis needs.
+3. Packages contain functions that do things such as `read_csv()` to read in a comma separated file. 
+4. The functions take arguments that tell them what you want to do, such as specifying the data to graph and the x and y axis e.g. qplot(x = , y = , data = my dataset).
+5. If you want to learn more, or get stuck, there are a huge number of resources and free courses out there and RStudio lists some of the main resources on their website [here](http://www.rstudio.com/resources/training/online-learning/). With R you are never alone. 
+
+R is best learned by doing. The main trick with R is to install and load the packages that you will need and then to work with functions and their arguments. Given that most patent analysts are likely to be unfamiliar with R we will adopt the simplest approach possible to make sure it is clear what is going on at each step. 
+
+The first step is to install R and RStudio desktop for your operating system by following the links and instructions [here](http://www.rstudio.com/products/rstudio/download/) and making sure that you follow the link to install R. Follow this very useful [Computerworld article](http://www.computerworld.com/article/2497143/business-intelligence/business-intelligence-beginner-s-guide-to-r-introduction.html?page=2) to become familiar with what you are seeing. You may well want to follow the rest of that article. Inside R you can learn a lot by installing the `Swirl` package that provides interactive tutorials for learning R. Details are provided in the resources at the end of the article. 
+
+The main thing you need to do to get started other than installing R and RStudio is to open RStudio and install some packages. 
+
+In this article we will use four packages:
+
+1. `readr` to quickly read in the pizza patent dataset as an easy to use data table.
+2. `dplyr` for quick addition and operations on the data to make it easier to graph.
+3. `ggplot2` or Grammar of Graphics 2 as the tool we will use for graphing.
+4. `ggthemes` provides very useful additional themes including Tufte range plots, the Economist and Tableau and can be accessed through [CRAN](http://cran.r-project.org/web/packages/ggthemes/index.html) or [Github](https://github.com/jrnold/ggthemes). 
+
+##Getting Started
+
+If you don't have these packages already then install each of them below by pressing command and Enter at the end of each line. As an alternative select ***Packages > Install*** in the pane displaying a tab called Packages. Then enter the names of the packages one at a time without the quotation marks.
+
+```{r install_pkgs, eval=FALSE}
+install.packages("readr")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("ggthemes")
+```
+
+Then make sure the packages have loaded to make them available. Press command and enter at the end of each line below (or, if you are feeling brave, select them all and then click the icon marked Run).
+
+```{r load_libraries, eval=TRUE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+```
+
+You are now good to go. 
+
+##About the pizza patent dataset
+
+The pizza patents dataset is a set of 9,996  patent documents from the WIPO Patentscope database that make reference somewhere in the text to the term `pizza`. Almost everybody likes pizza and this is simply a working dataset that we can use to learn how to work with different open source tools. This will also allow us over time to refine our understanding of patent activity involving the term pizza and hone in on actual pizza related technology. In previous walkthroughs we divided the `pizza` dataset into a set of distinct data tables to enable analysis and visualisation using Tableau Public. You can download that dataset in .csv format [here](https://github.com/poldham/opensource-patent-analytics/blob/master/2_datasets/pizza_medium_clean/pizza_medium_clean.zip?raw=true). These data tables are:
+
+1. pizza (the core set)
+2. applicants (a subdataset divided and cleaned on applicant names)
+3. inventors (a subdataset divided and cleaned on inventor names)
+4. ipc_class (a subdataset divided on ipc class names names)
+5. applicants_ipc (a child dataset of applicants listing the IPC codes)
+
+In this article we will focus on the `pizza` table as the core set. However, you may want to experiment with other sets. 
+
+##Reading in the Data
+
+We will use the `readr` package to rapidly read in the pizza set to R (for other options see the in depth articles on reading in [.csv]() and [Excel]() files and the recent Getting your Data into R RStudio [webinar](http://www.rstudio.com/resources/webinars/)). `readr` is nice and easy to use and creates a data table that we can easily view. 
+
+```{r read_pizza, tidy=TRUE}
+library(readr)
+library(dplyr)
+pizza <- read_csv("https://github.com/poldham/opensource-patent-analytics/blob/master/2_datasets/pizza_medium_clean/pizza.csv?raw=true") %>% select(-applicants_cleaned, -applicants_cleaned_type, -applicants_original, -inventors_cleaned, -inventors_original) # drop cols with a multibyte string
+head(pizza)
+```
+
+We now have a data table with the data. We can inspect this data in a variety of ways:
+
+***1. View***
+
+See a separate table in a new tab. This is useful if you want to get a sense of the data or look for column numbers. 
+
+```{r view, eval=FALSE}
+View(pizza)
+```
+
+***2. head (for the bottom use `tail`)***
+
+`head` allows you to see the top few rows or using `tail` the bottom few rows.If you would like to see more rows add a number after the dataset name e.g. `head(pizza, 20). 
+
+```{r head}
+head(pizza)
+```
+
+***3. dimensions***
+
+This allows us to see how many rows there are (9996) and how many columns(31)
+```{r dims}
+dim(pizza)
+```
+
+***4. Summary***
+
+Provides a summary of the dataset columns including quick calculations on numeric fields and the class of vector. 
+```{r summary}
+summary(pizza)
+```
+
+***5.The class of R object***
+
+`class()` is one of the most useful functions in R  because it tells you what kind of object or vectors you are dealing with. R vectors are normally either character, numeric, or logical (TRUE, FALSE) but classes also include integers and factors. Most of the time patent data is of either the character type or a date.
+
+```{r class}
+class(pizza)
+```
+
+***4. `str` - See the structure*** 
+
+As you become more familiar with R the function `str()` becomes one of the most useful for examining the structure of your data. For example, using str we can see whether an object we are working with is a simple vector, a list of objects or a list that contains a set of data frames (e.g.) tables. If things don't seem to be working then `class` and `str` will often help you to understand why not. 
+
+```{r str, eval=FALSE}
+str(pizza, max.level = 1)
+```
+
+These options illustrate the range of ways that you can view the data before and during graphing. Mainly what will be needed is the column names but we also need to think about the column types. 
+
+If we inspect this data using `str(pizza)` we will see that the bulk of the fields are character fields. One feature of patent data is that it rarely includes actual numeric fields (such as counts). Most fields are character fields such as names or alphanumeric values (such as publication numbers e.g. US20151234A1). Sometimes we see counts such as citing documents or family members but most of the time our fields are character fields or dates. A second common feature of patent data is that some fields are concatenated. That is the cells in a column contain more than one value (e.g. multiple inventor or applicant names etc.). 
+
+We will walk through how to deal with these common patent data issues in R in other articles. For now, we don't need to worry about the form of data except that it is normally best to select a column (variable) that is not concatenated with multiple values to develop our counts. So as a first step we will quickly create a numeric field from the `publication_number` field in `pizza`.
+
+##Creating a numeric field
+
+To create a numeric field for graphing we will need to do two things
+
+1.  add a column
+2.  assign each cell in that column a value that we can then count. 
+
+The most obvious field to use as the basis for counting in the pizza data is the `publication_number` field because typically this contains unique alphanumeric identifiers. 
+
+To create a numeric field we will use the `dplyr` package. `dplyr` and its sister package `tidyr` are some of the most useful packages available for working in R and come with a handy [RStudio Cheatsheet](http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) and [webinar](http://www.rstudio.com/resources/webinars/archives/#). To see what the functions in `dplyr` are then click on its name in the packages pane. 
+
+Just for future reference the main functions are:
+
+1. filter (to select rows in a data)
+2. select (to select the columns you want to work with)
+3. mutate (to add columns based on other columns)
+4. arrange (to sort)
+5. group_by( to group data)
+6. count (to easily summarise data on a value)
+
+`dplyr's` `mutate` function allows us to add a new column based on the values contained in one or more of the other columns in the dataset. We will call this new variable `n` and we could always rename it in the graphs later on. There are quite a variety of ways of creating counts in R but this is one of the easiest. The mutate function is really very useful and worth learning.
+
+```{r mutate, warning=FALSE}
+library(dplyr)
+pizza <- mutate(pizza, record_count = sum(publication_number = 1))
+```
+
+What we have done here is to tell R that we want to use the `mutate()` function. We have then passed it a series of arguments consisting of: 
+
+1. our dataset = pizza
+2. record_count = the result of the function sum() which is the sum of publication_number giving the value 1 to each number. 
+3. `pizza <-` this tells R to create an object (a data frame) called `pizza` containing the results. If you take a look in the Environment pane you will now see that pizza has 32 variables. Note that we have now modified the data we imported into R although the original data in the file remains the same. 
+If we now use `View(pizza)` we will see a new column called `record_count` with a value of 1 for each entry. 
+
+###Renaming Columns
+
+We will be doing quite a lot of work with the `publication_country_name` field, so let's make our lives a bit easier by renaming it with the `dplyr` function `rename()`. We will also do the same for the `publication_country_code` and publication_year. Note that it is easy to create labels for graphs with ggplot so we don't need to worry about renaming column names too much. We can rename them again later if saving the file to a new `.csv` file.  
+
+```{r rename_pizza, tidy=TRUE, warning=FALSE}
+library(dplyr)
+pizza <- rename(pizza, pubcountry = publication_country_name, 
+                pubcode = publication_country_code, 
+                pubyear = publication_year)
+head(pizza)
+```
+
+###Selecting Columns for plotting
+
+We could now simply go ahead and work with pizza. However, for datasets with many columns or requiring different kinds of counts it can be much easier to simply select the columns we want to work with to reduce clutter. We can use the `select()` function from `dplyr` to do this. 
+
+```{r select, warning=FALSE}
+library(dplyr)
+p1 <- pizza %>% select(., pubcountry, pubcode, pubyear, record_count)
+head(p1)
+```
+
+Note that `dplyr` will exclude columns that are not mentioned when using select. This is one of the purposes of `select` as a function. For that reason you will probably want to rename the object (in this case as p1). If we used the name `pizza` for the object our original table would be reduced to the 4 columns specified by `select`. Type `?select` in the console for further details.  
+
+We now have a data frame with 9,996 rows and 4 variables (columns). Use `View(p1)` or simply enter `p1` into the console to take a look.
+
+##Creating Counts
+
+To make life even easier for ourselves we can use function `count()` from `dplyr` to group the data onto counts by different variables for graphing. Note that we could defer counting until later, however, this is a good opportunity to learn more about `dplyr`. 
+
+Let's go ahead and construct some counts using `p1`. At the same time we will use quick plot (`qplot`) for some exploratory plotting of the results. In the course of this R will show error warnings in red for missing values. We will be ignoring the warning because they are often R telling us things it things we need to know.
+
+###Total by Year
+
+What if we wanted to know the overall total for our sample data by publication year. Try the following.
+
+```{r total_year, warning=FALSE}
+pt <- count(p1, pubyear, wt = record_count)
+head(pt)
+```
+
+If we now view `pt` (either by using `View(pt)`, noting the capital V, or clicking `pt` in the Environment pane) we will see that R has dropped the country columns to present us with an overall total by year in `n`. We now have a general overview of the data for graphing.
+
+Let's go ahead and quickly plot that using the `qplot()` function.  
+
+```{r fig1_ggplot1, warning=FALSE}
+qplot(x = pubyear, y = n, data = pt, geom = "line")
+```
+
+### Round Up
+
+That's it. You may feel at the end of this post that this was a lot of work to get to a very simple graph. But, in reality, it is the data preparation that takes the time. In the next post we will focus in on creating different kinds of graph in ggplot2 and some of the challenges that we encounter along the way. 

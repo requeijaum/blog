@@ -48,6 +48,16 @@
   </url>
   
   <url>
+    <loc>https://www.pauloldham.net/graphing-patent-data-with-ggplot2-part2/</loc>
+    <lastmod>2015-07-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/wrangling-pizza-patents-in-r/</loc>
+    <lastmod>2015-06-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.pauloldham.net/patentscope/</loc>
     <lastmod>2015-05-25T00:00:00+00:00</lastmod>
   </url>
@@ -114,6 +124,12 @@
   <url>
     <loc>https://www.pauloldham.net/tags/gephi-tutorial/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.pauloldham.net/tags/ggplot2/</loc>
+    <lastmod>2015-07-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
