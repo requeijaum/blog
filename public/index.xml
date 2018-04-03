@@ -53,10 +53,10 @@ Infographics are a popular way of presenting data in a way that is easy for a re
     
     <item>
       <title>Exploring Scientific Literature with rplos</title>
-      <link>https://www.pauloldham.net/plos-walkthrough/</link>
+      <link>https://www.pauloldham.net/rplos-walkthrough/</link>
       <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/plos-walkthrough/</guid>
+      <guid>https://www.pauloldham.net/rplos-walkthrough/</guid>
       <description>Introduction In this chapter we look at the use of the rplos package from rOpenSci to access the scientific literature from the Public Library of Science using the PLOS Search API.
 The Public Library of Science (PLOS) is the main champion of open access peer reviewed scientific publications and has published somewhere in the region of 140,000 articles. These articles are a fantastic resource. PLOS includes the following titles.
  PLOS ONE PLOS Biology PLOS Medicine PLOS Computational Biology PLOS Genetics PLOS Pathogens PLOS Neglected Tropical Diseases PLOS Clinical Trials () PLOS Collections (collections of articles)  PLOS is important because it provides open access to the full text of peer reviewed research.</description>
@@ -71,6 +71,16 @@ The Public Library of Science (PLOS) is the main champion of open access peer re
       <description>One problem for people seeking to learn patent analytics is a lack of access to patent data from different sources.
 In this article I introduce the patent datasets developed for the WIPO Open Source Patent Analytics Project as training sets for patent analytics. The datasets will be used in the walkthroughs. The datasets will grow over time but we will briefly introduce them and explain how to access them.
 The datasets are housed at the project GitHub repository.</description>
+    </item>
+    
+    <item>
+      <title>An Introduction to Plotly for Patent Analytics</title>
+      <link>https://www.pauloldham.net/an-introduction-to-plotly-for-patent-analytics/</link>
+      <pubDate>Sat, 01 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.pauloldham.net/an-introduction-to-plotly-for-patent-analytics/</guid>
+      <description>In this article we provide a quick introduction to the online graphing service Plotly to create graphics for use in patent analysis.
+Plotly is an online graphing service that allows you to import excel, text and other files for visualisation. It also has API services for R, Python, MATLAB and a Plotly Javascript Library. This means that you can send data directly to Plotly for visualisation. Plots can also be shared with team mates or publicly.</description>
     </item>
     
     <item>
