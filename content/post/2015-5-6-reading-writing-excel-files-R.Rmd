@@ -13,7 +13,7 @@ tags:
 ```{r opts, echo=FALSE}
 knitr::opts_chunk$set(fig.align = "center", out.width = "600px", cache = TRUE)
 ```
-This post was updated in 2018 and you can read it [here](http://www.pauloldham.net/2018/02/06/importing-excel-data-into-r-updated/)
+This post was updated in 2018 and you can read it [here](http://www.pauloldham.net/importing-excel-data-into-r-updated/)
 
 The [CRAN Project](http://cran.r-project.org/doc/manuals/r-release/R-data.html#Reading-Excel-spreadsheets) has the following to say about importing Excel files into R. 
 

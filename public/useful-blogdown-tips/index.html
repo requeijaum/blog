@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.32.2" />
+
+
+<title>Useful Blogdown Tips - Paul Oldham&#39;s Blog</title>
+<meta property="og:title" content="Useful Blogdown Tips - Paul Oldham&#39;s Blog">
+<meta property="og:type" content="article">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://www.pauloldham.net/images/paul-oval.png" >
+  
+
+
+<meta property="description" content="blogdown rocks and there are some great tutorials but here is a compilation of useful things you might want to know.">
+<meta property="og:description" content="blogdown rocks and there are some great tutorials but here is a compilation of useful things you might want to know.">
+
+
+
+<meta name="twitter:creator" content="@junglepaul">
+<meta name="twitter:site" content="">
+
+
+  
+  <meta property="description" content="blogdown rocks and there are some great tutorials but here is a compilation of useful things you might want to know.">
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/paul-oval.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="https://twitter.com/junglepaul">@junglepaul</a></li>
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/poldham">GitHub</a></li>
+    
+    <li><a href="https://github.com/wipo-analytics">WIPO Analytics</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Useful Blogdown Tips</h1>
+
+    
+    <span class="article-date">2018/04/07</span>
+    
+
+    <div class="article-content">
+      <p>Many of the things you need to know about Blogdown are in the excellent blogdown book… and there are lots of tutorials out there. Here I’m going to compile some of the various posts providing tips, and add some of my own.</p>
+<div id="transferring-to-blogdown" class="section level3">
+<h3>Transferring to blogdown</h3>
+<p>The blogdown book provides a very good description of how to move from Github or Wordpress to Blogdown with Netlify. But if you want to stay with Blogdown here are a few very useful posts:</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+</div>
+<div id="setting-up-redirects" class="section level3">
+<h3>Setting up redirects</h3>
+<p>If you get quite a bit of traffic on your old site then rather than simply delete it you will want to redirect. There seem to be two basic choices here:</p>
+<ul>
+<li><p>A hard permanent redirect</p></li>
+<li><p>A soft (http refresh)</p></li>
+</ul>
+<p>I used this in the end as I was unsure about the permanent redirect</p>
+<p>I used this option of the time being and found an easy to use Jekyll plugin</p>
+<ul>
+<li>Netlify provides guidance on setting up redirects</li>
+</ul>
+</div>
+<div id="including-images" class="section level3">
+<h3>Including Images</h3>
+<p>I use the standard knitr approach of setting up the and then</p>
+<pre class="r"><code>#knitr::include_graphics()</code></pre>
+<p>However, this may not suit your needs and xxxx has come up with a very useful ADD IMAGES ADD IN</p>
+</div>
+<div id="including-video" class="section level3">
+<h3>Including Video</h3>
+<p>This is a matter of becoming familiar with HUGO short codes. This will add a facebook video.</p>
+</div>
+<div id="twitter-cards" class="section level3">
+<h3>Twitter cards</h3>
+<p>Twitter cards were a mystery to me until I read the xxxx post by xxxx. Make sure that you follow the code carefully replacing the authors code with your own.</p>
+</div>
+<div id="making-giphy-images-work" class="section level3">
+<h3>Making Giphy images work</h3>
+<p>xxxx post used static images and I wanted to play withh animated gifs. I struggled a bit but in the end this worked for me.</p>
+</div>
+<div id="adding-a-bibliography" class="section level3">
+<h3>Adding a bibliography</h3>
+</div>
+<div id="register-your-blog-with-google" class="section level3">
+<h3>Register your blog with Google</h3>
+<p>Don’t forget to register your blog with Google (to ask them to index it or no one will find it). Also set up Google Analytics and add the code to XXXX so that you can see if and where people are visiting,</p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113668064-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+</html>
+

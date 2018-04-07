@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rcrossref on Paul Oldham&#39;s Blog</title>
+    <link>/tags/rcrossref/</link>
+    <description>Recent content in Rcrossref on Paul Oldham&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
+    <lastBuildDate>Tue, 03 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/rcrossref/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Easy bibliographies in R with rcrossref and bibtex</title>
+      <link>/easy-bibliographies-in-r-with-rcrossref-and-bibtex/</link>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/easy-bibliographies-in-r-with-rcrossref-and-bibtex/</guid>
+      <description>How to create a bibtex bibliography How to use the rcrossref add in with pictures Creating the bibliography Choosing the style of bibliography  </description>
+    </item>
+    
+  </channel>
+</rss>

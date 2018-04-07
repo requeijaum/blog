@@ -34,12 +34,12 @@ tags: [text fields, tidyr, separate_rows, clarivate analytics, web of science]
 <p>Real world data does not behave like this and we can see this in some data I have been working with from <a href="">Clarivate Analytics</a> <em>Web of Science</em> involving marine species for South East Asia.</p>
 <p>We can see in this code that I have added the optional <code>readr</code> <code>trimws</code> argument. This is not the default when importing from the RStudio menu but can help you to avoid problems.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.4     
 ## ✔ tibble  1.4.2          ✔ dplyr   0.7.4     
 ## ✔ tidyr   0.7.2          ✔ stringr 1.3.0     
 ## ✔ readr   1.1.1          ✔ forcats 0.2.0</code></pre>
-<pre><code>## ── Conflicts ─────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ───────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>wos_asean_marine &lt;- read_csv(&quot;~/Desktop/open_source_master/asean_report/data/wos_asean_marine_6659.csv&quot;, trim_ws = TRUE)</code></pre>

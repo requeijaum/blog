@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ropensci on Paul Oldham&#39;s Blog</title>
-    <link>https://www.pauloldham.net/tags/ropensci/</link>
+    <link>/tags/ropensci/</link>
     <description>Recent content in Ropensci on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.pauloldham.net/tags/ropensci/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/ropensci/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Dr. Evil meets the robotstxt package</title>
-      <link>https://www.pauloldham.net/using-robotstxt-in-r/</link>
+      <link>/using-robotstxt-in-r/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/using-robotstxt-in-r/</guid>
+      <guid>/using-robotstxt-in-r/</guid>
       <description>I am fairly new to webscraping in R using rvest and one question is whether a site gives permission for scraping. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the ROpenSci robotstxt package by Peter Meissner. robotstxt provides easy access to the robots.txt file for a domain from R.
 I’m slowly working on a new R data package for underwater geographic feature names as part of a Norwegian Research Council funded project biospolar on innovation involving biodiversity in marine polar areas.</description>
     </item>
     
     <item>
       <title>Exploring Scientific Literature with rplos</title>
-      <link>https://www.pauloldham.net/rplos-walkthrough/</link>
+      <link>/rplos-walkthrough/</link>
       <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/rplos-walkthrough/</guid>
+      <guid>/rplos-walkthrough/</guid>
       <description>Introduction In this chapter we look at the use of the rplos package from rOpenSci to access the scientific literature from the Public Library of Science using the PLOS Search API.
 The Public Library of Science (PLOS) is the main champion of open access peer reviewed scientific publications and has published somewhere in the region of 140,000 articles. These articles are a fantastic resource. PLOS includes the following titles.
  PLOS ONE PLOS Biology PLOS Medicine PLOS Computational Biology PLOS Genetics PLOS Pathogens PLOS Neglected Tropical Diseases PLOS Clinical Trials () PLOS Collections (collections of articles)  PLOS is important because it provides open access to the full text of peer reviewed research.</description>

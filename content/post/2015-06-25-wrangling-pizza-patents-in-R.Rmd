@@ -2,6 +2,7 @@
 title: 'Wrangling Pizza Patents in R'
 author: Paul Oldham
 date: '2015-06-25'
+draft: true
 slug: wrangling-pizza-patents-in-R
 categories:
   - Patents

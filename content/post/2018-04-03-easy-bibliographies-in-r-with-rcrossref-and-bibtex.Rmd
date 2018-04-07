@@ -1,0 +1,17 @@
+---
+title: Easy bibliographies in R with rcrossref and bibtex
+author: Paul Oldham
+date: '2018-04-03'
+draft: true
+slug: easy-bibliographies-in-r-with-rcrossref-and-bibtex
+categories:
+  - R
+tags:
+  - rcrossref
+  - bibtex
+---
+
+1. How to create a bibtex bibliography
+2. How to use the rcrossref add in with pictures
+3. Creating the bibliography
+4. Choosing the style of bibliography

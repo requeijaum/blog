@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Geocoding on Paul Oldham&#39;s Blog</title>
+    <link>/tags/geocoding/</link>
+    <description>Recent content in Geocoding on Paul Oldham&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
+    <lastBuildDate>Tue, 03 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/geocoding/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Geocoding in R with the Placement Package</title>
+      <link>/geocoding-in-r-with-the-placement-package/</link>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/geocoding-in-r-with-the-placement-package/</guid>
+      <description>In this post we will look at geocoding using the Google Maps API and the placement package in R. We will work with some raw data from the Clarivate Analytics Web of Science (formerly Thomson Reuters) database of scientific literature. Many universities have access to Web of Science and it is an important tool in fields such as bibliometrics/scientometrics. But geocododed data is relatively new.</description>
+    </item>
+    
+  </channel>
+</rss>

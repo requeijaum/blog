@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Paul Oldham&#39;s Blog</title>
-    <link>https://www.pauloldham.net/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     
-	<atom:link href="https://www.pauloldham.net/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Patents</title>
-      <link>https://www.pauloldham.net/categories/patents/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      <link>/categories/patents/</link>
+      <pubDate>Fri, 09 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/categories/patents/</guid>
+      <guid>/categories/patents/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>https://www.pauloldham.net/categories/r/</link>
-      <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
+      <link>/categories/r/</link>
+      <pubDate>Sat, 07 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://www.pauloldham.net/categories/r/</guid>
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
     

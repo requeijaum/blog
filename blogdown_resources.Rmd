@@ -1,0 +1,17 @@
+---
+title: "Untitled"
+author: "Paul Oldham"
+date: "07/04/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+After a lot of procrastination I recently moved my blog to blogdown. This post lists some key resources that others might find usful. 
+
+1. The [blogdown book]()... start here. 
+2. 
+
+For those of us who are big fans of blogdown here is a quick twittercard cheat sheet of useful posts for building your sites
