@@ -67,7 +67,7 @@ taxonomy <- read_excel("/Users/pauloldham17inch/Desktop/taxonomy_final.xlsx")
 
 As we can see from importing the file behind the scenes RStudio is using the `readxl` library to import the file. 
 
-`readxl` will commonly generate warning messages during the import process. For example this dataset generated a long string of warnings that looked like this. 
+`readxl` will commonly generate warning messages during the import process. For example this dataset generated a long long string of warnings that looked like this. 
 
 >"Expecting logical in AH5501 / R5501C34: got 'Aaptos suberitoides'Expecting logical in AH5502 / R5502C34: got 'Abdopus abaculus'Expecting logical in AH5503 / R5503C34: got 'Abdopus aculeatus'Expecting logical in AH5504 / R5504C34: got 'Abralia armata'Expecting logical in AH5505 / R5505C34: got 'Abraliopsis hoylei'Expecting logical in AH5506 / R5506C34: got 'Abudefduf bengalensis'Expecting logical in AH5507 / R5507C34: got 'Abudefduf sexfasciatus'"
 
@@ -79,7 +79,7 @@ To fix this there are a number of options to try.
 
 Use the `guess_max` argument  to increase the number of rows that are read to guess the column type. The default is 1000 and here we reset it to 2000. In the case of our example dataset this didn't work because the problems appeared lower down but it often will. You can add an `n_max` value (shown below as NULL) where you know the maximum number of rows. 
 
-```{r try_max}
+```{r try_max, message=FALSE, warning=FALSE}
 library(readxl)
 taxonomy <- read_excel("/Users/pauloldham17inch/Desktop/open_source_master/asean/data-taxonomy/taxonomy_final.xlsx", guess_max = min(2000, n_max = NULL))
 ```
@@ -139,17 +139,17 @@ df$a <- as.numeric(df$a)
 
 Dates can be troublesome and in cases where you need to format date fields the [`lubridate`](http://lubridate.tidyverse.org/) package will really make your life a whole lot easier. 
 
-In our toy dataset while the dates are all in YYYYMMDD format (and those in your dataset may not be) the separators are different. Using `as.Date()` won't work for the second and third dates.
+In our toy dataset while the dates are all in YYYYMMDD format (and those in your dataset may not be) the separators are different. Using `as.Date()` won't work for the second and third dates. 
 
-```{r asDate}
-as.Date(df$e)
+```{r asDate, eval=FALSE}
+as.Date(df$d)
 ```
 
 However, this problem is easily handled by `lubridate::as_date`
 
 ```{r as_date}
 library(lubridate)
-df$e <- as_date(df$e)
+df$e <- lubridate::as_date(df$d)
 df
 ```
 
@@ -256,7 +256,7 @@ install.packages("janitor")
 For this we need an excel worksheet with noisy names. For R coding Blue Peter fans..."Here is one we prepared earlier".
 
 ```{r noisy_cols}
-noisycols <- read_excel("/Users/pauloldham17inch/Desktop/noisy_df.xlsx")
+noisycols <- read_excel("/Users/pauloldham17inch/Desktop/open_source_master/blog/content/post/noisydf.xlsx")
 ```
 
 ```{r show_noisy, echo=FALSE}

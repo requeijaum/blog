@@ -4,7 +4,7 @@ author: Paul Oldham
 date: '2018-04-03'
 draft: true
 slug: geocoding-in-r-with-the-placement-package
-description: "Geocoding 5000 organisation names in R with the placement package and Google API"
+description: "Geocoding 5000 organisation names in R with the placement and ggmap packages and Google API"
 categories:
   - R
 tags:
@@ -16,18 +16,20 @@ tags:
 knitr::opts_chunk$set(cache=TRUE, tidy=TRUE, out.width = "800px", fig.align = "center", echo=TRUE, warning=FALSE, message=FALSE)
 options(width = 80)
 ```
-In this post we will look at geocoding using the Google Maps API and the `placement` package in R. We will work with some raw data from the Clarivate Analytics `Web of Science` (formerly Thomson Reuters) database of scientific literature. Many universities have access to Web of Science and it is an important tool in fields such as bibliometrics/scientometrics. But geocododed data is relatively new. There are important exceptions to this[10.1007/s11192-017-2463-2]. In the field of patent analytics geocoding is also relatively new with the USPTO patentsview service leading the way and the economists at WIPO publishing a REPORT that INCLUDED geocoding. 
+In this post we will look at geocoding using the Google Maps API and the `placement` and `ggmap` packages in R. We will work with some raw data from Clarivate Analytics `Web of Science` (formerly Thomson Reuters) database of scientific literature. Many universities have access to Web of Science and it is an important tool in fields such as bibliometrics/scientometrics. <!---But geocododed data is relatively new. There are important exceptions to this[10.1007/s11192-017-2463-2]. In the field of patent analytics geocoding is also relatively new with the USPTO patentsview service leading the way and the economists at WIPO publishing a REPORT that INCLUDED geocoding. ADD REFS AFTER LOOKUP--->
 
 In this article I want to walk through how to carry out geocoding and the issues we encounter in the process. 
 
-What we are attempting to do is to obtain the addresses and coordinates from the author affiliation field in Web of Science. Our dataset is from a set of queries for scientific literature for South East Asia (ASEAN) countries that involve marine organisms. We have a table with 5,207 author affiliation details containing the names of organisations, the city and the country. This data is not clean and contains multiple minor variations of the same organisation name. The data also contains variations on geographic locations such as references to a district within a city rather than the name of the city itself. 
+What we are attempting to do is to obtain the addresses and coordinates from the author affiliations field in Web of Science. Our dataset is from a set of queries for scientific literature for South East Asia (ASEAN) countries that involve marine organisms. We have a table with 5,207 author affiliation details containing the names of organisations, the city and the country. This data is not clean and contains multiple minor variations of the same organisation name. The data also contains variations on geographic locations such as references to a district within a city rather than the name of the city itself. To follow the walk through you can download the data from Github [here](INSERT). It simply contains the author affiliation name and a count of the number of records. 
 
-One of the major issues with Web of Science data is that the names of organisations are abbreviated/stemmed (so that University becomes Univ, Institute becomes Inst and so on). This is likely to make the geocoding process less accurate. However, it presents a reasonable test of how good the Google Maps API is at recognising organisation names when accompanied by city and country information. At the same time, rather than cleaning the data in advance, we want to explore whether obtaining the geocoded information, notably the street address and coordinates, can assist with name cleaning. That is, can geocoding help us to identify cases where organisations have very similar names and addresses? If so we can probably safely assume they are the same organisation. This remains to be seen. 
+One of the major issues with Web of Science data is that the names of organisations are abbreviated/stemmed (so that University becomes Univ, Institute becomes Inst and so on and so on). This makes the geocoding process less accurate. However, it presents a reasonable test of how good the Google Maps API is at recognising organisation names when accompanied by city and country information. 
 
+One of the big issues when working with the scientific literature or patent data is name cleaning. Normally I would do this before geocoding using match criteria in a tool such as Vantage Point. But in a future post I want to explore whether obtaining the geocoded information, notably the street address and coordinates, can assist with name cleaning. That is, can geocoding help us to identify cases where organisations have very similar names and addresses? If so we can probably safely assume they are the same organisation. This remains to be seen. 
 To get started we need to install and then load the placement package and the tidyverse set of packages (for dplyr, tidyr).
 
 ```{r install_tidyverse, eval=FALSE}
-installed.packages("placement")
+install.packages("placement")
+install.packages("ggmap")
 install.packages("tidyverse")
 ```
 
@@ -36,13 +38,57 @@ Let's load the libraries.
 ```{r load_tidyverse, eval=TRUE}
 library(tidyverse)
 library(placement)
+library(ggmap)
 ```
 
-To use the Google Maps API with placement you will need to sign in to a Google account and obtain a free API key from [here](https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key).  Note that the API queries are limited to a free 2000 per day. It costs 50 cents per 1000 queries after that. As this would not break the bank we simply signed up for a billing account to run the full list. It is a very good idea to keep your API key safe and not to put it it in a public place. For security you should also ensure that any return from the Google API that is made public `excludes` the `input_url` column because the encoded URL includes your private API key(!).
+### The placement and the ggmap packagees
+
+Both the `placement` and the `ggmap` packages provide functions for geocoding with the Google Maps API. The `placement` package by [Derek Darves](http://derekyves.github.io/) was create in 2016 and provides straightgforward access to the Google Maps API and additional tools for address cleaning, calculating distanced and driving times. As Derek explains [here](http://derekyves.github.io/2016/07/24/placement-pkg.html). I found it remarkably easy to use and it does not require any complicated code. The function we will be using is `geocode_url()` and `geocode_pull()`. That is basically it. 
+
+While `placement` focuses on geocoding, [`ggmap`](https://github.com/dkahle/ggmap) is a bigger package for mapping in R that includes geocoding. The package is a completent to ggplot2 and a Data Camp course by Charlotte Wickham [Working with Geospatial Data in R](https://www.datacamp.com/courses/working-with-geospatial-data-in-r) will get you started in no time with ggmap and other mapping packages. 
+
+We will use both, but which you use will depend on your purpose. I like the simplicity of placement and the absence of other exciting functions to play with helps me stay focused. On the other hand you may prefer ggmap for its wider functionality.
+
+### Getting set up with the Google Maps API
+
+To use the Google Maps API you will need to:
+
+1. Sign in to a google account
+2. Get a free API key from [here](https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key).
+
+This involves pressing the Get a Key button and creating a project (app) that you will query by following these steps. 
+
+```{r}
+knitr::include_graphics("images/getkey.png")
+```
+
+Create a new project and wait a short while while google spins it up. 
+
+```{r}
+knitr::include_graphics("images/createproject.png")
+```
+
+You will then see your API key. Note that you will see a link to restrict access to your API. It is a good idea to follow this and use your IP address to limit access to your IP address under Application restrictions. This will prevent other people from using the account if they discover the API key. 
+
+Take a copy of your API key (say into a text file in R Studio). What you do next is up to you. 
+
+a) save the text file somewhere sensible and copy it into your environment when needed. 
+b) Install the `usethis` package and then choose either:
+
+   - `usethis::edit_r_environ()` and enter something like GOOGLE_MAPS_KEY="yourkey" and then restart R. You will be able to access the key using `Sys.getenv(GOOGLE_MAPS_KEY)`
+   - `usethis::edit_r_profile()` and enter google_maps_key="your key", inside the existing options() chunk, save and restart R. Call the key with `getOption(google_maps_key)`
+   
+   For discussion on the above try reading the R startup section of [Efficient R Programming](https://csgillespie.github.io/efficientR/) or follow the [ROpenSci instructions](https://github.com/ropensci/rOpenSci/wiki/Use-of-API-keys). Your life will be much easier if you install `usethis` because it knows where these files are!
+
+###Using the API
+
+Note that API queries are limited to a free 2500 per day. It costs 50 cents per 1000 queries after that. As this would not break the bank we simply signed up for a billing account to run the full list. It is a very good idea to keep your API key safe and not to put it it in a public place. 
+
+Unfortunately the return from the Google API also invludes a column called `input_url`. I say unfortunate because the `input_url` includes your private API key! [CHECK AGAIN] So, if you are planning to make any of this data public you should exclude the `input_url` column. 
 
 ### The Source Data
 
-Next let's take a quick look at the source data. When we send the addresses to the Google Maps API it will return the original search terms in a column called locations. To make our life easier we renamed the original column in our source dataset. Note that the records field refers to the number of publications associated with and address and will allow us to size dots on any map we produce with the results. 
+Next let's take a quick look at the source data. When we send the addresses to the Google Maps API it will return the original search terms in a column called `locations`. To make our life easier we renamed the original column in our source dataset. Note that the records field refers to the number of publications associated with an address and will allow us to size dots on any map we produce with the results. 
 
 ```{r import_affiliation, echo=FALSE, eval=FALSE}
 affiliation_records <- read_csv("~/Desktop/open_source_master/marine_wipo/google_geocoding/affiliation_records.csv")
@@ -57,9 +103,10 @@ load("affiliation_records.rda")
 ```
 
 ```{r rename_now_dropped, echo=FALSE, eval=FALSE}
+library(tidyverse)
 affiliation_records <- affiliation_records %>%
-  rename(., locations = affiliation_organization_city_country)
-affiliation_records$id <- 1:nrow(affiliation_records)
+  rename(., locations = affiliation_organization_city_country) %>% 
+  mutate(id = 1:nrow(.))
 ```
 
 ```{r}
@@ -83,6 +130,22 @@ The `placement` package can do quite a lot more than we will attempt here. For e
 library(placement)
 coordaffil <- geocode_url(affiliation_records$locations, auth = "standard_api", privkey = "yourkeygoeshere", clean = TRUE, add_date = 'today', verbose = TRUE)
 ```
+
+```{r eval=FALSE}
+#library(ggmap)
+#coord_ggmap <- geocode(location = affiliation_records$locations[1:100], output = "all", source = "google", messaging = FALSE client = )
+# returns a list so try bind to rows in above
+
+# return is a list
+#coord_ggmap %>% bind_cols() %>% View()
+
+```
+
+```{r}
+
+```
+
+
 
 ```{r drop_inputurl, echo=FALSE, eval=FALSE}
 coordaffil <- coordaffil %>%

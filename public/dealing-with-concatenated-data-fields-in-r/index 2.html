@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.32.2" />
+
+
+<title>Escaping concatenated data hell in R...deconcatenate and trim - Paul Oldham&#39;s Blog</title>
+<meta property="og:title" content="Escaping concatenated data hell in R...deconcatenate and trim - Paul Oldham&#39;s Blog">
+<meta property="og:type" content="article">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://www.pauloldham.net/images/paul-oval.png" >
+  
+
+
+<meta property="description" content="Learning to love separate_rows and trim.">
+<meta property="og:description" content="Learning to love separate_rows and trim.">
+
+
+
+<meta name="twitter:creator" content="@junglepaul">
+<meta name="twitter:site" content="">
+
+
+  
+  <meta property="description" content="Learning to love separate_rows and trim.">
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/paul-oval.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="https://twitter.com/junglepaul">@junglepaul</a></li>
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/poldham">GitHub</a></li>
+    
+    <li><a href="https://github.com/wipo-analytics">WIPO Analytics</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">5 min read</span>
+    
+
+    <h1 class="article-title">Escaping concatenated data hell in R...deconcatenate and trim</h1>
+
+    
+    <span class="article-date">2018/03/10</span>
+    
+
+    <div class="article-content">
+      <p>In this post I want to talk about concateted fields… er what on earth are you talking about…. you know the spreadsheets or data frames with cells lumped together stuff, like this.</p>
+<p>INSERT concatenated</p>
+<pre class="r"><code>tibble::tibble(messy = c(&quot;this is not the messiest; only a man could be this messy&quot;, &quot;mess; in the world&quot;, &quot;it&#39;s just; a; tribute; honestly&quot;))</code></pre>
+<pre><code>## # A tibble: 3 x 1
+##   messy                                                   
+##   &lt;chr&gt;                                                   
+## 1 this is not the messiest; only a man could be this messy
+## 2 mess; in the world                                      
+## 3 it&#39;s just; a; tribute; honestly</code></pre>
+<p>Or, if we wanted something a bit more real world we could take this list of author of scientific articles from south east asia working on marine organisms</p>
+<p>INSERT er… ugh. The messiness of this matters if you like counting stuff properly because your data just won’t count properly. I mean this is just totally wrong.</p>
+<p>insert wrong count</p>
+<p>So, this post is about lumped to</p>
+<p>and the things that we need to think about along the way.</p>
+<p>I commonly work with text fields in data from the scientific and patent literature. That means that I run into the problem with columns containing multiple items separated by a semi colon or a comma that are linked to a key field (such as an article DOI or a patent publication number).</p>
+<p>In this short post, and in case anyone else is running into this problem, I want to quickly document a short function that will help to solve the problem.</p>
+<div id="the-problem" class="section level3">
+<h3>The problem</h3>
+<p>I am a big fan of the concept of Tidy Data as developed by Hadley Wickham in [this paper]. Tidy data basically means that each column of a data frame or table is for one category of data (such as authors) and each cell in the table contains one observation for that category (a single author name).</p>
+<p>Real world data does not behave like this and we can see this in some data I have been working with from <a href="">Clarivate Analytics</a> <em>Web of Science</em> involving marine species for South East Asia.</p>
+<p>We can see in this code that I have added the optional <code>readr</code> <code>trimws</code> argument. This is not the default when importing from the RStudio menu but can help you to avoid problems.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────</code></pre>
+<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+## ✔ tidyr   0.8.0     ✔ stringr 1.3.1
+## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>wos_asean_marine &lt;- read_csv(&quot;~/Desktop/open_source_master/asean_report/data/wos_asean_marine_6659.csv&quot;, trim_ws = TRUE)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   times_cited = col_integer(),
+##   number_of_authors = col_integer(),
+##   publication_year = col_integer(),
+##   number_of_author_affiliations_name_only = col_integer()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<p>Let’s pick a couple of columns.</p>
+<pre class="r"><code>test &lt;- wos_asean_marine %&gt;% select(authors_fullname_useme_updated, isi_unique_article_identifier)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">authors_fullname_useme_updated</th>
+<th align="left">isi_unique_article_identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Dieu Tien Bui; Tien Dat Pham; Yoshino, Kunihiko</td>
+<td align="left">000399475800004</td>
+</tr>
+<tr class="even">
+<td align="left">Arias, Cova R; Bakenhaster, Micah D; Bullard, Stephen A; Dang, Binh T; Halanych, Kenneth M; Orelis-Ribeiro, Raphael</td>
+<td align="left">000398874800015</td>
+</tr>
+<tr class="odd">
+<td align="left">Atopkin, D M; Beloded, A Yu; Besprozvannykh, V V; Ermolenko, A V; Ngo, H D; Van Ha, N; Van Tang, N</td>
+<td align="left">000398794800008</td>
+</tr>
+<tr class="even">
+<td align="left">Dittrich, Carolin; Roedel, Mark-Oliver; Struck, Ulrich</td>
+<td align="left">000399737500006</td>
+</tr>
+<tr class="odd">
+<td align="left">Alfaro, Andrea C; Hilton, Zoe; King, Nick; Le, D Viet; Pook, Chris; Ragg, Norman L C</td>
+<td align="left">000396054700041</td>
+</tr>
+<tr class="even">
+<td align="left">Bui Huu Tai; Dan Thuy Hang; Hoang Le Tuan Anh; Hyun, Kim Seung; Kim, Sun Yeou; Kim, Young-A; Le Thi Huyen; Nguyen Van Dau; NGUYEN, Xuan Nhiem; PHAM, Van Cuong; Quang, Tran Hong; Subedi, Lalita; Van Kiem, Phan; Van Minh, Chau</td>
+<td align="left">000397550400005</td>
+</tr>
+<tr class="odd">
+<td align="left">Boyd, Claude E; Engle, Carole R; Hang Ngo Minh; Huynh Quoc Tinh; McNevin, Aaron; Paungkaew, Duangchai; Racine, Phoebe; Viriyatum, Rawee</td>
+<td align="left">000398564700004</td>
+</tr>
+<tr class="even">
+<td align="left">CUTTING, Simon Michael; HUYNH, Hong Anh; Le, P H; Nguyen, Anh H; Nguyen, Anh T V; Pham, Cuong K; Tran Thi Thanh Hien; Tuan-Nghia Phan; Van Doan, C</td>
+<td align="left">000398817000001</td>
+</tr>
+<tr class="odd">
+<td align="left">Chavatte, Jean-Marc; Landau, Irene; Okumura, C</td>
+<td align="left">000395176100034</td>
+</tr>
+<tr class="even">
+<td align="left">Cuong, Nguyen Xuan; Nguyen Thi Phuong Chi; Nguyen Van Thanh; Nguyen, Hai-Dang; NGUYEN, Hoai Nam; NINH, Thi Ngoc; Pham Thi Mai Huong; Thung, Do-Cong; Van Kiem, Phan; Van Minh, Chau</td>
+<td align="left">000395364000012</td>
+</tr>
+</tbody>
+</table>
+<p>We can see here that the author field contains concatenated authors separated by a semicolon linked to the record id.</p>
+<p>The first problem with this is that we can’t clean it or count it properly. The second problem is that if we export the separated data to a tool like Tableau, the id field that we may use to check our counts (in this case the isi_unique_article identifier) will not count properly for reasons that are less obvious ( and are because it is not reading them in properly).</p>
+<p>In dealing with the first problem the <code>tidyr</code> package and the <code>separate_rows</code> function comes to our rescue. The second function is base R <code>trimws</code>.</p>
+<pre class="r"><code>separate_trim &lt;- function(x, col = NULL, sep = NULL, id = NULL){
+  df &lt;- x %&gt;% tidyr::separate_rows(col, sep = &quot;;&quot;)
+  df[[col]] &lt;- trimws(df[[col]], which = &quot;both&quot;)
+  df[[id]] &lt;- trimws(df[[id]], which = &quot;both&quot;)
+  df
+}</code></pre>
+<p>This function takes the column in the dataset that we want to break into individual rows and then trims the possible white space at the front or the end of the name string.</p>
+<p>Let’s look at the difference that this makes to the counts of the number of authors</p>
+<pre class="r"><code>test %&gt;% separate_rows(., &quot;authors_fullname_useme_updated&quot;, sep = &quot;;&quot;) %&gt;% group_by(authors_fullname_useme_updated) %&gt;% tally() %&gt;% count()</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##      nn
+##   &lt;int&gt;
+## 1 18623</code></pre>
+<p>Let’s do the same thing with trimmed data.</p>
+<pre class="r"><code>test %&gt;%
+  separate_trim(., &quot;authors_fullname_useme_updated&quot;, sep = &quot;;&quot;, id = &quot;isi_unique_article_identifier&quot;) %&gt;%
+  group_by(authors_fullname_useme_updated) %&gt;%
+  tally() %&gt;% count()</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##      nn
+##   &lt;int&gt;
+## 1 17625</code></pre>
+<p>The difference is a spectacular 1000 names.</p>
+<p>The ability to propertly deconcatenate a column with cells that contain multiple observations is not wildly exciting. However,</p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113668064-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+</html>
+

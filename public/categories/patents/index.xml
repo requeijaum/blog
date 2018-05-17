@@ -7,18 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
-    <lastBuildDate>Fri, 09 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/patents/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Identifying the earliest patent priority number</title>
-      <link>/identifying-the-earliest-patent-priority-number/</link>
-      <pubDate>Fri, 09 Feb 2018 00:00:00 +0000</pubDate>
+      <title>Counting Patent First Filings the Tidy Way with R</title>
+      <link>/counting-patent-first-filings/</link>
+      <pubDate>Fri, 11 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/identifying-the-earliest-patent-priority-number/</guid>
-      <description>Introduction The challenge of multiple priority numbers A solution in R Using a grouping variable Reducing the data to the first filing    Introduction The international patent system under the 1883 Paris Convention establishes a “priority” system to identify the earliest filing of an invention. In cases where an invention is filed by different applicants the priority number and date allows for the identification of the priority applicant.</description>
+      <guid>/counting-patent-first-filings/</guid>
+      <description>This article provides an in depth introduction to counting patent first filings or priority counts. It is a work in progress chapter for the WIPO Patent Analytics Handbook focusing on advanced patent analytics and builds on the introductory WIPO Manual on Open Source Patent Analytics.
+Counting first filings is an important subject for patent statistics because the first filing of a patent application marks the date that is closest to investment in research and development leading to the invention.</description>
+    </item>
+    
+    <item>
+      <title>Creating an Infographic with infogram</title>
+      <link>/infographics/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/infographics/</guid>
+      <description>In this article we will use RStudio to prepare patent data for visualisation in an infographic using the online software tool infogram.
+Infographics are a popular way of presenting data in a way that is easy for a reader to understand without reading a long report. Infographics are well suited to presenting summaries of data with simple messages about key findings. A good infographic can encourage the audience to read a detailed report and is a tool for engagement with audiences during presentations of the findings of patent research.</description>
     </item>
     
     <item>

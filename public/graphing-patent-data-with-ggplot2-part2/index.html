@@ -205,8 +205,11 @@ library(ggthemes)</code></pre>
 <p>First we will add a column with a numeric value for each publication number in the dataset using <code>mutate</code>. <code>mutate</code> takes an argument applied to the values of one or more columns and adds a new column based on that argument. Here, as in Part 1 we simply add a new column called <code>n</code> that uses <code>sum()</code> to award each publication number the value of 1. We now have a numeric count column <code>n</code> from our character vectors.</p>
 <pre class="r"><code>pizza &lt;- mutate(pizza, n = sum(publication_number = 1))</code></pre>
 <p>Next we will rename the columns to make life easier using <code>rename()</code>. The code has been indented to make it easier to read. To run this code, select the code and press Run in R or press command and enter.</p>
-<pre class="r"><code>pizza &lt;- rename(pizza, pubcountry = publication_country_name, pubcode = publication_country_code, 
-    pubyear = publication_year)
+<pre class="r"><code>pizza &lt;- rename(pizza, 
+                pubcountry = publication_country_name,
+                pubcode = publication_country_code, 
+                pubyear = publication_year
+                )
 pizza</code></pre>
 <pre><code>## # A tibble: 9,996 x 32
 ##    applicants_cleaned    applicants_clean… applicants_orga… applicants_original
@@ -251,7 +254,9 @@ pizza</code></pre>
 <p>If we inspect <code>pt</code> we will see that we now have totals for each year. We might want to add a rank or percentage column to that for later use. There are a variety of ways of going about this. However, staying with <code>dplyr</code>, behind the scenes <code>count</code> function has grouped the data for us (see <code>?count</code>). To understand this use <code>str(pt)</code> in the console to view the data. This will reveal that we have a grouped data frame with attributes. To go further we will ungroup the table first. [Note that ungrouping is not normally necessary but is used here because of an unexpected problem calculating a percentage on a grouped table using <code>sum(n)</code> in <code>dplyr</code>].</p>
 <pre class="r"><code>pt &lt;- ungroup(pt)</code></pre>
 <p>As with filter we can pass multiple arguments to <code>mutate</code>. To demonstrate this we will add a column with a percentage score, then use <code>ntile</code> to split the data into 3 groups and then calculate the percent rank using <code>percent_rank(nn)</code></p>
-<pre class="r"><code>pt &lt;- mutate(pt, group = ntile(nn, 3), percent = nn/sum(nn) * 100, rank = percent_rank(nn))
+<pre class="r"><code>pt &lt;- mutate(pt, group = ntile(nn, 3),
+             percent = nn / sum(nn) * 100, 
+             rank = percent_rank(nn))
 pt</code></pre>
 <pre><code>## # A tibble: 43 x 5
 ##    pubyear    nn group percent   rank
@@ -274,8 +279,12 @@ pt</code></pre>
 <h3>Creating a Publication Country Table</h3>
 <p>We will follow the same procedure for the publication country table. However, in this case we will illustrate the use of pipes to simplify the process. We will use the most common pipe <code>%&gt;%</code>, which means “then”. This basically says, “this” then “that”. Select and run the code.</p>
 <!--- could probably use n() here. Note that if attempt to use n then it thinks it is the function.--->
-<pre class="r"><code>pc &lt;- count(p1, pubcountry, pubcode, wt = n) %&gt;% ungroup() %&gt;% mutate(group = ntile(nn, 
-    3), percent = nn/sum(nn) * 100, rank = percent_rank(nn)) %&gt;% arrange(desc(nn))
+<pre class="r"><code>pc &lt;- count(p1, pubcountry, pubcode, wt = n) %&gt;%
+    ungroup() %&gt;%
+    mutate(group = ntile(nn, 3),
+           percent = nn / sum(nn) * 100,
+           rank = percent_rank(nn)) %&gt;%
+    arrange(desc(nn)) 
 print(pc)</code></pre>
 <pre><code>## # A tibble: 16 x 6
 ##    pubcountry                   pubcode    nn group percent   rank
@@ -298,10 +307,12 @@ print(pc)</code></pre>
 ## 16 Singapore                    SG         2.     1  0.0223 0.</code></pre>
 <p>While we will not focus on using pipes in this article, they simplify the writing of code in R and make it clearer. The above code is identical to the code below. However, note that in the code below we have to keep overwriting each time we add an element. Also note that in the code above we only mention our reference table, p1, once at the beginning whereas in the version without pipes or chaining, we have to mention it as the first argument of each function.</p>
 <pre class="r"><code>pc &lt;- count(p1, pubcountry, pubcode, wt = n)
-pc &lt;- ungroup(pc)
-pc &lt;- mutate(pc, group = ntile(nn, 3), percent = nn/sum(nn) * 100, rank = percent_rank(nn))
-pc &lt;- arrange(pc, desc(nn))
-pc</code></pre>
+   pc &lt;- ungroup(pc)
+   pc &lt;- mutate(pc, group = ntile(nn, 3), 
+                percent = nn / sum(nn) * 100, 
+                rank = percent_rank(nn))
+   pc &lt;- arrange(pc, desc(nn))
+   pc</code></pre>
 <pre><code>## # A tibble: 16 x 6
 ##    pubcountry                   pubcode    nn group percent   rank
 ##    &lt;chr&gt;                        &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;
@@ -347,7 +358,7 @@ pcy</code></pre>
 <p>We now have a table that sums up the values by country and year. However, we are now presented with a conundrum. We have lost our groups and ranks. We cannot simply repeat what we did before (e.g. ntile) because the data is now split by year and it will not assign correctly. In addition, using other functions is made difficult by the fact our columns are character columns.</p>
 <p>One solution to this conundrum is to join the <code>pcy</code> and the <code>pc</code> tables together using the <code>join</code> functions in <code>dplyr</code>. We will start by creating a temporary table that we will call <code>df</code> and use <code>select</code> to drop the columns we don’t want, then we will create a new <code>pcy</code> using <code>left_join</code> from <code>dplyr</code> (see <code>join</code>).</p>
 <pre class="r"><code>df &lt;- select(pc, pubcode, group)
-pcy &lt;- left_join(pcy, df)</code></pre>
+  pcy &lt;- left_join(pcy, df)</code></pre>
 <p>We now have a publication country by year table where groups are assigned as in the previous table. Note that for a join to be made the table must possess one or more shared columns that serve as a key for the join (in this case the shared key is <code>pubcode</code>). It can be a very good idea to retain a field to use as a shared key where you expect to be joining data at a later stage. Also note that this is one solution, it is not necessarily the best or most efficient solution.</p>
 <p>We could also break our publication countries into separate tables using to select only those rows in a group we want. Here we create three tables based on the groups assigned to them where they match the group number using ==.</p>
 <pre class="r"><code>main &lt;- filter(pcy, group == 3)
@@ -406,25 +417,31 @@ low &lt;- filter(pcy, group == 1)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig3_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig3_gplot2-1.png)--->
 <p>However, now we would like to have a line and a scatterplot.</p>
-<pre class="r"><code>l + geom_point() + geom_line()</code></pre>
+<pre class="r"><code>l + geom_point() + 
+  geom_line()</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig4_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig4_gplot2-1.png)--->
 <p>This will then draw a line through our scatterplot points. For the sake of illustration we could add another geom to our list to convert to an area graph.</p>
-<pre class="r"><code>l + geom_point() + geom_line() + geom_area()</code></pre>
+<pre class="r"><code>l + geom_point() + 
+  geom_line() + 
+  geom_area()</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig5_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig5_gplot2-1.png)--->
 <p>There is clearly not much point in using this combination because the area geom obliterates the other geoms. But, it illustrates that we can play around with adding and removing geometric objects without going back and changing our base object. We are simply adding and removing layers specifying the geometric object(s) we want to see in the plot.</p>
 <p>For readers following this article from the previous Tableau Public article note that our area graph is the same as in panel 1 of the Tableau Public version <a href="https://public.tableau.com/views/pizzapatents/Overview?:embed=y&amp;:display_count=yes&amp;:showTabs=y">here</a>. To reproduce that in R we will start using themes from the ggthemes package. We will start by creating a base object with no fill specified in <code>l1</code>.</p>
-<pre class="r"><code>l1 &lt;- ggplot(pt, aes(pubyear, nn, weight = nn, fill = &quot;&quot;))</code></pre>
+<pre class="r"><code>l1 &lt;- ggplot(pt, aes(pubyear, nn, weight = nn, fill=&quot;&quot;))</code></pre>
 <p>We now add layers including the theme. In this case we have chosen <code>theme_igray</code> and specified the font as Helvetica, then <code>scale_fill_tableau</code> specifying the “tableau20” palette. Because something for <code>fill</code> has to be specified in the base object we end up with a legend we don’t need. To remove that when applying the theme we add a + <code>theme(legend.position=&quot;none&quot;)</code> to drop the legend.</p>
-<pre class="r"><code>l2 &lt;- l1 + geom_area() + theme_igray(base_family = &quot;Helvetica&quot;) + scale_fill_tableau(&quot;tableau20&quot;) + 
-    theme(legend.position = &quot;none&quot;)
+<pre class="r"><code>l2 &lt;- l1+ geom_area() +
+  theme_igray(base_family = &quot;Helvetica&quot;) +
+  scale_fill_tableau(&quot;tableau20&quot;) +
+  theme(legend.position=&quot;none&quot;)
 l2</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig6_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig6_gplot2-1.png)--->
 <p>That is very close to the filled graph in our <a href="https://public.tableau.com/views/pizzapatents/Overview?:embed=y&amp;:display_count=yes&amp;:showTabs=y">Tableau Public workbook</a>. A range of themes are available as part of ggthemes the package and are well worth exploring.</p>
 <p>For illustration, we could add information that augments our understanding of the data. First, we could add a line. Second, we could add a rug to the plot. A rug adds a line for each of the observations in the data.</p>
-<pre class="r"><code>l2 + geom_line() + geom_rug()</code></pre>
+<pre class="r"><code>l2 + geom_line() +
+  geom_rug()</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig7_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig7_gplot2-1.png)--->
 <p>What has happened here is that the addition of geom_rug has added a line to the left and the bottom for each of the observations. Thus, on the x axis, each year gets a tick. On the y axis each observation (value) in the data gains a tick.</p>
@@ -441,8 +458,10 @@ l2</code></pre>
 <li>We add a second <code>geom_line()</code> and then specify the data that we want to use and its aesthetic mappings inside the function. We will stay with the tableau theme in <code>ggthemes</code> and adapt this for a line graph using <code>colour</code> rather than <code>fill</code>.</li>
 </ol>
 <p>We will place that in an object called <code>co</code> for combined.</p>
-<pre class="r"><code>co &lt;- ggplot(pt, aes(pubyear, nn, weight = nn)) + geom_line() + geom_line(data = pcy, 
-    aes(pubyear, nn, weight = nn, colour = pubcode)) + theme_igray() + scale_color_tableau(palette = &quot;tableau20&quot;)
+<pre class="r"><code>co &lt;- ggplot(pt, aes(pubyear, nn, weight = nn)) +
+  geom_line() +
+  geom_line(data = pcy, aes(pubyear, nn, weight = nn, colour = pubcode)) +
+  theme_igray() + scale_color_tableau(palette = &quot;tableau20&quot;)
 co</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig9_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig9_gplot2-1.png)--->
@@ -470,8 +489,10 @@ co</code></pre>
 <div id="adding-labels" class="section level3">
 <h3>Adding Labels</h3>
 <p>To add labels use the function <code>labs()</code>. Note that the title= , x = and y = must be specified if you want to include labels. Otherwise R will not know what to do with the information.</p>
-<pre class="r"><code>co + geom_smooth(se = FALSE) + labs(title = &quot;Patentscope Pizza Patents&quot;, x = &quot;Publication Year&quot;, 
-    y = &quot;Publication Count&quot;)</code></pre>
+<pre class="r"><code>co + geom_smooth(se = FALSE) + 
+  labs(title = &quot;Patentscope Pizza Patents&quot;,
+          x = &quot;Publication Year&quot;,
+          y = &quot;Publication Count&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig12_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <div class="figure">
 <img src="%7B%7B%20site.baseurl%20%7D%7D/images/fggplot2/fig12_gplot2-1.png" alt="_config.yml" />
@@ -493,17 +514,22 @@ co</code></pre>
 <p>￼Again first we set the data and aesthetic mappings, specifying the publication country code as the fill (fill with colour) and color as pubcode.</p>
 <pre class="r"><code>ct &lt;- ggplot(pc, aes(pubcode, weight = nn, fill = pubcode))</code></pre>
 <p>Next we set the geom, in this case for <code>geom_bar()</code>. Because the x axis will have country code labels we will remove the legend using <code>guides(fill=FALSE)</code>. Note that the legend arises from <code>fill=pubcode</code> in the base object. Alternative ways of removing a legend include <code>scale_fill_discrete(guide = FALSE)</code> or <code>theme(legend.position=&quot;none&quot;)</code>.</p>
-<pre class="r"><code>ct + geom_bar() + guides(fill = FALSE)</code></pre>
+<pre class="r"><code>ct + geom_bar() + guides(fill=FALSE)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig13_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig13_gplot2-1.png)--->
 <p>Note here that if we changed <code>fill = pubcode</code> in <code>ct</code> to <code>colour = pubcode</code> then the countries would be outlined with colour. Try this, then select Enter at the end of the line to update the object.</p>
 <p>Following Edward Tufte we could also try a simpler approach. To do that we apply <code>theme_tufte()</code> from <code>ggthemes</code> and change the font to Helvetica, or something other than the default Serif in this theme, by specifying the <code>base_family</code>.</p>
-<pre class="r"><code>ct1 &lt;- ct + geom_bar() + theme_tufte(base_family = &quot;Helvetica&quot;) + guides(fill = FALSE)
+<pre class="r"><code>ct1 &lt;- ct + geom_bar() +
+  theme_tufte(base_family = &quot;Helvetica&quot;) +
+  guides(fill=FALSE)
 ct1</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig14_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig14_gplot2-1.png)--->
 <p>This is a nice simple example of removing clutter to focus in on what matters: presenting the data. We can also apply the tableau theme for consistency with our trends plots. In this case we will use <code>theme(legend.position=&quot;none&quot;)</code> to turn off the legend.</p>
-<pre class="r"><code>ct2 &lt;- ct + geom_bar() + theme_igray() + scale_color_tableau(&quot;tableau20&quot;) + theme(legend.position = &quot;none&quot;)
+<pre class="r"><code>ct2 &lt;- ct + geom_bar() +
+  theme_igray() +
+  scale_color_tableau(&quot;tableau20&quot;) +
+  theme(legend.position=&quot;none&quot;)
 ct2</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig15_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig15_gplot2-1.png)--->
@@ -512,7 +538,7 @@ ct2</code></pre>
 <div id="adding-labels-to-columns" class="section level3">
 <h3>Adding labels to columns</h3>
 <p>We can also add the values to our bars for our new object . We can achieve this using <code>geom_text</code>. In this case we needed to specify the y axis again inside <code>geom_text</code>. <code>vjust</code> specifies the vertical justification with the horizontal being <code>hjust</code>. In this case we have also specified the font size in <code>geom_text()</code> as 12.</p>
-<pre class="r"><code>ct2 + geom_text(aes(y = nn, label = nn, size = 12), vjust = -0.2)</code></pre>
+<pre class="r"><code>ct2 + geom_text(aes(y = nn, label = nn, size = 12), vjust= -0.2)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig16_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig16_gplot2-1.png)--->
 <p>￼If we wanted to make this more closely resemble the country count chart from our earlier Tableau workbook (a stacked horizontal bar chart) we would need to swap around the axes. To do that we add <code>coord_flip()</code> to flip around x and y and then we adjust the labelling to use <code>hjust</code> for horizontal justification rather than <code>vjust</code>.</p>
@@ -521,10 +547,14 @@ ct2</code></pre>
 </div>
 <div id="a-ranked-bar-chart" class="section level3">
 <h3>A Ranked Bar Chart</h3>
-<pre class="r"><code>ctr &lt;- ggplot(pc, aes(x = reorder(pubcode, nn), y = nn, fill = pubcode)) + geom_bar(stat = &quot;identity&quot;) + 
-    coord_flip() + geom_text(aes(y = nn, label = nn, size = 12), hjust = -0.1) + 
-    theme_igray() + scale_color_tableau(&quot;tableau20&quot;) + theme(legend.position = &quot;none&quot;) + 
-    labs(title = &quot;Patentscope Pizza Patents&quot;, x = &quot;Publication Country&quot;, y = &quot;Publication Count&quot;)
+<pre class="r"><code>ctr &lt;- ggplot(pc, aes(x = reorder(pubcode, nn), y = nn, fill = pubcode)) + 
+  geom_bar(stat = &quot;identity&quot;) +
+  coord_flip() +
+  geom_text(aes(y = nn, label = nn, size = 12), hjust = -0.1) +
+  theme_igray() +
+  scale_color_tableau(&quot;tableau20&quot;) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(title=&quot;Patentscope Pizza Patents&quot;, x = &quot;Publication Country&quot;, y = &quot;Publication Count&quot;)
 ctr</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig17_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig17_gplot2-1.png)--->
@@ -533,10 +563,14 @@ ctr</code></pre>
 <div id="a-dot-plot" class="section level3">
 <h3>A Dot Plot</h3>
 <p>For a simple dot plot of the same data we can make three changes. 1. We change fill to colour in the base object. 2. We change <code>geom_bar</code> to <code>geom_point</code> and specify the size of the dots. 3. For the labelled values we change hjust.</p>
-<pre class="r"><code>ctd &lt;- ggplot(pc, aes(x = reorder(pubcode, nn), y = nn, colour = pubcode)) + geom_point(size = 3) + 
-    coord_flip() + geom_text(aes(y = nn, label = nn, size = 12), hjust = -0.4) + 
-    theme_igray() + scale_color_tableau(&quot;tableau20&quot;) + theme(legend.position = &quot;none&quot;) + 
-    labs(title = &quot;Patentscope Pizza Patents&quot;, x = &quot;Publication Country&quot;, y = &quot;Publication Count&quot;)
+<pre class="r"><code>ctd &lt;- ggplot(pc, aes(x = reorder(pubcode, nn), y = nn, colour = pubcode)) + 
+  geom_point(size = 3) +
+  coord_flip() +
+  geom_text(aes(y = nn, label = nn, size = 12), hjust = -0.4) +
+  theme_igray() +
+  scale_color_tableau(&quot;tableau20&quot;) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(title=&quot;Patentscope Pizza Patents&quot;, x = &quot;Publication Country&quot;, y = &quot;Publication Count&quot;)
 ctd</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig18_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig18_gplot2-1.png)--->
@@ -545,10 +579,13 @@ ctd</code></pre>
 <div id="a-balloon-plot" class="section level3">
 <h3>A Balloon Plot</h3>
 <p>Another way or representing the data would be as a set of balloons sized on the number of records.</p>
-<pre class="r"><code>ctb &lt;- ggplot(pc, aes(x = pubcode, y = nn, size = nn)) + geom_point(shape = 21, colour = &quot;black&quot;, 
-    fill = &quot;cornsilk&quot;) + scale_size_area(max_size = 15) + theme_igray() + scale_color_tableau(&quot;tableau20&quot;) + 
-    theme(legend.position = &quot;none&quot;) + labs(title = &quot;Patentscope Pizza Patents&quot;, x = &quot;Publication Country&quot;, 
-    y = &quot;Publication Count&quot;)
+<pre class="r"><code>ctb &lt;- ggplot(pc, aes(x = pubcode, y = nn, size = nn)) + 
+  geom_point(shape = 21, colour = &quot;black&quot;, fill = &quot;cornsilk&quot;) +
+  scale_size_area(max_size = 15) + 
+  theme_igray() +
+  scale_color_tableau(&quot;tableau20&quot;) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(title=&quot;Patentscope Pizza Patents&quot;, x = &quot;Publication Country&quot;, y = &quot;Publication Count&quot;)
 ctb</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig19_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig19_gplot2-1.png)--->
@@ -557,7 +594,8 @@ ctb</code></pre>
 <div id="a-stacked-bar-chart" class="section level3">
 <h3>A Stacked Bar Chart</h3>
 <p>To create a stacked bar chart using our <code>pcy</code> data we can use the following. We will however rapidly run into some of the aesthetic problems that are common with stacked bar charts. In reading this section, consider whether a stacked bar chart is really the best way to represent the data.</p>
-<pre class="r"><code>sb &lt;- ggplot(pcy, aes(pubyear, weight = nn, fill = pubcode)) + geom_bar(binwidth = 1)
+<pre class="r"><code>sb &lt;- ggplot(pcy, aes(pubyear, weight = nn, fill = pubcode)) +
+  geom_bar(binwidth = 1)
 sb</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig20_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig20_gplot2-1.png)--->
@@ -577,19 +615,24 @@ sb</code></pre>
 <p>The addition of the colour outline is an improvement but the order of the stacked bars is not correct. We can attempt to adjust for this with a quick use of arrange</p>
 <pre class="r"><code>main &lt;- arrange(main, pubcode)</code></pre>
 <p>A definite improvement but not earth shattering and we now have a filled legend. We can try changing the palette.</p>
-<pre class="r"><code>sm + geom_bar(binwidth = 1, colour = &quot;black&quot;) + theme_igray() + scale_fill_tableau(&quot;tableau20&quot;)</code></pre>
+<pre class="r"><code>sm + geom_bar(binwidth=1, colour=&quot;black&quot;) +
+  theme_igray() +
+  scale_fill_tableau(&quot;tableau20&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig22_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig22_gplot2-1.png)--->
 <p>We can also start to work on the line colour and the line weight in the function to try to clarify the plot.</p>
-<pre class="r"><code>sm + geom_bar(binwidth = 1, colour = &quot;gray&quot;, size = 0.25) + theme_igray(base_family = &quot;Helvetica&quot;) + 
-    scale_fill_tableau(&quot;tableau20&quot;)</code></pre>
+<pre class="r"><code>sm + geom_bar(binwidth = 1, colour = &quot;gray&quot;, size = .25) +
+  theme_igray(base_family = &quot;Helvetica&quot;) +
+  scale_fill_tableau(&quot;tableau20&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig23_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig23_gplot2-1.png)--->
 <p>That is an improvement of sorts. We could then do the same for the other tables while noting that a means will be needed to ensure that different colours are used on the countries across the summary plots.</p>
 <p>As this suggests stacked bar charts present communication difficulties. That is they take quite a lot of work to get right and the ultimate result may still be difficult for a reader to interpret.</p>
 <p>We could try this as a stacked area graph as follows.</p>
-<pre class="r"><code>sm &lt;- ggplot(main, aes(pubyear, y = nn, fill = pubcode, order = pubcode)) + geom_area() + 
-    theme_igray(base_family = &quot;Helvetica&quot;) + scale_fill_tableau(&quot;tableau20&quot;)
+<pre class="r"><code>sm &lt;- ggplot(main, aes(pubyear, y = nn, fill = pubcode, order = pubcode)) +
+   geom_area() +
+   theme_igray(base_family = &quot;Helvetica&quot;) +
+   scale_fill_tableau(&quot;tableau20&quot;)
 sm</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig24_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig24_gplot2-1.png)--->
@@ -599,8 +642,11 @@ sm</code></pre>
 <h3>Faceting</h3>
 <p>One of the problems we commonly encounter in patent analysis is that data is compressed by dominant players, whether these be countries, applicants or technology areas. One important approach to addressing this problem is to break the data out into multiple individual plots by faceting that data. The term faceting in ggplot is perhaps more familiar as the creation of trellis graphs.</p>
 <p>To facet our publication by country and year data from the graph above we will start by creating an object with the information below. We will leave out labels. We will however add a control that excludes the legend because it will be redundant and get in the way of the large plot we will be creating.</p>
-<pre class="r"><code>f &lt;- ggplot(pcy, aes(x = pubyear, y = nn, color = pubcode)) + geom_point() + theme_igray(base_family = &quot;Helvetica&quot;) + 
-    scale_fill_tableau(&quot;tableau20&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
+<pre class="r"><code>f &lt;- ggplot(pcy, aes(x = pubyear, y = nn, color = pubcode)) +
+  geom_point() +
+  theme_igray(base_family = &quot;Helvetica&quot;) +
+  scale_fill_tableau(&quot;tableau20&quot;) +
+  theme(legend.position=&quot;none&quot;)</code></pre>
 <p>The key to creating the facet plot is selecting:</p>
 <ol style="list-style-type: lower-alpha">
 <li>the right faceting option (either <code>facet_grid</code> or <code>facet_wrap</code>)</li>
@@ -608,13 +654,15 @@ sm</code></pre>
 </ol>
 <p>For demonstration we will walk through some options:</p>
 <p>If we choose <code>facet_grid</code> we will see a line of plots. The main issue that arises here is adjusting the labelling on the x axis. We can do that by adding <code>scale_x_continuous</code> and specifying the breaks and values we want to see. We could also as needed change the labels by adding to the function like this <code>scale_x_continuous(breaks = c(1970, 2010), labels = c(label1, label2))</code>.</p>
-<pre class="r"><code>f + facet_grid(~pubcode, shrink = TRUE) + scale_x_continuous(breaks = c(1970, 2010))</code></pre>
+<pre class="r"><code>f + facet_grid(~pubcode, shrink = TRUE) +
+  scale_x_continuous(breaks = c(1970, 2010))</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig25_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig25_gplot2-1.png)--->
 <p>However, the above plot suffers from being too vertical and the labels remain squashed. In future it may be possible to adjust this (using <code>+ theme(panel.margin.x = unit(5, &quot;lines&quot;)</code> but at the time of writing this did not appear to be working) (see this <a href="http://stackoverflow.com/questions/12252750/alter-just-horizontal-spacing-between-facets-ggplot2">Stackoverflow discussion</a>.</p>
 <p>An alternative option for a clearer plot might be to use the groups that we created in the data table to facet on.</p>
-<pre class="r"><code>f + facet_grid(pubcode ~ group, shrink = TRUE) + theme(legend.position = &quot;none&quot;) + 
-    scale_x_continuous(breaks = c(1970, 2010))</code></pre>
+<pre class="r"><code>f + facet_grid(pubcode~group, shrink = TRUE) +
+  theme(legend.position = &quot;none&quot;) +
+  scale_x_continuous(breaks = c(1970, 2010))</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig26_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig26_gplot2-1.png)--->
 <p>That is an improvement, as we can see the three groups, but note that the countries are ordered alphabetically rather than by group.</p>
@@ -622,33 +670,40 @@ sm</code></pre>
 <div id="facet_wrap" class="section level3">
 <h3>facet_wrap</h3>
 <p>To create a more reasonable plot we can use <code>facet_wrap()</code>. Note that the position of the group has been reversed to <code>group~pubcode</code> to achieve this plot.</p>
-<pre class="r"><code>f + facet_wrap(group ~ pubcode) + theme(legend.position = &quot;none&quot;)</code></pre>
+<pre class="r"><code>f + facet_wrap(group~pubcode) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig27_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig27_gplot2-1.png)--->
 <p>What we now see is a facet plot that is ordered from group 1 to group 3. This is pretty good.</p>
 <p>While we would generally want to drop some of the smallest values, to improve this type of plot we might try freeing up the scales. In this case we focus on the y axis by specifying <code>free_y</code> with the alternative being <code>free_x</code>.</p>
-<pre class="r"><code>f + facet_wrap(group ~ pubcode, scales = &quot;free_y&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
+<pre class="r"><code>f + facet_wrap(group~pubcode, scales =&quot;free_y&quot;) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig28_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig28_gplot2-1.png)--->
 <p>This removes the compression and gives each individual plot its own scale. The default for facets is to show the highest values at the bottom right (the default of argument <code>as.table</code>). If we specify <code>as.table = FALSE</code> the facets will show the higher values (in group 3) first. This might improve the plot.</p>
-<pre class="r"><code>f + facet_wrap(group ~ pubcode, scales = &quot;free_y&quot;, as.table = FALSE) + theme(legend.position = &quot;none&quot;)</code></pre>
+<pre class="r"><code>f + facet_wrap(group~pubcode, scales =&quot;free_y&quot;, as.table = FALSE) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig29_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig29_gplot2-1.png)--->
 <p>Note that this still presents some problems as ideally the highest value (the US) would appear first and then read in descending order across from left to right. There appear to be some limitations to the controls possible in <code>facet_wrap</code> and also our data structure.</p>
 <p>We will revert to the ascending order but keep the free y axis. We could if we wished add a regression to show the trend by country by adding <code>geom_smooth()</code>. We will remove the standard error area by specifying <code>se = FALSE</code>.</p>
-<pre class="r"><code>f + facet_wrap(group ~ pubcode, scales = &quot;free_y&quot;, as.table = TRUE) + geom_smooth(se = FALSE) + 
-    theme(legend.position = &quot;none&quot;)</code></pre>
+<pre class="r"><code>f + facet_wrap(group~pubcode, scales =&quot;free_y&quot;, as.table = TRUE) +
+  geom_smooth(se = FALSE) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig30_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig30_gplot2-1.png)--->
 <p>In running this code we will receive a message for each plot informing us of the smoothing method that is being used.</p>
 <p>The issue we encounter here is that a number of countries in group 1 and group 2 have very sparse results with no corresponding meaningful trend to display. In practice we would drop group 1 entirely and focus on group 2 and 3. To conclude, let’s do that.</p>
-<pre class="r"><code>g &lt;- filter(pcy, group %in% c(2, 3))</code></pre>
+<pre class="r"><code>g &lt;- filter(pcy, group %in% c(2,3))</code></pre>
 <p>The <code>%in%</code> within filter basically says “extract rows falling into group 2 or 3 from within group”. Once again it is a simple <code>dplyr</code> solution and easy to remember.</p>
-<pre class="r"><code>g1 &lt;- ggplot(g, aes(x = pubyear, y = nn, color = pubcode)) + geom_point() + theme_igray(base_family = &quot;Helvetica&quot;) + 
-    scale_fill_tableau(&quot;tableau20&quot;)</code></pre>
+<pre class="r"><code>g1 &lt;- ggplot(g, aes(x = pubyear, y = nn, color = pubcode)) +
+  geom_point() +
+  theme_igray(base_family = &quot;Helvetica&quot;) +
+  scale_fill_tableau(&quot;tableau20&quot;)</code></pre>
 <p>We can now try again with our trend line using <code>geom_smooth</code>.</p>
-<pre class="r"><code>g1 + facet_wrap(group ~ pubcode, scales = &quot;free_y&quot;, as.table = TRUE) + geom_smooth(se = FALSE) + 
-    theme(legend.position = &quot;none&quot;)</code></pre>
+<pre class="r"><code>g1 + facet_wrap(group~pubcode, scales =&quot;free_y&quot;, as.table = TRUE) +
+  geom_smooth(se = FALSE) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig32_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig32_gplot2-1.png)--->
 <p>That is a considerable improvement and we will stop there. One limitation of facet wrap is that it appears that renaming the labels, to leave only the country codes, is not possible (although using labeller may provides solutions). It may also be the case that we would prefer to drop some of the other countries with low scores from group 2. We could do that by applying a filter on pubcode. We could also add some labels to the overall plot.</p>
@@ -669,7 +724,7 @@ sm</code></pre>
 <p>However, Tufte’s criticism has done relatively little to diminish the popularity of the pie chart and it seems, almost everyone knows what a pie chart is.</p>
 <p>Creating a pie chart in ggplot takes some thought. As is often the case when working with R we can find a detailed walk through in the wider user community. In this case we are following the code developed by the <a href="http://mathematicalcoffee.blogspot.co.uk/2014/06/ggpie-pie-graphs-in-ggplot2.html">Mathematical Coffee blog entitled ggpie: pie graphs in ggplot2</a>. For those familiar with R, Mathematical Coffee wraps this into a function called for generating pie charts. We will walk through the steps from the blog post and adapt it to our pizza data.</p>
 <p>The first step is to create an object as a stacked chart. In this case we attribute a single value to the x axis, specify the y axis as percent and then the fill as publication code. This creates a stacked bar chart.</p>
-<pre class="r"><code>o1 &lt;- ggplot(pc, aes(x = 1, y = percent, fill = pubcode)) + geom_bar(stat = &quot;identity&quot;)
+<pre class="r"><code>o1 &lt;- ggplot(pc, aes(x=1, y = percent, fill = pubcode)) + geom_bar(stat = &quot;identity&quot;)
 o1</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig33_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig33_gplot2-1.png)--->
@@ -677,20 +732,28 @@ o1</code></pre>
 <pre class="r"><code>y &lt;- o1 + coord_polar(theta = &quot;y&quot;)</code></pre>
 <p>If we now enter y in the console we will see a pie chart. The remaining steps involve further defining the aesthetics of the chart, tidying up and adding labels.</p>
 <p>The following adds black lines to define the pie segments. Because these lines are then reflected in the legend the argument overrides this by using colour = NA.</p>
-<pre class="r"><code>z &lt;- y + geom_bar(stat = &quot;identity&quot;, colour = &quot;black&quot;) + guides(fill = guide_legend(override.aes = list(colour = NA)))
+<pre class="r"><code>z &lt;- y + geom_bar(stat = &quot;identity&quot;, colour = &quot;black&quot;) +
+  guides(fill=guide_legend(override.aes=list(colour=NA)))
 z</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig34_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig34_gplot2-1.png)--->
 <p>Then remove the various tick marks</p>
-<pre class="r"><code>z &lt;- z + theme(axis.ticks = element_blank(), axis.title = element_blank(), axis.text.y = element_blank())
+<pre class="r"><code>z &lt;- z +
+    theme(axis.ticks=element_blank(),
+          axis.title=element_blank(),
+          axis.text.y=element_blank()
+          )
 z</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig35_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig35_gplot2-1.png)--->
 <p>We need to work out the position of the labels that we would like to see on the pie, and in particular the mid-point of each pie. This can be found as the cumulative sum <code>cumsum</code> of the variable we used for the slices. That is percent expressed as <code>pc$percent</code> to state the data frame and the column we want in the <code>percent</code> table.</p>
 <pre class="r"><code>y.breaks &lt;- cumsum(pc$percent) - pc$percent/2</code></pre>
 <p>If we print y.breaks to the console we will a list of values.</p>
-<pre class="r"><code>q &lt;- z + theme(axis.text.x = element_text(color = &quot;black&quot;)) + scale_y_continuous(breaks = y.breaks, 
-    labels = pc$pubcode)
+<pre class="r"><code>q &lt;- z +
+    theme(axis.text.x=element_text(color=&#39;black&#39;)) +
+    scale_y_continuous(
+        breaks=y.breaks,
+        labels=pc$pubcode)
 q</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig36_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig36_gplot2-1.png)--->
@@ -703,13 +766,17 @@ q</code></pre>
 <p>￼￼We will use a filtered version of the table that only contains group 3 results.</p>
 <pre class="r"><code>cx &lt;- filter(pc, group %in% 3)</code></pre>
 <p>We start the plot by creating a bar chart. Note that we are using the value of <code>n</code> here for the y axis. This could be changed to percent or another value as needed.</p>
-<pre class="r"><code>cx1 &lt;- ggplot(cx, aes(x = pubcode, y = nn, fill = pubcode)) + geom_bar(stat = &quot;identity&quot;)
+<pre class="r"><code>cx1 &lt;- ggplot(cx, aes(x = pubcode, y = nn, fill= pubcode)) +
+  geom_bar(stat=&quot;identity&quot;)
 cx1</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig37_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig37_gplot2-1.png)--->
 <p>We them add a <code>coord_polar</code> specifying theta in this case as x (the pubcode). The remainder of the code is thematic.</p>
-<pre class="r"><code>cx1 + coord_polar(theta = &quot;x&quot;) + theme_light() + theme(legend.position = &quot;none&quot;) + 
-    labs(x = &quot;Publication Country&quot;, y = &quot;Publication Count&quot;, title = &quot;Pizza Patent Publications by Country&quot;)</code></pre>
+<pre class="r"><code>cx1 + coord_polar(theta=&quot;x&quot;) +
+   theme_light() +
+   theme(legend.position=&quot;none&quot;) +
+   labs(x = &quot;Publication Country&quot;, y = &quot;Publication Count&quot;, 
+        title  = &quot;Pizza Patent Publications by Country&quot;)</code></pre>
 <p><img src="/post/2018-04-03-graphing-patent-data-with-ggplot2-part-2_files/figure-html/fig38_gplot2-1.png" width="800px" style="display: block; margin: auto;" /></p>
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig38_gplot2-1.png)--->
 <p>In the R Graphics Cookbook, Winston Chang adds three observations about coxcomb plots. The first is that for y variables the smallest value is mapped to the centre of the plot, rather than a data value of 0 being mapped to a radius of 0. Second, for a continuous x (or theta) the smallest and largest values are merged. Third, theta values of polar coordinates do not wrap around. As such changes would need to be made to the limits of the plot (see Chang 2013: 200-203 for discussion).</p>

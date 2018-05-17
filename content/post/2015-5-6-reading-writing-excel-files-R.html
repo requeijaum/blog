@@ -25,6 +25,8 @@ tags:
 <pre class="r"><code>install.packages(&quot;xlsx&quot;)</code></pre>
 <p>Load the library</p>
 <pre class="r"><code>library(xlsx)</code></pre>
+<pre><code>## Loading required package: rJava</code></pre>
+<pre><code>## Loading required package: xlsxjars</code></pre>
 <p>You can use your own local excel file but we will use the file <a href="https://drive.google.com/file/d/0B4piiKOCkRPDNWhrdGxXc0YwTk0/view?usp=sharing">wipotrends</a> in the <a href="https://drive.google.com/open?id=0B4piiKOCkRPDNWhrdGxXc0YwTk0&amp;authuser=0">patent dataset folder</a> for this example. Other test Excel datasets in the folder are <a href="https://drive.google.com/open?id=0B4piiKOCkRPDZGZ4dlJsVEN4TEk&amp;authuser=0">ewaste</a> and <a href="https://drive.google.com/open?id=0B4piiKOCkRPDMUVSaFJtdXlOX28&amp;authuser=0">solarcooking</a>. Download the file and save it to your computer. Then copy the local file path.</p>
 <div id="reading-a-local-file" class="section level2">
 <h2>Reading a local file</h2>
@@ -107,25 +109,25 @@ read_wipo &lt;- read_excel(&quot;/Users/pauloldham17inch/Desktop/WIPO_Training/t
 <p>When we read in this file and print it to the console we will notice something unusual.</p>
 <pre class="r"><code>read_wipo</code></pre>
 <pre><code>## # A tibble: 17 x 3
-##    `1995` `1047700`  X__1
-##     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
-##  1   1996   1088800   3.9
-##  2   1997   1163400   6.9
-##  3   1998   1214900   4.4
-##  4   1999   1269000   4.5
-##  5   2000   1377800   8.6
-##  6   2001   1456500   5.7
-##  7   2002   1443300  -0.9
-##  8   2003   1485800   2.9
-##  9   2004   1570100   5.7
-## 10   2005   1703600   8.5
-## 11   2006   1794300   5.3
-## 12   2007   1866000   4.0
-## 13   2008   1914800   2.6
-## 14   2009   1846800  -3.6
-## 15   2010   1987600   7.6
-## 16   2011   2149000   8.1
-## 17   2012   2347700   9.2</code></pre>
+##    `1995` `1047700`   X__1
+##     &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+##  1  1996.  1088800.  3.90 
+##  2  1997.  1163400.  6.90 
+##  3  1998.  1214900.  4.40 
+##  4  1999.  1269000.  4.50 
+##  5  2000.  1377800.  8.60 
+##  6  2001.  1456500.  5.70 
+##  7  2002.  1443300. -0.900
+##  8  2003.  1485800.  2.90 
+##  9  2004.  1570100.  5.70 
+## 10  2005.  1703600.  8.50 
+## 11  2006.  1794300.  5.30 
+## 12  2007.  1866000.  4.00 
+## 13  2008.  1914800.  2.60 
+## 14  2009.  1846800. -3.60 
+## 15  2010.  1987600.  7.60 
+## 16  2011.  2149000.  8.10 
+## 17  2012.  2347700.  9.20</code></pre>
 <p>That is while we have specified that <code>col_names = TRUE</code> and <code>skip = 5</code> the function has not returned the column names in the dataset. While this is a bit puzzling ( the package was released less than a month ago), it suggests that it is still a work in progress. Unless this is a glitch with our data then one option would be to specify <code>col_names = FALSE</code> and then rename the <code>X0   X1   X2</code> column names that are generated. readr is under active development and you can follow its progress <a href="%22https://github.com/hadley/readxl%22">here</a>.</p>
 <p>This is a useful reminder of one of the important principles of clean and tidy data. The first row should contain the column names.</p>
 <p>Bear in mind that readxl may struggle with reading dates correctly, but expect that to also change in the future.</p>

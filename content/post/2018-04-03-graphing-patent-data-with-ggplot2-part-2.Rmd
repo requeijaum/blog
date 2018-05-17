@@ -14,7 +14,7 @@ output:
 ---
 
 ```{r global_options, include=FALSE}
-knitr::opts_chunk$set(cache=TRUE, tidy=TRUE, out.width = "800px", fig.align = "center", echo=TRUE, warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(cache=TRUE, tidy=FALSE, out.width = "800px", fig.align = "center", echo=TRUE, warning=FALSE, message=FALSE)
 options(width = 80)
 ```
 
@@ -192,8 +192,7 @@ We will follow the same procedure for the publication country table. However, in
 <!--- could probably use n() here. Note that if attempt to use n then it thinks it is the function.--->
 
 ```{r }
-pc <-
-    count(p1, pubcountry, pubcode, wt = n) %>%
+pc <- count(p1, pubcountry, pubcode, wt = n) %>%
     ungroup() %>%
     mutate(group = ntile(nn, 3),
            percent = nn / sum(nn) * 100,
@@ -334,7 +333,8 @@ l + geom_point()
 However, now we would like to have a line and a scatterplot.
 
 ```{r fig4_gplot2, warning=FALSE}
-l + geom_point() + geom_line()
+l + geom_point() + 
+  geom_line()
 ```
 
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig4_gplot2-1.png)--->
@@ -342,7 +342,9 @@ l + geom_point() + geom_line()
 This will then draw a line through our scatterplot points. For the sake of illustration we could add another geom to our list to convert to an area graph.
 
 ```{r fig5_gplot2, warning=FALSE}
-l + geom_point() + geom_line() + geom_area()
+l + geom_point() + 
+  geom_line() + 
+  geom_area()
 ```
 
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig5_gplot2-1.png)--->
@@ -372,7 +374,8 @@ That is very close to the filled graph in our [Tableau Public workbook](https://
 For illustration, we could add information that augments our understanding of the data. First, we could add a line. Second, we could add a rug to the plot. A rug adds a line for each of the observations in the data.
 
 ```{r fig7_gplot2, warning=FALSE}
-l2 + geom_line() + geom_rug()
+l2 + geom_line() +
+  geom_rug()
 ```
 
 <!---![_config.yml]({{ site.baseurl }}/images/fggplot2/fig7_gplot2-1.png)--->

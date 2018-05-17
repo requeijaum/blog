@@ -121,7 +121,7 @@ The `dplyr` package provides a set of very handy functions for selecting, adding
 
 In this case we will start by using the `select()` function to limit the data to specific columns. We can do this using their names or their numeric position (best for large number of columns e.g. 1:31). In `dplyr`, unlike most R packages, existing character columns do not require `""`.
 
-```{r select}
+```{r select, message=FALSE}
 library(dplyr)
 pizza_number <- select(pizza, publication_number, publication_year)
 ```
@@ -380,10 +380,8 @@ The `tidyr` package contains three functions that are very useful when working w
 
 Here we will work with the `applicants_cleaned` field in the pizza dataset. This field contains concatenated names with a `;` as the separator. For example, on lines 1_9 there are single applicant names or NA values. However, on lines 10 and line 59 we see:
 
-```{r examplenames, eval=FALSE}
 Ehrno Flexible A/S; Stergaard, Ole
 Farrell Brian; Mcnulty John; Vishoot Lisa
-```
 
 The problem here is that when we are dealing with thousands of lines of applicant names we don't know how many names might be concatenated into each cell as a basis for separating the data into columns. Once we had split the columns (for example using Text to Columns in Excel) we would then need to work out how to gather the columns into rows. The `separate_rows()` function from `tidyr` makes light work of this problem. To use the function we name the dataset, the column we want to separate into rows and the separator (sep).
 
@@ -516,20 +514,20 @@ For ease of presentation in an infographic we will use the `ipc_class` field. Fo
 
 To generate the table we can use a generic function based on the code developed for dealing with the applicants data. We will call the function patent_count().
 
+<!--- updated to tidyeval in 2018. Note that the whitespace was not trimmed in the earlier version due to an oversight and counts will now be higher.. and correct... as a result. --->
+
 ```{r generic_function}
-patent_count <- function (data, col = "", count_col =  "", n_results = n_results, sep = "[^[:alnum:]]+") 
+patent_count <- function (data, col, count_col, sep, n_results)
 {
-  p_count <- dplyr::select_(data, col, count_col) %>%
-    tidyr::separate_rows_(col, sep = sep) %>% 
-    dplyr::mutate_(n = sum(count_col = 1)) %>% 
-    dplyr::select(2:3) 
-  p_count %>% dplyr::group_by_(col) %>%
-    dplyr::tally() %>%
-    dplyr::arrange(desc(nn)) %>%
+  p_count <- dplyr::select(data, !!col, !!count_col) %>%
+    tidyr::separate_rows(col, sep = sep) %>% 
+    dplyr::mutate(!!col := stringr::str_trim(.[[col]], side = "both")) %>% 
+    dplyr::mutate(n = sum(count_col = 1)) %>% 
+    dplyr::group_by(!!col := .[[col]]) %>% 
+    dplyr::tally(sort = TRUE) %>% 
     dplyr::rename(records = nn) %>% 
-    dplyr::ungroup() %>% 
     na.omit() %>% 
-    .[1:n_results, ]
+    head(n_results)
 }
 ```
 

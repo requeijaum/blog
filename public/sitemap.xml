@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/counting-patent-first-filings/</loc>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/useful-blogdown-tips/</loc>
     <lastmod>2018-04-07T00:00:00+00:00</lastmod>
   </url>
@@ -23,8 +28,8 @@
   </url>
   
   <url>
-    <loc>/identifying-the-earliest-patent-priority-number/</loc>
-    <lastmod>2018-02-09T00:00:00+00:00</lastmod>
+    <loc>/importing-excel-data-into-r-updated/</loc>
+    <lastmod>2018-02-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -45,6 +50,11 @@
   <url>
     <loc>/about/</loc>
     <lastmod>2017-12-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/infographics/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -158,13 +168,19 @@
   
   <url>
     <loc>/tags/clarivate-analytics/</loc>
-    <lastmod>2018-03-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/dashboards/</loc>
     <lastmod>2015-05-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/derwent-innovation/</loc>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -242,7 +258,7 @@
   
   <url>
     <loc>/tags/patent-analytics/</loc>
-    <lastmod>2018-02-09T00:00:00+00:00</lastmod>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -283,6 +299,12 @@
   </url>
   
   <url>
+    <loc>/tags/patent-statistics/</loc>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/patent-training-datasets/</loc>
     <lastmod>2015-08-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -290,7 +312,7 @@
   
   <url>
     <loc>/categories/patents/</loc>
-    <lastmod>2018-02-09T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -302,7 +324,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-04-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -320,19 +342,19 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-04-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-02-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2018-04-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

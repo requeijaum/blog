@@ -22,5 +22,15 @@
 Infographics are a popular way of presenting data in a way that is easy for a reader to understand without reading a long report. Infographics are well suited to presenting summaries of data with simple messages about key findings. A good infographic can encourage the audience to read a detailed report and is a tool for engagement with audiences during presentations of the findings of patent research.</description>
     </item>
     
+    <item>
+      <title>Creating an Infographic with infogram</title>
+      <link>/infographics/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/infographics/</guid>
+      <description>In this article we will use RStudio to prepare patent data for visualisation in an infographic using the online software tool infogram.
+Infographics are a popular way of presenting data in a way that is easy for a reader to understand without reading a long report. Infographics are well suited to presenting summaries of data with simple messages about key findings. A good infographic can encourage the audience to read a detailed report and is a tool for engagement with audiences during presentations of the findings of patent research.</description>
+    </item>
+    
   </channel>
 </rss>
