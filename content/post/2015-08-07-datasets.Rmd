@@ -2,7 +2,7 @@
 title: Patent Datasets
 author: Paul Oldham
 date: '2015-08-07'
-slug: patent-datasets-tutorial
+slug: Patent-Datasets
 categories:
   - Patents
 tags: [patent training datasets, patent datasets]

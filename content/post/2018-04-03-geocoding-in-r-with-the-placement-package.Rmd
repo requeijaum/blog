@@ -1,0 +1,624 @@
+---
+title: Geocoding in R with the Placement Package
+author: Paul Oldham
+date: '2018-04-03'
+draft: true
+slug: geocoding-in-r-with-the-placement-package
+description: "Geocoding 5000 organisation names in R with the placement and ggmap packages and Google API"
+categories:
+  - R
+tags:
+  - bibliometrics
+  - scientometrics
+  - geocoding
+---
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE, tidy=TRUE, out.width = "800px", fig.align = "center", echo=TRUE, warning=FALSE, message=FALSE)
+options(width = 80)
+```
+In this post we will look at geocoding using the Google Maps API and the `placement` and `ggmap` packages in R. We will work with some raw data from Clarivate Analytics `Web of Science` (formerly Thomson Reuters) database of scientific literature. Many universities have access to Web of Science and it is an important tool in fields such as bibliometrics/scientometrics. <!---But geocododed data is relatively new. There are important exceptions to this[10.1007/s11192-017-2463-2]. In the field of patent analytics geocoding is also relatively new with the USPTO patentsview service leading the way and the economists at WIPO publishing a REPORT that INCLUDED geocoding. ADD REFS AFTER LOOKUP--->
+
+In this article I want to walk through how to carry out geocoding and the issues we encounter in the process. 
+
+What we are attempting to do is to obtain the addresses and coordinates from the author affiliations field in Web of Science. Our dataset is from a set of queries for scientific literature for South East Asia (ASEAN) countries that involve marine organisms. We have a table with 5,207 author affiliation details containing the names of organisations, the city and the country. This data is not clean and contains multiple minor variations of the same organisation name. The data also contains variations on geographic locations such as references to a district within a city rather than the name of the city itself. To follow the walk through you can download the data from Github [here](INSERT). It simply contains the author affiliation name and a count of the number of records. 
+
+One of the major issues with Web of Science data is that the names of organisations are abbreviated/stemmed (so that University becomes Univ, Institute becomes Inst and so on and so on). This makes the geocoding process less accurate. However, it presents a reasonable test of how good the Google Maps API is at recognising organisation names when accompanied by city and country information. 
+
+One of the big issues when working with the scientific literature or patent data is name cleaning. Normally I would do this before geocoding using match criteria in a tool such as Vantage Point. But in a future post I want to explore whether obtaining the geocoded information, notably the street address and coordinates, can assist with name cleaning. That is, can geocoding help us to identify cases where organisations have very similar names and addresses? If so we can probably safely assume they are the same organisation. This remains to be seen. 
+To get started we need to install and then load the placement package and the tidyverse set of packages (for dplyr, tidyr).
+
+```{r install_tidyverse, eval=FALSE}
+install.packages("placement")
+install.packages("ggmap")
+install.packages("tidyverse")
+```
+
+Let's load the libraries.
+
+```{r load_tidyverse, eval=TRUE}
+library(tidyverse)
+library(placement)
+library(ggmap)
+```
+
+### The placement and the ggmap packagees
+
+Both the `placement` and the `ggmap` packages provide functions for geocoding with the Google Maps API. The `placement` package by [Derek Darves](http://derekyves.github.io/) was create in 2016 and provides straightgforward access to the Google Maps API and additional tools for address cleaning, calculating distanced and driving times. As Derek explains [here](http://derekyves.github.io/2016/07/24/placement-pkg.html). I found it remarkably easy to use and it does not require any complicated code. The function we will be using is `geocode_url()` and `geocode_pull()`. That is basically it. 
+
+While `placement` focuses on geocoding, [`ggmap`](https://github.com/dkahle/ggmap) is a bigger package for mapping in R that includes geocoding. The package is a completent to ggplot2 and a Data Camp course by Charlotte Wickham [Working with Geospatial Data in R](https://www.datacamp.com/courses/working-with-geospatial-data-in-r) will get you started in no time with ggmap and other mapping packages. 
+
+We will use both, but which you use will depend on your purpose. I like the simplicity of placement and the absence of other exciting functions to play with helps me stay focused. On the other hand you may prefer ggmap for its wider functionality.
+
+### Getting set up with the Google Maps API
+
+To use the Google Maps API you will need to:
+
+1. Sign in to a google account
+2. Get a free API key from [here](https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key).
+
+This involves pressing the Get a Key button and creating a project (app) that you will query by following these steps. 
+
+```{r}
+knitr::include_graphics("images/getkey.png")
+```
+
+Create a new project and wait a short while while google spins it up. 
+
+```{r}
+knitr::include_graphics("images/createproject.png")
+```
+
+You will then see your API key. Note that you will see a link to restrict access to your API. It is a good idea to follow this and use your IP address to limit access to your IP address under Application restrictions. This will prevent other people from using the account if they discover the API key. 
+
+Take a copy of your API key (say into a text file in R Studio). What you do next is up to you. 
+
+a) save the text file somewhere sensible and copy it into your environment when needed. 
+b) Install the `usethis` package and then choose either:
+
+   - `usethis::edit_r_environ()` and enter something like GOOGLE_MAPS_KEY="yourkey" and then restart R. You will be able to access the key using `Sys.getenv(GOOGLE_MAPS_KEY)`
+   - `usethis::edit_r_profile()` and enter google_maps_key="your key", inside the existing options() chunk, save and restart R. Call the key with `getOption(google_maps_key)`
+   
+   For discussion on the above try reading the R startup section of [Efficient R Programming](https://csgillespie.github.io/efficientR/) or follow the [ROpenSci instructions](https://github.com/ropensci/rOpenSci/wiki/Use-of-API-keys). Your life will be much easier if you install `usethis` because it knows where these files are!
+
+###Using the API
+
+Note that API queries are limited to a free 2500 per day. It costs 50 cents per 1000 queries after that. As this would not break the bank we simply signed up for a billing account to run the full list. It is a very good idea to keep your API key safe and not to put it it in a public place. 
+
+Unfortunately the return from the Google API also invludes a column called `input_url`. I say unfortunate because the `input_url` includes your private API key! [CHECK AGAIN] So, if you are planning to make any of this data public you should exclude the `input_url` column. 
+
+### The Source Data
+
+Next let's take a quick look at the source data. When we send the addresses to the Google Maps API it will return the original search terms in a column called `locations`. To make our life easier we renamed the original column in our source dataset. Note that the records field refers to the number of publications associated with an address and will allow us to size dots on any map we produce with the results. 
+
+```{r import_affiliation, echo=FALSE, eval=FALSE}
+affiliation_records <- read_csv("~/Desktop/open_source_master/marine_wipo/google_geocoding/affiliation_records.csv")
+```
+
+```{r save_affiliation, eval=FALSE, echo=FALSE}
+save(affiliation_records, file = "affiliation_records.rda")
+```
+
+```{r load_affiliation, eval=TRUE, echo=FALSE}
+load("affiliation_records.rda")
+```
+
+```{r rename_now_dropped, echo=FALSE, eval=FALSE}
+library(tidyverse)
+affiliation_records <- affiliation_records %>%
+  rename(., locations = affiliation_organization_city_country) %>% 
+  mutate(id = 1:nrow(.))
+```
+
+```{r}
+head(affiliation_records)
+```
+
+```{r save_affiliation1, eval=FALSE, echo=FALSE}
+save(affiliation_records, file = "affiliation_records.rda")
+```
+
+```{r load_affiliation1, eval=TRUE, echo=FALSE}
+load("affiliation_records.rda")
+```
+
+
+### Lookup the Records
+
+The `placement` package can do quite a lot more than we will attempt here. For example, you can attempt address cleaning or calculating driving distances with `placement`. For our purposes the main event is the `geocode_url()` function, We pass the data in the locations column to the function along with the authentication route and the private key. The `clean = TRUE` argument applies the `address_cleaner` function before encoding the URL to send to the API. The default is set to TRUE and you may want to experiment with setting this value to FALSE. We also add the date of search as it is always useful to know when we carried out the search and we set verbose to TRUE to receive more information. Note that other arguments such as `dryrun` can be useful for debugging problem addresses.   
+
+```{r run_geocode, eval=FALSE, tidy=TRUE}
+library(placement)
+coordaffil <- geocode_url(affiliation_records$locations, auth = "standard_api", privkey = "yourkeygoeshere", clean = TRUE, add_date = 'today', verbose = TRUE)
+```
+
+```{r eval=FALSE}
+#library(ggmap)
+#coord_ggmap <- geocode(location = affiliation_records$locations[1:100], output = "all", source = "google", messaging = FALSE client = )
+# returns a list so try bind to rows in above
+
+# return is a list
+#coord_ggmap %>% bind_cols() %>% View()
+
+```
+
+```{r}
+
+```
+
+
+
+```{r drop_inputurl, echo=FALSE, eval=FALSE}
+coordaffil <- coordaffil %>%
+  select(., -8) # drop input_url as contains the key
+```
+
+```{r save_ccordaffil, eval=FALSE, echo=FALSE}
+save(coordaffil, file = "coordaffil.rda")
+```
+
+```{r loadcoordaffil, eval=TRUE, echo=FALSE}
+load("coordaffil.rda")
+```
+
+```{r head_coordaffil}
+head(coordaffil)
+```
+
+After a cup of tea or two the API returned results for 3,937 results out of 5,206 names (with one of our original 5,207 names missing). It doesn't tell us anything about the quality of the geocoding. Experience suggests that in cases where only the name of an organisation is available the results can vary quite wildly and require extensive validation. 
+
+Let's join the results onto the original table. Note that the return from Google includes an `input_url` column that contains the privatekey. This column has been dropped for this post. 
+
+```{r create_results}
+results <- dplyr::left_join(affiliation_records, coordaffil, by = "locations")
+```
+
+We can identify the results found so far by filtering on the status field which will show "OK" where there is a return and "ZERO_RESULTS" where the geocoding did not work:
+
+```{r, resultsfound}
+resultsfound <- results %>%
+  filter(., status == "OK")
+resultsfound
+```
+
+```{r view_resultsfound, echo=FALSE, eval=TRUE}
+resultsfound %>%
+  select(., 1:8) %>%
+  head() %>%
+  knitr::kable()
+```
+
+
+### Look up Not Found
+
+Next we identify those that have zero results for a second lookup step. Here we need to be cautious because most of the time the API returns either "OK" or "ZERO_RESULTS". However, there are additional status codes listed [here](https://developers.google.com/maps/documentation/geocoding/intro). They are:
+
+- "OK"
+- "ZERO_RESULTS"
+- "OVER_QUERY_LIMIT"
+- "REQUEST_DENIED"
+- "INVALID_REQUEST"
+- "UNKNOWN_ERROR"
+- "CONNECTION_ERROR" (added)
+
+So, when filtering the results to identify those that did not return a geocode it is safest to use `!= "OK"` in a call to dplyr::filter() because that will capture the data for all records that are not OK including the undocumented "CONNECTION_ERROR" that has been added above. This approach can save a lot of head scratching, rerunning and piecing together datasets later on. 
+
+```{r lookup}
+lookup <- results %>%
+  filter(., status != "OK")
+nrow(lookup)
+```
+
+We have 1,259 entries in the lookup table. The question now becomes testing whether any of the major players have been missed out. Here we note that in many cases organisations with simply one record will not be interesting and probably do not merit the time required to resolve. Rather we are interested in a cut off of say 5 records per organisation. So, are we missing any important players in this research landscape. The answer is yes. 
+
+```{r}
+lookup %>% 
+  arrange(desc(records)) %>%
+  head() %>%
+  knitr::kable()
+```
+
+The problem that we are running into here is that Web of Science heavily abbreviates the affiliation names which means that the Google web service can't find them (or they are simply not mapped by Google). To help improve the matching we can create an abbreviation matcher. 
+
+Here we have created a simple file containing some of the major Web of Science organisation abbreviations and their matches. It is probably not complete but is a good start. Next we added a column with word boundaries that we will use to find and replace the abbreviations.
+
+```{r import_abbreviation_dictionary, echo=FALSE, eval=FALSE}
+wos_abbreviations <- read_csv("~/Desktop/open_source_master/marine_wipo/google_geocoding/wos_abbreviations.txt", 
+  col_types = cols(abbreviation = col_character(), 
+    text = col_character()))
+head(wos_abbreviations) %>% 
+  knitr::kable()
+```
+
+```{r abbreviations_wordbounds, eval=FALSE}
+wos_abbreviations$regex <- paste0("\\b", wos_abbreviations$abbreviation, "\\b")
+head(wos_abbreviations)
+```
+
+```{r save_abbr, eval=FALSE, echo=FALSE}
+save(wos_abbreviations, file = "data/wos_abbreviations.rda")
+```
+
+```{r load_abbreviations, eval=TRUE}
+load("wos_abbreviations.rda")
+head(wos_abbreviations)
+```
+
+To replace the abbreviations we will want to temporarily separate out the city and the country names to avoid transforming city or country names. We will bring the edited version back together later. 
+
+```{r separate_city, tidy=TRUE}
+lookup <- lookup %>% 
+  separate(., locations, c("organisation", "city", "country"), sep = ",", remove = FALSE)
+```
+
+```{r show_lookup, echo=FALSE}
+lookup %>% select(., 1:6) %>% head() %>% knitr::kable()
+```
+
+```{r write_lookup, echo=FALSE, eval=FALSE}
+# used to identify abbreviations to fix in Vantage Point
+write_csv(lookup, "lookup_affiliation.csv")
+```
+
+Next we want to iterate over the list of our original affiliations names and replace the abbreviations. There are a variety of ways to do that such as the `qdap` package function `multigsub` or `mgsub`. We like `qdap` a lot but installation of the package can be more than a bit awkward due to a dependency on `rJava`. If you would like to install `qdap` but run into problems with rjava on a Mac the instructions [here](https://github.com/MTFA/CohortEx/wiki/Run-rJava-with-RStudio-under-OSX-10.10,-10.11-(El-Capitan)-or-10.12-(Sierra)) can solve installation problems. Instead we are going to use a simple for loop.
+
+```{r fun_replaceabbr}
+replaceabbr <- function(pattern, replacement, var) {
+  replacement <- rep(replacement, length(pattern)) 
+    for (i in seq_along(pattern)) {
+        var <- gsub(pattern[i], replacement[i], var)
+        }
+  var
+} 
+```
+
+Next, we apply the function. The first argument is the pattern that we are looking for (the regex column), then we are replacing it with the text and the final argument is the target variable (lookup$organisation).
+
+```{r apply_reoplaceabbr, eval=FALSE, tidy=TRUE}
+lookup$organisation_edited <- replaceabbr(wos_abbreviations$regex, wos_abbreviations$text, lookup$organisation)
+```
+
+This is not perfect and note that we may encounter issues with Agriculture and Agricultural and so on. However, it is good enough for the time being. Rather than focus on resolving a small number of remaining items we will unite the columns into locations_edited. 
+
+```{r create_locateionsedited, eval=FALSE, tidy=TRUE}
+lookup <- lookup %>% unite(., locations_edited, c(organisation_edited, city, country), sep = ",", remove = FALSE)
+```
+
+```{r save_lookup, echo=FALSE, eval=FALSE}
+save(lookup, file = "lookup.rda")
+```
+
+```{r load_lookup, echo=FALSE, eval=TRUE}
+load("lookup.rda")
+```
+
+```{r head_locations_edited}
+lookup$locations_edited[1:20]
+```
+
+Note that rather than creating a separate character vector we made life easier by simply adding locations_edited to our lookup data.frame (because the vectors are of the same length).
+
+### Lookup edited names with city and country
+
+
+We then send the cleaned up version off to the Google API:
+<!-- remove API key--->
+```{r coordlookup, eval=FALSE}
+library(placement)
+coordlookup <- geocode_url(lookup$locations_edited, auth = "standard_api", privkey = "yourapikey", clean = TRUE, add_date = 'today', verbose = TRUE)
+```
+
+<!--- save and then load the lookup--->
+```{r save_coordlookup, eval=FALSE, echo=FALSE}
+coordlookup <- coordlookup %>% select(., -8) # drop input_url
+save(coordlookup, file = "coordlookup.rda")
+```
+
+```{r load_coordlookup, echo=FALSE}
+load("coordlookup.rda")
+```
+
+Let's see how many results came back.
+
+```{r count_coordlookup}
+coordlookup %>% filter(., status == "OK") %>% nrow()
+```
+
+When the results come back we have only picked up 249 of the 1259 we sent. That is rather disappointing and suggests that we will need another round. To start that process we need to join the data together again. To rejoin the data we need to bear in mind that we sent the locations_edited field but the return from the Google API calls it locations. To effect the join we need to rename that field in the return from Google and then join. To avoid duplication of columns we will drop the unwanted empty columns in lookup using `dplyr::select`. If you are not very familiar with `dplyr` yet note that naming the columns you want to keep in `select()` is safer than selecting by numeric position and also helps you to understand what you were intending when you come back to it later. 
+
+```{r joinlookup, eval=FALSE}
+coordlookup <- coordlookup %>% rename(., locations_edited = locations) # rename for join
+lookup <- lookup %>% 
+  select(., records, locations, id, locations_edited) # drop unwanted columns
+lookupresults <- bind_cols(lookup, coordlookup) %>% select(., -locations_edited1)
+```
+
+```{r save_lookupresults, eval=FALSE, echo=FALSE}
+save(lookupresults, file = "lookupresults.rda")
+```
+
+```{r load_lookupresults, eval=TRUE, echo=FALSE}
+load("lookupresults.rda")
+```
+
+So, let's now take a look at which addresses have not been captured by our approach so far. 
+
+```{r review_notfound}
+lookupresults %>%
+  filter(., status != "OK") %>%
+  arrange(desc(records))
+```
+
+We now need to puzzle our way through what is happening with these addresses (in part by experimenting on Google).
+
+In some case the use of "&" turns out to be a problem that can be fixed by using "and". In other cases the problem is that Google does not like the form of a country name such as 'Peoples R China' or it seems 'Peoples Republic of China' but does return a result where the country name is just China. This suggests that we might be more successful by resolving any abbreviations of country names and using the short form of those names. In other cases it appears to be the city or district that is the problem. For example Rajamangala University Technology Srivijaya, Trang, Thailand will resolve on either the university name (to a bank branch) or on the university name and country, but not with Trang included. In the case of the Korea Association Health Promotion there are no Google maps entries for Seoul but there are two entries for elsewhere in South Korea. The Centre Excellence Agriculture Biotechnology AG BIO PERDO CHE, Bangkok, Thailand does not resolve on multiple variants. Other entries such as AMB Circolo Micologico Giovanni Carini, Brescia, Italy could potentially be virtual groups rather than being located at a specific address.
+
+This suggests that we are reaching the point where a small percentage of the data will require the biggest percentage of the work to resolve. 
+
+Options here include:
+
+- correcting the use of "&"
+- resolving country abbreviations to a short form e.g China
+- Checking for cases where Agriculture should be Agricultural and other variations in form
+- Searching simply with the name and country
+
+How far we want to go with this will depend on our purpose at the time. For our purposes we would like to get as many as we reasonably can and certainly those with scores over 10 records as potentially important players in the scientific landscape for the region. 
+
+### Lookup by Name and City and Name and Country
+
+Let's proceed by creating another lookup table that, for lack of other inspiration, we will call lookuplookup.
+
+```{r create_lookuplookup}
+lookuplookup <- lookupresults %>%
+  filter(., status != "OK")
+```
+
+Next, we will tidy up the names to address some of the issues identified above. 
+
+```{r tody_lookuplookup}
+# separate name city and country
+
+lookuplookup <- lookuplookup %>% 
+  separate(., locations_edited, c("name", "city", "country"), sep = ",", remove = FALSE)
+
+# replace &
+
+lookuplookup$name <- stringr::str_replace_all(lookuplookup$name, "&", "and")
+
+# address country abbreviations
+
+lookuplookup$country <- tolower(lookuplookup$country) %>%
+  trimws(., which = "both") %>%
+  stringr::str_replace_all(., "...usa", "usa") %>%
+  stringr::str_replace_all(., "peoples r china", "china") %>%
+  stringr::str_replace_all(., "u arab emirates", "united arab emirates") %>% 
+  stringr::str_replace_all(., "equat guinea", "equatorial guinea") %>% 
+  stringr::str_replace_all(., "fr polynesia", "french polynesia") %>% 
+  stringr::str_replace_all(., "papua n guinea", "papua new guinea") %>%
+  stringr::str_replace_all(., "rep of georgia", "republic of georgia") %>%
+  stringr::str_replace_all(., "st kitts & nevi", "st kitts & nevis") %>%
+  stringr::str_replace_all(., "byelarus", "belarus")
+```
+
+We will now try running two different options. The organisation name and the city (`name_city`) and the organisation name and the country (`name_country`). Of these two the name and the country is likely to create problems where an organisation is located in multiple countries. 
+
+To do this we will create two new columns one with the organisation and the city (`name_city`) and the other with the organisation and the country (`name_country`).
+
+```{r lookuploopup_separate}
+lookuplookup <- lookuplookup %>% 
+  unite(., name_city, c(name, city), sep = ", ", remove = FALSE) %>% 
+  unite(., name_country, c(name, country), sep = ", ", remove = FALSE)
+```
+
+To address the same organisation name but different city problem for entities such as the Chinese National Academy of Science we will start by searching with name_city. We will then create a subset of that data where the results are not found to search with using name_country. That should avoid duplication. 
+
+### Search by name_city
+
+Lets search with the name and the city.
+
+<!--- take out the key--->
+```{r name_city, eval=FALSE}
+name_city <- placement::geocode_url(lookuplookup$name_city, auth = "standard_api", privkey = "yourapikey", clean = TRUE, add_date = 'today', verbose = TRUE)
+```
+
+```{r save_load_name_city, echo=FALSE, eval=TRUE}
+#save(name_city, file = "name_city.rda")
+load("name_city.rda")
+```
+
+To work with this data we need to join it back on to the original table. In the return from Google our original name_city column is called locations and so we start by renaming it. 
+
+```{r name_city_join, eval=FALSE}
+name_city <- name_city %>% rename(., name_city = locations)
+
+# drop unwanted columns by only naming the ones we want to keep
+lookuplookup <- lookuplookup %>% select(., records, locations, locations_edited, name_city, name_country, name)
+
+# join the tables with bin_cols
+name_city_results <- bind_cols(lookuplookup, name_city)
+```
+
+```{r save_name_city_results, echo=FALSE, eval=FALSE}
+save(name_city_results, file = "name_city_results.rda")
+```
+
+```{r load_name_city_results, echo=FALSE, eval=TRUE}
+load("name_city_results.rda")
+```
+
+We now drop the name_city1 col the input_url col
+
+```{r name_city_results}
+name_city_results <- name_city_results %>% select(., -13:-14) # drop name_city1 and input_url
+```
+
+Let's quickly check where we are.
+
+```{r name_city_results_count}
+name_city_results %>% group_by(status) %>% count()
+```
+
+So, we have retrieved another 232 addresses.
+
+### Search by name_country
+
+Next we filter the name_city results to create the name_country search and send that off to Google maps.
+
+```{r name_country, eval=FALSE}
+name_country <- name_city_results %>%
+  filter(., status != "OK") # 785 names to send
+
+# send off the names
+name_country_geo <- placement::geocode_url(name_country$name_country, auth = "standard_api", privkey = "yourapikey", clean = TRUE, add_date = 'today', verbose = TRUE)
+
+```
+
+```{r save_name_country_geo, echo=FALSE, eval=FALSE}
+save(name_country_geo, file = "name_country_geo.rda")
+```
+
+```{r load_name_country_geo, echo=FALSE, eval=FALSE}
+load("name_country_geo.rda")
+```
+That has retrieved 251 of the 785 names sent. 
+
+Now we need to join this data back with the input data.frame
+
+```{r name_counytry_bind, eval=FALSE}
+#name_country_geo <- name_country_geo %>% rename(., name_country = locations)
+name_country <- name_country %>% select(., 1:6)
+name_country_results <- bind_cols(name_country, name_country_geo) %>% select(., -13:-14)
+```
+
+```{r save_name_country_results, eval=FALSE, echo=FALSE}
+save(name_country_results, file = "name_country_results.rda")
+```
+
+```{r load_name_country_results, eval=TRUE, echo=FALSE}
+load("name_country_results.rda")
+```
+
+In the next step we can join the name_city_results and the name_country_results together before joining them onto the main results table. 
+
+Note that name_country_results is a child of name_city_results. What we are looking for then is a new table with 1017 rows. We can do that by limiting the name_city_results to those where results were found and then joining onto the name_country results. Here we use the pipe to avoid creating a temporary dataset. 
+
+```{r city_country_bind}
+names_city_country_results <- name_city_results %>%
+  filter(., status == "OK") %>%
+  bind_rows(., name_country_results)
+
+# check if the rows add up
+nrow(names_city_country_results) 
+```
+
+### Pulling the data together. 
+
+Our original list of locations for geocoding in affiliation_records consisted of 5,206 locations. So our target when pulling everything together is the same. 
+
+Let's start by pulling together the cases where results were found
+
+<!--- this is simply a check and can be ignored--->
+```{r echo=FALSE, eval=FALSE}
+results %>% filter(., status == "OK") %>% count() # 3947 found
+lookupresults %>% filter(., status == "OK") %>% count() # 249 found # why does this only have locations edited??? Address
+names_city_country_results %>% filter(., status == "OK") %>% count() # 480 found
+# the expected total is 4676
+```
+
+
+```{r bind_final}
+res1 <- results %>% filter(., status == "OK") # 3947 found
+res2 <- lookupresults %>% filter(., status == "OK") # 249 found
+res3 <- names_city_country_results %>% filter(., status == "OK") # 480 found
+results_found_final <- bind_rows(res1, res2) %>% bind_rows(., res3) # 4676
+```
+
+```{r results_complete}
+results_complete <- left_join(affiliation_records, results_found_final, .id = "locations")
+
+# check the number of rows
+nrow(results_complete)
+```
+
+```{r writefile, eval=FALSE}
+writexl::write_xlsx(results_complete, path = "asean_geocode_complete.xlsx")
+```
+
+```{r write_csv, echo=FALSE, eval=FALSE}
+write_csv(results_complete, path = "asean_geocode_complete.csv")
+```
+
+
+
+### Round Up
+
+In this walk through we used the `placement` package to geocode a list of 5000 organisation names from Web of Science. As this walk through has hopefully made clear, geocoding using the Google Maps API will normally be an iterative process that requires multiple passes, multiple joins and adjustments to the data. To round up lets think about some of the elements that we might want to use to address this in a single R function based on the steps that we have taken above. 
+
+- import dataset and specify the address field
+- separate name, city, country
+- resolve abbreviations for name and country
+- create name_city_country, create name_city, create name_country
+- send the name_city_country to the API (as locations)
+- join results to original
+- filter to != "OK"
+- send name_city
+- join to original
+- filter to != "OK"
+- send name_country
+- join to original
+- output
+
+In many cases it will make sense to choose a threshold based on counts of records before sending the data to the API. For example where dealing with publications (as in this case) it could make sense to exclude records where there is only one records. 
+
+In the original data we had 5,206 rows. How many of the entries had only one record?
+
+```{r count_records}
+affiliation_records %>% 
+  filter(., records > 1) %>%
+  count()
+```
+
+So, depending on our purposes we might want to filter out the long tail of small counts using a threshold. In this case we sought to resolve as far as possible because we want to assess whether the address field data is useful in cleaning up duplicate names. We will not deal with that question here but we will point the way by identifying the cases where there are duplicates of the addresses in the results. 
+
+```{r}
+results_complete %>% 
+  group_by(formatted_address) %>% 
+  count(., sort = TRUE)
+```
+
+This data provides a clue that in a significant number of cases the organisation names can be merged. In the case of the top result the Universiti Putra Malaysia was previously the Agricultural University and also known as the Universiti Pertanian Malaysia. So, in this case we would be safe to merge the results. 
+
+```{r view_top_address}
+results_complete %>% filter(., formatted_address == "Jalan Upm, 43400 Serdang, Selangor, Malaysia")
+```
+
+However, a note of caution is important here as we cannot simply take the geocoding that comes back at face value and validation steps are necessary. 
+
+In this case a validation step might involve checking for a match between the original input data country name and the country name in the Geocoded data. This would help to pick up those cases where an organisation is geocoded to an incorrect country. However, the ability to validate will very much depend on the contents of your source data.
+
+### Quickly Mapping the Data
+
+To finish off lets quickly map the data using the popular leaflet package:
+
+```{r install_leaflet, eval=FALSE}
+install.packages("leaflet")
+```
+
+```{r}
+library(leaflet)
+mapdata <- results_complete %>% filter(., status == "OK")
+mapdata <- leaflet(mapdata) %>%
+  addTiles() %>%
+  addCircleMarkers(~lng, ~lat, popup = .$locations, radius = mapdata$records / 20, weight = 0.1, opacity = 0.2, fill= TRUE, fillOpacity = 0.2) # note that icon radius is a calculation to stop the dots showing up as huge.
+mapdata
+```
+
+<!--- Cleaning up the data
+
+To clean up the data we imported the data into VantagePoint and the Combined Duplicate Records on the formatted address. That is similar to using group_by and sum function in R. 
+
+The question then becomes whether the names (locations) that are grouped can validly be assumed to be the same organisation... or whether two or more organisations have been merged onto the same address--->
+
+```{r}
+results_complete %>% group_by(formatted_address) %>% count()
+```
+

@@ -1,0 +1,347 @@
+---
+title: 'Wrangling Pizza Patents in R'
+author: Paul Oldham
+date: '2015-06-25'
+draft: true
+slug: wrangling-pizza-patents-in-R
+categories:
+  - Patents
+  - R
+tags:
+  - ggplot2
+output:
+  blogdown::html_page:
+    toc: true   
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#getting-started-with-r">Getting Started with R</a></li>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#about-the-pizza-patent-dataset">About the pizza patent dataset</a></li>
+<li><a href="#reading-in-the-data">Reading in the Data</a></li>
+<li><a href="#creating-a-numeric-field">Creating a numeric field</a><ul>
+<li><a href="#renaming-columns">Renaming Columns</a></li>
+<li><a href="#selecting-columns-for-plotting">Selecting Columns for plotting</a></li>
+</ul></li>
+<li><a href="#creating-counts">Creating Counts</a><ul>
+<li><a href="#total-by-year">Total by Year</a></li>
+<li><a href="#round-up">Round Up</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>This is the first part of a two part article on using R and the <code>ggplot2</code> package to visualise patent data. In a previous article we looked at visualising pizza related patent activity in Tableau Public. In this article we look at how to wrangle our <code>pizza</code> dataset using <code>dplyr</code> package in RStudio to prepare the data for graphing. This is intended as a gentle introduction and you do not need to know anything about R to follow this article. You will however need to install <a href="http://www.rstudio.com/products/rstudio/">RStudio Desktop</a> for your operating system (see below).</p>
+<p>Part 1 will introduce the basics of handling data in R in preparation for plotting and will then use the quick plot or <code>qplot</code> function in <code>ggplot2</code> to start graphing elements of the pizza patents dataset.</p>
+<p>Part 2 will go into more depth on handling data in R and the use of ggplot2.</p>
+<p>ggplot2 is an implementation of the theory behind the Grammar of Graphics. The theory was originally developed by Leland Wilkinson and reinterpreted with considerable success by Hadley Wickham at Rice University and RStudio. The basic idea behind the Grammar of Graphics is that any statistical graphic can be built using a set of simple layers consisting of:</p>
+<ol style="list-style-type: decimal">
+<li>A dataset containing the data we want to see (e.g x and y axes and data points)</li>
+<li>A geometric object (or <code>geom</code>) that defines the form we want to see (points, lines, shapes etc.) known as a <code>geom</code>. Multiple <code>geoms</code> can be used to build a graphic (e.g, points and lines etc.).</li>
+<li>A coordinate system (e.g. a grid, a map etc.).</li>
+</ol>
+<p>On top of these three basic components, the grammar includes statistical transformations (or <code>stats</code>) describing the statistics to be applied to the data to create a bar chart or trend line. The grammar also describes the use of faceting (trellising) to break a dataset down into smaller components (see Part 2).</p>
+<p>A very useful article explaining this approach is <a href="http://vita.had.co.nz/papers/layered-grammar.pdf">Hadley Wickham’s 2010 A Layered Grammar of Graphics</a> (preprint) and is recommended reading.</p>
+<p>The power of this approach is that it allows us to build complex graphs from simple layers while being able to control each element and understand what is happening. One way to think of this is as stripping back a graph to its basic elements and allowing you to decide what each element (layer) should contain and look like. In short, you get to decide what your graphs look like.</p>
+<p><code>ggplot2</code> contains two main functions:</p>
+<ol style="list-style-type: decimal">
+<li>qplot (quick plot)</li>
+<li>ggplot()</li>
+</ol>
+<p>The main difference between the two is that quick plot makes assumptions for you and, as the name suggests, is used for quick plots. In contrast, with ggplot we build graphics from scratch with helpful defaults that give us full control over what we see.</p>
+<p>In this article we will start with qplot and increasingly merge into developing plots by adding layers in what could be called a ggplot kind of way. We will develop that further in the Part 2.</p>
+<div id="getting-started-with-r" class="section level2">
+<h2>Getting Started with R</h2>
+<p>This article assumes that you are new to using R. You do not need any knowledge of programming in R to follow this article. While you don’t need to know anything about R to follow the article, you may find it helpful to know that :</p>
+<ol style="list-style-type: decimal">
+<li>R is a statistical programming language. That can sound a bit intimidating. However, R can handle lots of other tasks a patent analyst might need such as cleaning and tidying data or text mining. This makes it a good choice for a patent analyst.</li>
+<li>R works using packages (libraries) for performing tasks such as importing files, manipulating files and graphics. There are around 6,819 packages and they are open source (mainly it seems under the MIT licence). If you can think of it there is probably a package that meets (or almost meets) your analysis needs.</li>
+<li>Packages contain functions that do things such as <code>read_csv()</code> to read in a comma separated file.</li>
+<li>The functions take arguments that tell them what you want to do, such as specifying the data to graph and the x and y axis e.g. qplot(x = , y = , data = my dataset).</li>
+<li>If you want to learn more, or get stuck, there are a huge number of resources and free courses out there and RStudio lists some of the main resources on their website <a href="http://www.rstudio.com/resources/training/online-learning/">here</a>. With R you are never alone.</li>
+</ol>
+<p>R is best learned by doing. The main trick with R is to install and load the packages that you will need and then to work with functions and their arguments. Given that most patent analysts are likely to be unfamiliar with R we will adopt the simplest approach possible to make sure it is clear what is going on at each step.</p>
+<p>The first step is to install R and RStudio desktop for your operating system by following the links and instructions <a href="http://www.rstudio.com/products/rstudio/download/">here</a> and making sure that you follow the link to install R. Follow this very useful <a href="http://www.computerworld.com/article/2497143/business-intelligence/business-intelligence-beginner-s-guide-to-r-introduction.html?page=2">Computerworld article</a> to become familiar with what you are seeing. You may well want to follow the rest of that article. Inside R you can learn a lot by installing the <code>Swirl</code> package that provides interactive tutorials for learning R. Details are provided in the resources at the end of the article.</p>
+<p>The main thing you need to do to get started other than installing R and RStudio is to open RStudio and install some packages.</p>
+<p>In this article we will use four packages:</p>
+<ol style="list-style-type: decimal">
+<li><code>readr</code> to quickly read in the pizza patent dataset as an easy to use data table.</li>
+<li><code>dplyr</code> for quick addition and operations on the data to make it easier to graph.</li>
+<li><code>ggplot2</code> or Grammar of Graphics 2 as the tool we will use for graphing.</li>
+<li><code>ggthemes</code> provides very useful additional themes including Tufte range plots, the Economist and Tableau and can be accessed through <a href="http://cran.r-project.org/web/packages/ggthemes/index.html">CRAN</a> or <a href="https://github.com/jrnold/ggthemes">Github</a>.</li>
+</ol>
+</div>
+<div id="getting-started" class="section level2">
+<h2>Getting Started</h2>
+<p>If you don’t have these packages already then install each of them below by pressing command and Enter at the end of each line. As an alternative select <strong><em>Packages &gt; Install</em></strong> in the pane displaying a tab called Packages. Then enter the names of the packages one at a time without the quotation marks.</p>
+<pre class="r"><code>install.packages(&quot;readr&quot;)
+install.packages(&quot;dplyr&quot;)
+install.packages(&quot;ggplot2&quot;)
+install.packages(&quot;ggthemes&quot;)</code></pre>
+<p>Then make sure the packages have loaded to make them available. Press command and enter at the end of each line below (or, if you are feeling brave, select them all and then click the icon marked Run).</p>
+<pre class="r"><code>library(readr)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)</code></pre>
+<p>You are now good to go.</p>
+</div>
+<div id="about-the-pizza-patent-dataset" class="section level2">
+<h2>About the pizza patent dataset</h2>
+<p>The pizza patents dataset is a set of 9,996 patent documents from the WIPO Patentscope database that make reference somewhere in the text to the term <code>pizza</code>. Almost everybody likes pizza and this is simply a working dataset that we can use to learn how to work with different open source tools. This will also allow us over time to refine our understanding of patent activity involving the term pizza and hone in on actual pizza related technology. In previous walkthroughs we divided the <code>pizza</code> dataset into a set of distinct data tables to enable analysis and visualisation using Tableau Public. You can download that dataset in .csv format <a href="https://github.com/poldham/opensource-patent-analytics/blob/master/2_datasets/pizza_medium_clean/pizza_medium_clean.zip?raw=true">here</a>. These data tables are:</p>
+<ol style="list-style-type: decimal">
+<li>pizza (the core set)</li>
+<li>applicants (a subdataset divided and cleaned on applicant names)</li>
+<li>inventors (a subdataset divided and cleaned on inventor names)</li>
+<li>ipc_class (a subdataset divided on ipc class names names)</li>
+<li>applicants_ipc (a child dataset of applicants listing the IPC codes)</li>
+</ol>
+<p>In this article we will focus on the <code>pizza</code> table as the core set. However, you may want to experiment with other sets.</p>
+</div>
+<div id="reading-in-the-data" class="section level2">
+<h2>Reading in the Data</h2>
+<p>We will use the <code>readr</code> package to rapidly read in the pizza set to R (for other options see the in depth articles on reading in <a href="">.csv</a> and <a href="">Excel</a> files and the recent Getting your Data into R RStudio <a href="http://www.rstudio.com/resources/webinars/">webinar</a>). <code>readr</code> is nice and easy to use and creates a data table that we can easily view.</p>
+<pre class="r"><code>library(readr)
+library(dplyr)
+pizza &lt;- read_csv(&quot;https://github.com/poldham/opensource-patent-analytics/blob/master/2_datasets/pizza_medium_clean/pizza.csv?raw=true&quot;) %&gt;% 
+    select(-applicants_cleaned, -applicants_cleaned_type, -applicants_original, -inventors_cleaned, 
+        -inventors_original)  # drop cols with a multibyte string
+head(pizza)</code></pre>
+<pre><code>## # A tibble: 6 x 26
+##   applicants_organ… ipc_class ipc_codes ipc_names ipc_original ipc_subclass_co…
+##   &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        &lt;chr&gt;           
+## 1 &lt;NA&gt;              A21: Bak… A21D 13/… A21D 13/… A21D 13/00;… A21D; A23L      
+## 2 &lt;NA&gt;              A21: Bak… A21B 3/13 A21B 3/1… A21B 3/13    A21B            
+## 3 &lt;NA&gt;              A21: Bak… A21C 15/… A21C 15/… A21C 15/04   A21C            
+## 4 Lazarillo De Tor… A21: Bak… A21D 13/… A21D 13/… A21D 13/00;… A21D; A23L      
+## 5 &lt;NA&gt;              B65: Con… B65D 21/… B65D 21/… B65D 21/032… B65D            
+## 6 &lt;NA&gt;              B65: Con… B65D 85/… B65D 85/… B65D 85/36   B65D            
+## # ... with 20 more variables: ipc_subclass_detail &lt;chr&gt;,
+## #   ipc_subclass_names &lt;chr&gt;, priority_country_code &lt;chr&gt;,
+## #   priority_country_code_names &lt;chr&gt;, priority_data_original &lt;chr&gt;,
+## #   priority_date &lt;chr&gt;, publication_country_code &lt;chr&gt;,
+## #   publication_country_name &lt;chr&gt;, publication_date &lt;chr&gt;,
+## #   publication_date_original &lt;chr&gt;, publication_day &lt;int&gt;,
+## #   publication_month &lt;int&gt;, publication_number &lt;chr&gt;,
+## #   publication_number_espacenet_links &lt;chr&gt;, publication_year &lt;int&gt;,
+## #   title_cleaned &lt;chr&gt;, title_nlp_cleaned &lt;chr&gt;,
+## #   title_nlp_multiword_phrases &lt;chr&gt;, title_nlp_raw &lt;chr&gt;,
+## #   title_original &lt;chr&gt;</code></pre>
+<p>We now have a data table with the data. We can inspect this data in a variety of ways:</p>
+<p><strong><em>1. View</em></strong></p>
+<p>See a separate table in a new tab. This is useful if you want to get a sense of the data or look for column numbers.</p>
+<pre class="r"><code>View(pizza)</code></pre>
+<p><strong><em>2. head (for the bottom use <code>tail</code>)</em></strong></p>
+<p><code>head</code> allows you to see the top few rows or using <code>tail</code> the bottom few rows.If you would like to see more rows add a number after the dataset name e.g. `head(pizza, 20).</p>
+<pre class="r"><code>head(pizza)</code></pre>
+<pre><code>## # A tibble: 6 x 26
+##   applicants_organ… ipc_class ipc_codes ipc_names ipc_original ipc_subclass_co…
+##   &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        &lt;chr&gt;           
+## 1 &lt;NA&gt;              A21: Bak… A21D 13/… A21D 13/… A21D 13/00;… A21D; A23L      
+## 2 &lt;NA&gt;              A21: Bak… A21B 3/13 A21B 3/1… A21B 3/13    A21B            
+## 3 &lt;NA&gt;              A21: Bak… A21C 15/… A21C 15/… A21C 15/04   A21C            
+## 4 Lazarillo De Tor… A21: Bak… A21D 13/… A21D 13/… A21D 13/00;… A21D; A23L      
+## 5 &lt;NA&gt;              B65: Con… B65D 21/… B65D 21/… B65D 21/032… B65D            
+## 6 &lt;NA&gt;              B65: Con… B65D 85/… B65D 85/… B65D 85/36   B65D            
+## # ... with 20 more variables: ipc_subclass_detail &lt;chr&gt;,
+## #   ipc_subclass_names &lt;chr&gt;, priority_country_code &lt;chr&gt;,
+## #   priority_country_code_names &lt;chr&gt;, priority_data_original &lt;chr&gt;,
+## #   priority_date &lt;chr&gt;, publication_country_code &lt;chr&gt;,
+## #   publication_country_name &lt;chr&gt;, publication_date &lt;chr&gt;,
+## #   publication_date_original &lt;chr&gt;, publication_day &lt;int&gt;,
+## #   publication_month &lt;int&gt;, publication_number &lt;chr&gt;,
+## #   publication_number_espacenet_links &lt;chr&gt;, publication_year &lt;int&gt;,
+## #   title_cleaned &lt;chr&gt;, title_nlp_cleaned &lt;chr&gt;,
+## #   title_nlp_multiword_phrases &lt;chr&gt;, title_nlp_raw &lt;chr&gt;,
+## #   title_original &lt;chr&gt;</code></pre>
+<p><strong><em>3. dimensions</em></strong></p>
+<p>This allows us to see how many rows there are (9996) and how many columns(31)</p>
+<pre class="r"><code>dim(pizza)</code></pre>
+<pre><code>## [1] 9996   26</code></pre>
+<p><strong><em>4. Summary</em></strong></p>
+<p>Provides a summary of the dataset columns including quick calculations on numeric fields and the class of vector.</p>
+<pre class="r"><code>summary(pizza)</code></pre>
+<pre><code>##  applicants_organisations  ipc_class          ipc_codes        
+##  Length:9996              Length:9996        Length:9996       
+##  Class :character         Class :character   Class :character  
+##  Mode  :character         Mode  :character   Mode  :character  
+##                                                                
+##                                                                
+##                                                                
+##                                                                
+##   ipc_names         ipc_original       ipc_subclass_codes ipc_subclass_detail
+##  Length:9996        Length:9996        Length:9996        Length:9996        
+##  Class :character   Class :character   Class :character   Class :character   
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character   
+##                                                                              
+##                                                                              
+##                                                                              
+##                                                                              
+##  ipc_subclass_names priority_country_code priority_country_code_names
+##  Length:9996        Length:9996           Length:9996                
+##  Class :character   Class :character      Class :character           
+##  Mode  :character   Mode  :character      Mode  :character           
+##                                                                      
+##                                                                      
+##                                                                      
+##                                                                      
+##  priority_data_original priority_date      publication_country_code
+##  Length:9996            Length:9996        Length:9996             
+##  Class :character       Class :character   Class :character        
+##  Mode  :character       Mode  :character   Mode  :character        
+##                                                                    
+##                                                                    
+##                                                                    
+##                                                                    
+##  publication_country_name publication_date   publication_date_original
+##  Length:9996              Length:9996        Length:9996              
+##  Class :character         Class :character   Class :character         
+##  Mode  :character         Mode  :character   Mode  :character         
+##                                                                       
+##                                                                       
+##                                                                       
+##                                                                       
+##  publication_day publication_month publication_number
+##  Min.   : 1.00   Min.   : 1.000    Length:9996       
+##  1st Qu.: 8.00   1st Qu.: 4.000    Class :character  
+##  Median :16.00   Median : 7.000    Mode  :character  
+##  Mean   :15.68   Mean   : 6.608                      
+##  3rd Qu.:23.00   3rd Qu.:10.000                      
+##  Max.   :31.00   Max.   :12.000                      
+##  NA&#39;s   :30      NA&#39;s   :30                          
+##  publication_number_espacenet_links publication_year title_cleaned     
+##  Length:9996                        Min.   :1940     Length:9996       
+##  Class :character                   1st Qu.:1999     Class :character  
+##  Mode  :character                   Median :2005     Mode  :character  
+##                                     Mean   :2003                       
+##                                     3rd Qu.:2009                       
+##                                     Max.   :2015                       
+##                                     NA&#39;s   :30                         
+##  title_nlp_cleaned  title_nlp_multiword_phrases title_nlp_raw     
+##  Length:9996        Length:9996                 Length:9996       
+##  Class :character   Class :character            Class :character  
+##  Mode  :character   Mode  :character            Mode  :character  
+##                                                                   
+##                                                                   
+##                                                                   
+##                                                                   
+##  title_original    
+##  Length:9996       
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+##                    
+## </code></pre>
+<p><strong><em>5.The class of R object</em></strong></p>
+<p><code>class()</code> is one of the most useful functions in R because it tells you what kind of object or vectors you are dealing with. R vectors are normally either character, numeric, or logical (TRUE, FALSE) but classes also include integers and factors. Most of the time patent data is of either the character type or a date.</p>
+<pre class="r"><code>class(pizza)</code></pre>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p><strong><em>4. <code>str</code> - See the structure</em></strong></p>
+<p>As you become more familiar with R the function <code>str()</code> becomes one of the most useful for examining the structure of your data. For example, using str we can see whether an object we are working with is a simple vector, a list of objects or a list that contains a set of data frames (e.g.) tables. If things don’t seem to be working then <code>class</code> and <code>str</code> will often help you to understand why not.</p>
+<pre class="r"><code>str(pizza, max.level = 1)</code></pre>
+<p>These options illustrate the range of ways that you can view the data before and during graphing. Mainly what will be needed is the column names but we also need to think about the column types.</p>
+<p>If we inspect this data using <code>str(pizza)</code> we will see that the bulk of the fields are character fields. One feature of patent data is that it rarely includes actual numeric fields (such as counts). Most fields are character fields such as names or alphanumeric values (such as publication numbers e.g. US20151234A1). Sometimes we see counts such as citing documents or family members but most of the time our fields are character fields or dates. A second common feature of patent data is that some fields are concatenated. That is the cells in a column contain more than one value (e.g. multiple inventor or applicant names etc.).</p>
+<p>We will walk through how to deal with these common patent data issues in R in other articles. For now, we don’t need to worry about the form of data except that it is normally best to select a column (variable) that is not concatenated with multiple values to develop our counts. So as a first step we will quickly create a numeric field from the <code>publication_number</code> field in <code>pizza</code>.</p>
+</div>
+<div id="creating-a-numeric-field" class="section level2">
+<h2>Creating a numeric field</h2>
+<p>To create a numeric field for graphing we will need to do two things</p>
+<ol style="list-style-type: decimal">
+<li>add a column</li>
+<li>assign each cell in that column a value that we can then count.</li>
+</ol>
+<p>The most obvious field to use as the basis for counting in the pizza data is the <code>publication_number</code> field because typically this contains unique alphanumeric identifiers.</p>
+<p>To create a numeric field we will use the <code>dplyr</code> package. <code>dplyr</code> and its sister package <code>tidyr</code> are some of the most useful packages available for working in R and come with a handy <a href="http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">RStudio Cheatsheet</a> and <a href="http://www.rstudio.com/resources/webinars/archives/#">webinar</a>. To see what the functions in <code>dplyr</code> are then click on its name in the packages pane.</p>
+<p>Just for future reference the main functions are:</p>
+<ol style="list-style-type: decimal">
+<li>filter (to select rows in a data)</li>
+<li>select (to select the columns you want to work with)</li>
+<li>mutate (to add columns based on other columns)</li>
+<li>arrange (to sort)</li>
+<li>group_by( to group data)</li>
+<li>count (to easily summarise data on a value)</li>
+</ol>
+<p><code>dplyr's</code> <code>mutate</code> function allows us to add a new column based on the values contained in one or more of the other columns in the dataset. We will call this new variable <code>n</code> and we could always rename it in the graphs later on. There are quite a variety of ways of creating counts in R but this is one of the easiest. The mutate function is really very useful and worth learning.</p>
+<pre class="r"><code>library(dplyr)
+pizza &lt;- mutate(pizza, record_count = sum(publication_number = 1))</code></pre>
+<p>What we have done here is to tell R that we want to use the <code>mutate()</code> function. We have then passed it a series of arguments consisting of:</p>
+<ol style="list-style-type: decimal">
+<li>our dataset = pizza</li>
+<li>record_count = the result of the function sum() which is the sum of publication_number giving the value 1 to each number.</li>
+<li><code>pizza &lt;-</code> this tells R to create an object (a data frame) called <code>pizza</code> containing the results. If you take a look in the Environment pane you will now see that pizza has 32 variables. Note that we have now modified the data we imported into R although the original data in the file remains the same. If we now use <code>View(pizza)</code> we will see a new column called <code>record_count</code> with a value of 1 for each entry.</li>
+</ol>
+<div id="renaming-columns" class="section level3">
+<h3>Renaming Columns</h3>
+<p>We will be doing quite a lot of work with the <code>publication_country_name</code> field, so let’s make our lives a bit easier by renaming it with the <code>dplyr</code> function <code>rename()</code>. We will also do the same for the <code>publication_country_code</code> and publication_year. Note that it is easy to create labels for graphs with ggplot so we don’t need to worry about renaming column names too much. We can rename them again later if saving the file to a new <code>.csv</code> file.</p>
+<pre class="r"><code>library(dplyr)
+pizza &lt;- rename(pizza, pubcountry = publication_country_name, pubcode = publication_country_code, 
+    pubyear = publication_year)
+head(pizza)</code></pre>
+<pre><code>## # A tibble: 6 x 27
+##   applicants_organ… ipc_class ipc_codes ipc_names ipc_original ipc_subclass_co…
+##   &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        &lt;chr&gt;           
+## 1 &lt;NA&gt;              A21: Bak… A21D 13/… A21D 13/… A21D 13/00;… A21D; A23L      
+## 2 &lt;NA&gt;              A21: Bak… A21B 3/13 A21B 3/1… A21B 3/13    A21B            
+## 3 &lt;NA&gt;              A21: Bak… A21C 15/… A21C 15/… A21C 15/04   A21C            
+## 4 Lazarillo De Tor… A21: Bak… A21D 13/… A21D 13/… A21D 13/00;… A21D; A23L      
+## 5 &lt;NA&gt;              B65: Con… B65D 21/… B65D 21/… B65D 21/032… B65D            
+## 6 &lt;NA&gt;              B65: Con… B65D 85/… B65D 85/… B65D 85/36   B65D            
+## # ... with 21 more variables: ipc_subclass_detail &lt;chr&gt;,
+## #   ipc_subclass_names &lt;chr&gt;, priority_country_code &lt;chr&gt;,
+## #   priority_country_code_names &lt;chr&gt;, priority_data_original &lt;chr&gt;,
+## #   priority_date &lt;chr&gt;, pubcode &lt;chr&gt;, pubcountry &lt;chr&gt;,
+## #   publication_date &lt;chr&gt;, publication_date_original &lt;chr&gt;,
+## #   publication_day &lt;int&gt;, publication_month &lt;int&gt;, publication_number &lt;chr&gt;,
+## #   publication_number_espacenet_links &lt;chr&gt;, pubyear &lt;int&gt;,
+## #   title_cleaned &lt;chr&gt;, title_nlp_cleaned &lt;chr&gt;,
+## #   title_nlp_multiword_phrases &lt;chr&gt;, title_nlp_raw &lt;chr&gt;,
+## #   title_original &lt;chr&gt;, record_count &lt;dbl&gt;</code></pre>
+</div>
+<div id="selecting-columns-for-plotting" class="section level3">
+<h3>Selecting Columns for plotting</h3>
+<p>We could now simply go ahead and work with pizza. However, for datasets with many columns or requiring different kinds of counts it can be much easier to simply select the columns we want to work with to reduce clutter. We can use the <code>select()</code> function from <code>dplyr</code> to do this.</p>
+<pre class="r"><code>library(dplyr)
+p1 &lt;- pizza %&gt;% select(., pubcountry, pubcode, pubyear, record_count)
+head(p1)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   pubcountry                 pubcode pubyear record_count
+##   &lt;chr&gt;                      &lt;chr&gt;     &lt;int&gt;        &lt;dbl&gt;
+## 1 United States of America   US         2009           1.
+## 2 United States of America   US         2014           1.
+## 3 United States of America   US         2013           1.
+## 4 European Patent Office     EP         2007           1.
+## 5 United States of America   US         2003           1.
+## 6 Patent Co-operation Treaty WO         2002           1.</code></pre>
+<p>Note that <code>dplyr</code> will exclude columns that are not mentioned when using select. This is one of the purposes of <code>select</code> as a function. For that reason you will probably want to rename the object (in this case as p1). If we used the name <code>pizza</code> for the object our original table would be reduced to the 4 columns specified by <code>select</code>. Type <code>?select</code> in the console for further details.</p>
+<p>We now have a data frame with 9,996 rows and 4 variables (columns). Use <code>View(p1)</code> or simply enter <code>p1</code> into the console to take a look.</p>
+</div>
+</div>
+<div id="creating-counts" class="section level2">
+<h2>Creating Counts</h2>
+<p>To make life even easier for ourselves we can use function <code>count()</code> from <code>dplyr</code> to group the data onto counts by different variables for graphing. Note that we could defer counting until later, however, this is a good opportunity to learn more about <code>dplyr</code>.</p>
+<p>Let’s go ahead and construct some counts using <code>p1</code>. At the same time we will use quick plot (<code>qplot</code>) for some exploratory plotting of the results. In the course of this R will show error warnings in red for missing values. We will be ignoring the warning because they are often R telling us things it things we need to know.</p>
+<div id="total-by-year" class="section level3">
+<h3>Total by Year</h3>
+<p>What if we wanted to know the overall total for our sample data by publication year. Try the following.</p>
+<pre class="r"><code>pt &lt;- count(p1, pubyear, wt = record_count)
+head(pt)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   pubyear     n
+##     &lt;int&gt; &lt;dbl&gt;
+## 1    1940    1.
+## 2    1954    1.
+## 3    1956    1.
+## 4    1957    1.
+## 5    1959    1.
+## 6    1962    1.</code></pre>
+<p>If we now view <code>pt</code> (either by using <code>View(pt)</code>, noting the capital V, or clicking <code>pt</code> in the Environment pane) we will see that R has dropped the country columns to present us with an overall total by year in <code>n</code>. We now have a general overview of the data for graphing.</p>
+<p>Let’s go ahead and quickly plot that using the <code>qplot()</code> function.</p>
+<pre class="r"><code>qplot(x = pubyear, y = n, data = pt, geom = &quot;line&quot;)</code></pre>
+<p><img src="/post/2015-06-25-wrangling-pizza-patents-in-R_files/figure-html/fig1_ggplot1-1.png" width="800px" style="display: block; margin: auto;" /></p>
+</div>
+<div id="round-up" class="section level3">
+<h3>Round Up</h3>
+<p>That’s it. You may feel at the end of this post that this was a lot of work to get to a very simple graph. But, in reality, it is the data preparation that takes the time. In the next post we will focus in on creating different kinds of graph in ggplot2 and some of the challenges that we encounter along the way.</p>
+</div>
+</div>

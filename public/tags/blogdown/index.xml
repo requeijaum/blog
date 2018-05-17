@@ -6,20 +6,20 @@
     <description>Recent content in Blogdown on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Copyright @ Paul Oldham 2017</copyright>
-    <lastBuildDate>Thu, 28 Dec 2017 00:00:00 +0000</lastBuildDate>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
+    <lastBuildDate>Sat, 07 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/blogdown/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Add Shortcodes to a Hugo blog in blogdown</title>
-      <link>/2017/12/28/blogdown-shortcode/</link>
-      <pubDate>Thu, 28 Dec 2017 00:00:00 +0000</pubDate>
+      <title>Useful Blogdown Tips</title>
+      <link>/useful-blogdown-tips/</link>
+      <pubDate>Sat, 07 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2017/12/28/blogdown-shortcode/</guid>
-      <description>I have been planning to transfer my existing Jekyll based blog over to blogdown and Hugo for quite a while. Having spent most of last year hopping on and off aeroplanes this had turned into an epic fail. Christmas seemed like a good time to fix that.
-The blogdown package from Yihui Xie generates a Go based Hugo blog. Once you have installed blogdown and followed the nice and friendly instructions in the blogdown book you should be ready to go.</description>
+      <guid>/useful-blogdown-tips/</guid>
+      <description>Many of the things you need to know about Blogdown are in the excellent blogdown book… and there are lots of tutorials out there. Here I’m going to compile some of the various posts providing tips, and add some of my own.
+Transferring to blogdown The blogdown book provides a very good description of how to move from Github or Wordpress to Blogdown with Netlify. But if you want to stay with Blogdown here are a few very useful posts:</description>
     </item>
     
   </channel>

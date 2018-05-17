@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paul Oldham&#39;s Blog</title>
+    <link>/</link>
+    <description>Recent content on Paul Oldham&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
+    <lastBuildDate>Fri, 11 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Counting Patent First Filings the Tidy Way</title>
+      <link>/counting-patent-first-filings/</link>
+      <pubDate>Fri, 11 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/counting-patent-first-filings/</guid>
+      <description>This article provides an introduction to counting patent first filings or priority counts. Counting first filings is an important subject for patent statistics because the first filing of a patent application marks the date that is closest to investment in research and development leading to the invention. For this reason it is widely used by economists and statisticians as a proxy indicator for the analysis of trends in science and technology.</description>
+    </item>
+    
+    <item>
+      <title>Useful Blogdown Tips</title>
+      <link>/useful-blogdown-tips/</link>
+      <pubDate>Sat, 07 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/useful-blogdown-tips/</guid>
+      <description>Many of the things you need to know about Blogdown are in the excellent blogdown book… and there are lots of tutorials out there. Here I’m going to compile some of the various posts providing tips, and add some of my own.
+Transferring to blogdown The blogdown book provides a very good description of how to move from Github or Wordpress to Blogdown with Netlify. But if you want to stay with Blogdown here are a few very useful posts:</description>
+    </item>
+    
+    <item>
+      <title>Easy bibliographies in R with rcrossref and bibtex</title>
+      <link>/easy-bibliographies-in-r-with-rcrossref-and-bibtex/</link>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/easy-bibliographies-in-r-with-rcrossref-and-bibtex/</guid>
+      <description>How to create a bibtex bibliography How to use the rcrossref add in with pictures Creating the bibliography Choosing the style of bibliography  </description>
+    </item>
+    
+    <item>
+      <title>Geocoding in R with the Placement Package</title>
+      <link>/geocoding-in-r-with-the-placement-package/</link>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/geocoding-in-r-with-the-placement-package/</guid>
+      <description>In this post we will look at geocoding using the Google Maps API and the placement and ggmap packages in R. We will work with some raw data from Clarivate Analytics Web of Science (formerly Thomson Reuters) database of scientific literature. Many universities have access to Web of Science and it is an important tool in fields such as bibliometrics/scientometrics. In this article I want to walk through how to carry out geocoding and the issues we encounter in the process.</description>
+    </item>
+    
+    <item>
+      <title>Escaping concatenated data hell in R...deconcatenate and trim</title>
+      <link>/dealing-with-concatenated-data-fields-in-r/</link>
+      <pubDate>Sat, 10 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/dealing-with-concatenated-data-fields-in-r/</guid>
+      <description>In this post I want to talk about concateted fields… er what on earth are you talking about…. you know the spreadsheets or data frames with cells lumped together stuff, like this.
+INSERT concatenated
+tibble::tibble(messy = c(&amp;quot;this is not the messiest; only a man could be this messy&amp;quot;, &amp;quot;mess; in the world&amp;quot;, &amp;quot;it&amp;#39;s just; a; tribute; honestly&amp;quot;)) ## # A tibble: 3 x 1 ## messy ## &amp;lt;chr&amp;gt; ## 1 this is not the messiest; only a man could be this messy ## 2 mess; in the world ## 3 it&amp;#39;s just; a; tribute; honestly Or, if we wanted something a bit more real world we could take this list of author of scientific articles from south east asia working on marine organisms</description>
+    </item>
+    
+    <item>
+      <title>An Update on Importing Excel Data in R</title>
+      <link>/importing-excel-data-into-r-updated/</link>
+      <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/importing-excel-data-into-r-updated/</guid>
+      <description>Introduction Import Directly from the RStudio Menu Reading an Excel file from a URL Tidying column names with janitor Exporting to Excel Round Up   Introduction Back in 2015 I wrote a long blog post on importing Excel tables into R. Happily for everyone this is now a lot easier than it was. This post provides an update on importing spreadsheets into R and exporting from R to Excel.</description>
+    </item>
+    
+    <item>
+      <title>tidy text mining in parallel</title>
+      <link>/tidy-text-mining-in-parallel/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tidy-text-mining-in-parallel/</guid>
+      <description>I have been involved with text mining for quite a few years and I am a big fan of tidy text mining in R as popularised by Julia Silge and Daniel Robinson in Text Mining in R: A Tidy Approach. What I really like about tidy text mining is that we can keep track of the files where a word, a sentence or paragraph come from. This really matters when we want to join the results of tidy text mining to other data such as taxonomic information on species or to maps, or both.</description>
+    </item>
+    
+    <item>
+      <title>Dr. Evil meets the robotstxt package</title>
+      <link>/using-robotstxt-in-r/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/using-robotstxt-in-r/</guid>
+      <description>I am fairly new to webscraping in R using rvest and one question is whether a site gives permission for scraping. This information is often contained in the robots.txt file on a website. So, I’m briefly going to explore the ROpenSci robotstxt package by Peter Meissner. robotstxt provides easy access to the robots.txt file for a domain from R.
+I’m slowly working on a new R data package for underwater geographic feature names as part of a Norwegian Research Council funded project biospolar on innovation involving biodiversity in marine polar areas.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Wed, 27 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>My name is Paul Oldham, I hold a PhD in Social Anthropology from the London School of Economics and I&amp;rsquo;m the lead at One World Analytics.
+My major interest is the conservation of biodiversity and the rights of indigenous peoples. For much of the 1990s and into the 2000s I worked with a people called the Piaroa in Amazonas in Southern Venezuela. As part of that work I used my research grant to help to establish the Regional Indigenous Peoples of Amazonas (ORPIA) to defend the rights of indigenous peoples in the region.</description>
+    </item>
+    
+    <item>
+      <title>Creating an Infographic with infogram</title>
+      <link>/infographics/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/infographics/</guid>
+      <description>In this article we will use RStudio to prepare patent data for visualisation in an infographic using the online software tool infogram.
+Infographics are a popular way of presenting data in a way that is easy for a reader to understand without reading a long report. Infographics are well suited to presenting summaries of data with simple messages about key findings. A good infographic can encourage the audience to read a detailed report and is a tool for engagement with audiences during presentations of the findings of patent research.</description>
+    </item>
+    
+    <item>
+      <title>Exploring Scientific Literature with rplos</title>
+      <link>/rplos-walkthrough/</link>
+      <pubDate>Tue, 27 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/rplos-walkthrough/</guid>
+      <description>Introduction In this chapter we look at the use of the rplos package from rOpenSci to access the scientific literature from the Public Library of Science using the PLOS Search API.
+The Public Library of Science (PLOS) is the main champion of open access peer reviewed scientific publications and has published somewhere in the region of 140,000 articles. These articles are a fantastic resource. PLOS includes the following titles.
+ PLOS ONE PLOS Biology PLOS Medicine PLOS Computational Biology PLOS Genetics PLOS Pathogens PLOS Neglected Tropical Diseases PLOS Clinical Trials () PLOS Collections (collections of articles)  PLOS is important because it provides open access to the full text of peer reviewed research.</description>
+    </item>
+    
+    <item>
+      <title>Patent Datasets</title>
+      <link>/patent-datasets/</link>
+      <pubDate>Fri, 07 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/patent-datasets/</guid>
+      <description>One problem for people seeking to learn patent analytics is a lack of access to patent data from different sources.
+In this article I introduce the patent datasets developed for the WIPO Open Source Patent Analytics Project as training sets for patent analytics. The datasets will be used in the walkthroughs. The datasets will grow over time but we will briefly introduce them and explain how to access them.
+The datasets are housed at the project GitHub repository.</description>
+    </item>
+    
+    <item>
+      <title>An Introduction to Plotly for Patent Analytics</title>
+      <link>/an-introduction-to-plotly-for-patent-analytics/</link>
+      <pubDate>Sat, 01 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/an-introduction-to-plotly-for-patent-analytics/</guid>
+      <description>In this article we provide a quick introduction to the online graphing service Plotly to create graphics for use in patent analysis.
+Plotly is an online graphing service that allows you to import excel, text and other files for visualisation. It also has API services for R, Python, MATLAB and a Plotly Javascript Library. This means that you can send data directly to Plotly for visualisation. Plots can also be shared with team mates or publicly.</description>
+    </item>
+    
+    <item>
+      <title>Accessing Patent Data with the Lens</title>
+      <link>/lens/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/lens/</guid>
+      <description>Introduction In this article we provide a brief introduction to The Lens patent database as a free source of data for patent analytics.
+The Lens is a patent database based in Australia that describes itself as “an open global cyberinfrastructure to make the innovation system more efficient and fair, more transparent and inclusive.” The main way it seeks to do this is by providing access to patent information with a particular focus on sequence information as well as analysis of issues such as DNA related patent activity.</description>
+    </item>
+    
+    <item>
+      <title>An Overview of Patent Analytics Tools</title>
+      <link>/overview-open-tools/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/overview-open-tools/</guid>
+      <description>Introduction This article provides an overview of the open source and free software tools that are available for patent analytics. The aim of the chapter is to serve as a quick reference guide for some of the main tools in the tool kit.
+This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
+    </item>
+    
+    <item>
+      <title>Graphing Patent Data with ggplot2 part2</title>
+      <link>/graphing-patent-data-with-ggplot2-part2/</link>
+      <pubDate>Mon, 20 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/graphing-patent-data-with-ggplot2-part2/</guid>
+      <description>Introduction The Grammar of Graphics Getting Started Loading the Data Reviewing and Preparing the Dataset with dplyr Creating a Publication Country Table Creating a Publication Country by Year Table  Getting Going with ggplot in ggplot2 Establishing the Base Object Adding a geom Changing the Geom Adding a trend line Statistical Transformations Adding Labels Publication Country Charts A Bar chart Adding labels to columns A Ranked Bar Chart A Dot Plot A Balloon Plot A Stacked Bar Chart Faceting facet_wrap  Pie and Coxcomb Plots Creating a Pie Chart (aaaargh) The Coxcomb Plot  Round Up Useful Resources   Introduction This is Part 2 of an article introducing R for patent analytics that focuses on visualising patent data in R using the ggplot2 package.</description>
+    </item>
+    
+    <item>
+      <title>Wrangling Pizza Patents in R</title>
+      <link>/wrangling-pizza-patents-in-r/</link>
+      <pubDate>Thu, 25 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/wrangling-pizza-patents-in-r/</guid>
+      <description>Getting Started with R Getting Started About the pizza patent dataset Reading in the Data Creating a numeric field Renaming Columns Selecting Columns for plotting  Creating Counts Total by Year Round Up    This is the first part of a two part article on using R and the ggplot2 package to visualise patent data. In a previous article we looked at visualising pizza related patent activity in Tableau Public.</description>
+    </item>
+    
+    <item>
+      <title>Accessing Patent Data with WIPO Patentscope</title>
+      <link>/patentscope/</link>
+      <pubDate>Mon, 25 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/patentscope/</guid>
+      <description>Introduction Patentscope is the WIPO public access database. It includes coverage of the Patent Cooperation Treaty applications (administered by WIPO) and a wide range of other countries including the European Patent Office, USPTO and Japan totalling 51 million patent documents including 2.8 million PCT applications.
+This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
+    </item>
+    
+    <item>
+      <title>Network Visualisation with Gephi</title>
+      <link>/gephi_patent_network/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/gephi_patent_network/</guid>
+      <description>Introduction This article focuses on visualising patent data in networks using the open source software Gephi.
+Gephi is one of a growing number of free network analysis and visualisation tools with others including Cytoscape, Tulip, GraphViz, Pajek for Windows, and VOSviewer to name but a few. In addition, network visualisation packages are available for R and Python. We have chosen to focus on Gephi because it is a good all round network visualisation tool that is quite easy to use and to learn.</description>
+    </item>
+    
+    <item>
+      <title>Understanding Patent Databases</title>
+      <link>/patent-databases/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/patent-databases/</guid>
+      <description>Introduction This article provides a quick overview of some of the main sources of free patent data. It is intended for quick reference and points to some free tools for accessing patent databases that you may not be familiar with.
+This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
+    </item>
+    
+    <item>
+      <title>Visualising Data with Tableau Public</title>
+      <link>/tableau-patents/</link>
+      <pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/tableau-patents/</guid>
+      <description>Introduction In this article we will be analysing and visualising patent data using Tableau Public.
+Tableau Public is a free version of Tableau Desktop and provides a very good practical introduction to the use of patent data for analysis and visualisation. In many cases Tableau Public will represent the standard that other open source and free tools will need to meet.
+This is a practical demonstration of the use of Tableau in patent analytics.</description>
+    </item>
+    
+    <item>
+      <title>Understanding Patent Data Fields</title>
+      <link>/patent-data-fields/</link>
+      <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/patent-data-fields/</guid>
+      <description>Introduction This article provides a walk through of patent data fields for those who are completely new to patent analytics or want to understand the workings of patent data a little bit better. A video version of the walk through is available here and the slide deck is available for download in .pdf, powerpoint and apple keynote from GitHub. This article goes into greater depth on each data field and their use in patent analysis.</description>
+    </item>
+    
+    <item>
+      <title>Cleaning Patent Data with Open Refine</title>
+      <link>/openrefine-patent-cleaning/</link>
+      <pubDate>Sat, 02 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/openrefine-patent-cleaning/</guid>
+      <description>Introduction Cleaning patent data is one of the most challenging and time consuming tasks involved in patent analysis. In this chapter we will cover.
+Basic data cleaning using Open Refine Separating a patent dataset on applicant names and cleaning the names. Exporting a dataset from Open Refine at different stages in the cleaning process.  Open Refine is an open source tool for working with all types of messy data. It started life as Google Refine but has since migrated to Open Refine.</description>
+    </item>
+    
+    <item>
+      <title>Reading and Writing an Excel File in R</title>
+      <link>/reading-writing-excel-files-r/</link>
+      <pubDate>Thu, 30 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/reading-writing-excel-files-r/</guid>
+      <description>This post was updated in 2018 and you can read it here
+The CRAN Project has the following to say about importing Excel files into R.
+“The first piece of advice is to avoid doing so if possible! If you have access to Excel, export the data you want from Excel in tab-delimited or comma-separated form, and use read.delim or read.csv to import it into R. (You may need to use read.</description>
+    </item>
+    
+    <item>
+      <title>Importing CSV files into R</title>
+      <link>/importing-csv-files-into-r/</link>
+      <pubDate>Wed, 29 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/importing-csv-files-into-r/</guid>
+      <description>A Quick 2018 Update Introduction Reading in a file using read.table (utils package) Reading a .csv from the web Downloading From Google Drive Downloading from GitHub  Writing a .csv file Reading in multiple .csv files Using the new readr package. Writing a .csv file using write_csv() Round Up   A Quick 2018 Update This post is now showing its age and was the first thing I wrote about R.</description>
+    </item>
+    
+  </channel>
+</rss>

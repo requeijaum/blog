@@ -1,0 +1,105 @@
+---
+title: Escaping concatenated data hell in R...deconcatenate and trim
+author: Paul Oldham
+draft: true
+date: '2018-03-10'
+slug: dealing-with-concatenated-data-fields-in-r
+description: "Learning to love separate_rows and trim."
+categories:
+  - R
+tags: [text fields, tidyr, separate_rows, clarivate analytics, web of science]
+---
+
+In this post I want to talk about concateted fields... er what on earth are you talking about.... you know the spreadsheets or data frames with cells lumped together stuff, like this.
+
+INSERT concatenated 
+
+```{r}
+tibble::tibble(messy = c("this is not the messiest; only a man could be this messy", "mess; in the world", "it's just; a; tribute; honestly"))
+```
+
+Or, if we wanted something a bit more real world we could take this list of author of scientific articles from south east asia working on marine organisms
+
+INSERT
+er... ugh. The messiness of this matters if you like counting stuff properly because your data just won't count properly. I mean this is just totally wrong.
+
+insert wrong count
+
+So, this post is about lumped to
+
+
+
+
+and the things that we need to think about along the way.
+
+I commonly work with text fields in data from the scientific and patent literature. That means that I run into the problem with columns containing multiple items separated by a semi colon or a comma that are linked to a key field (such as an article DOI or a patent publication number). 
+
+In this short post, and in case anyone else is running into this problem, I want to quickly document a short function that will help to solve the problem. 
+
+### The problem
+
+I am a big fan of the concept of Tidy Data as developed by Hadley Wickham in [this paper]. Tidy data basically means that each column of a data frame or table is for one category of data (such as authors) and each cell in the table contains one observation for that category (a single author name).
+
+Real world data does not behave like this and we can see this in some data I have been working with from [Clarivate Analytics]() *Web of Science* involving marine species for South East Asia.
+
+We can see in this code that I have added the optional `readr` `trimws` argument. This is not the default when importing from the RStudio menu but can help you to avoid problems. 
+
+```{r read}
+library(tidyverse)
+wos_asean_marine <- read_csv("~/Desktop/open_source_master/asean_report/data/wos_asean_marine_6659.csv", trim_ws = TRUE)
+```
+
+```{r save, echo=FALSE}
+save(wos_asean_marine, file = "wos_asean_marine.rda")
+```
+
+```{r load, echo=FALSE}
+load("wos_asean_marine.rda")
+```
+
+Let's pick a couple of columns.
+
+```{r}
+test <- wos_asean_marine %>% select(authors_fullname_useme_updated, isi_unique_article_identifier)
+```
+
+```{r echo=FALSE}
+knitr::kable(test[1:10,])
+```
+
+We can see here that the author field contains concatenated authors separated by a semicolon linked to the record id.
+
+The first problem with this is that we can't clean it or count it properly. The second problem is that if we export the separated data to a tool like Tableau, the id field that we may use to check our counts (in this case the isi_unique_article identifier) will not count properly for reasons that are less obvious ( and are because it is not reading them in properly). 
+
+In dealing with the first problem the `tidyr` package and the `separate_rows` function comes to our rescue. The second function is base R `trimws`.
+
+```{r}
+separate_trim <- function(x, col = NULL, sep = NULL, id = NULL){
+  df <- x %>% tidyr::separate_rows(col, sep = ";")
+  df[[col]] <- trimws(df[[col]], which = "both")
+  df[[id]] <- trimws(df[[id]], which = "both")
+  df
+}
+```
+
+This function takes the column in the dataset that we want to break into individual rows and then trims the possible white space at the front or the end of the name string. 
+
+Let's look at the difference that this makes to the counts of the number of authors
+
+
+```{r}
+test %>% separate_rows(., "authors_fullname_useme_updated", sep = ";") %>% group_by(authors_fullname_useme_updated) %>% tally() %>% count()
+```
+
+Let's do the same thing with trimmed data. 
+
+```{r}
+test %>%
+  separate_trim(., "authors_fullname_useme_updated", sep = ";", id = "isi_unique_article_identifier") %>%
+  group_by(authors_fullname_useme_updated) %>%
+  tally() %>% count()
+```
+
+The difference is a spectacular 1000 names. 
+
+The ability to propertly deconcatenate a column with cells that contain multiple observations is not wildly exciting. However, 

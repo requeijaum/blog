@@ -6,7 +6,7 @@
     <description>Recent content in Lens Database on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Copyright @ Paul Oldham 2017</copyright>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Sun, 26 Jul 2015 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/lens-database/index.xml" rel="self" type="application/rss+xml" />
@@ -14,10 +14,10 @@
     
     <item>
       <title>Accessing Patent Data with the Lens</title>
-      <link>/2015/07/26/lens-tutorial/</link>
+      <link>/lens/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>/2015/07/26/lens-tutorial/</guid>
+      <guid>/lens/</guid>
       <description>Introduction In this article we provide a brief introduction to The Lens patent database as a free source of data for patent analytics.
 The Lens is a patent database based in Australia that describes itself as “an open global cyberinfrastructure to make the innovation system more efficient and fair, more transparent and inclusive.” The main way it seeks to do this is by providing access to patent information with a particular focus on sequence information as well as analysis of issues such as DNA related patent activity.</description>
     </item>

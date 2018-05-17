@@ -2,7 +2,7 @@
 title: An Overview of Patent Analytics Tools
 author: Paul Oldham
 date: '2015-07-26'
-slug: overview-patent-analytics
+slug: overview-open-tools
 categories:
   - Patents
 tags: [patent databases, patent analytics, patent analytics software]

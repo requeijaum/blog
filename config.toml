@@ -1,15 +1,18 @@
-baseurl = "/"
+baseurl = "https://www.pauloldham.net"
 languageCode = "en-us"
 title = "Paul Oldham's Blog"
 theme = "hugo-lithium-theme"
 author = "Paul Oldham"
-googleAnalytics = ""
-disqusShortname = ""
+discusShortname = "pauloldham"
+GoogleAnalytics = "UA-113668064-1"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
-    post = "/:year/:month/:day/:slug/"
+    post = "/:slug/"
 
+[[menu.main]]
+    name = "WIPO Analytics"
+    url = "https://github.com/wipo-analytics"
 [[menu.main]]
     name = "About"
     url = "/about/"
@@ -17,16 +20,15 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     name = "GitHub"
     url = "https://github.com/poldham"
 [[menu.main]]
-    name = "Twitter"
+    name = "@junglepaul"
     url = "https://twitter.com/junglepaul"
-[[menu.main]]
-    name = "One World Analytics"
-    url = "http://oneworldanalytics.com/"    
 
 [params]
-    description = "Paul Oldham's Blog"
-    copyright = "Copyright @ Paul Oldham 2017"
+    description = "Patent Analytics, Bibliometrics and Data Visualization"
+    copyright = "Copyright @ Paul Oldham 2017-2018"
 
+    twitterAuthor = "@junglepaul"
+    
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.11.0"
     highlightjsCDN = "//cdn.bootcss.com"

@@ -1,0 +1,492 @@
+---
+title: "Counting Patent First Filings the Tidy Way with R"
+author: "Paul Oldham"
+date: '2018-05-11'
+description: For accurate patent statistics you need to be able to identify the earliest priority
+  filings. This article shows you how with R as part of work for the WIPO Patent Analytics Handbook.
+slug: counting-patent-first-filings
+tags:
+- patent statistics
+- R
+- Clarivate Analytics
+- Derwent Innovation
+categories:
+- Patents
+- R
+---
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE, out.width = "800px", fig.align = "center", echo=TRUE, warning=FALSE, message=FALSE, width = 900, tidy = FALSE)
+options(width = 250)
+```
+
+This article provides an in depth introduction to counting patent first filings or priority counts. It is a work in progress chapter for the WIPO Patent Analytics Handbook focusing on advanced patent analytics and builds on the introductory [WIPO Manual on Open Source Patent Analytics](https://wipo-analytics.github.io/).
+
+Counting first filings is an important subject for patent statistics because the first filing of a patent application marks the date that is closest to investment in research and development leading to the invention. For this reason it is widely used by economists and statisticians as a proxy indicator for the analysis of trends in science and technology.^[One of the most widely cited works providing an overview of the use of patents statistics is Griliches, Z 1998 Patent Statistics as Economic Indicators: A Survey, in Griliches, Z (ed.),  R&D and Productivity: The Econometric Evidence. Cambridge: Cambridge University Press, available at [http://www.nber.org/chapters/c8351.pdf](http://www.nber.org/chapters/c8351.pdf)] For patent applicants, the first filing, and the priority date that defines it, can be the difference between success and failure. An applicant with priority in the filing of an application for the same invention as their competitor will win in a dispute, and potentially win in multiple countries around the world. Millions, and in some cases hundreds of millions, of dollars may ride on who holds priority over an invention. 
+
+For such an important subject, remarkably little has been written on the practical aspects of counting patents by priority or, as is more intuitive, first filings. The international patent priority system has its origins in the [1883 Paris Convention for the Protection of Industrial Property](http://www.wipo.int/treaties/en/ip/paris/summary_paris.html) and basically means that inventors in contracting states to the Convention have a twelve month period from the date of filing their invention to file in other contracting states. During that period any filing in a contracting state will be treated as if it was filed on the same date as the original filing and will enjoy priority over other competing claims to the same invention.
+
+The best existing guide to understanding priority counts is the 2009 [OECD Patent Statistics Manual](http://www.oecd.org/sti/inno/oecdpatentstatisticsmanual.htm). The [OECD Patent Statistics Manual](http://www.oecd.org/sti/inno/oecdpatentstatisticsmanual.htm) is an excellent resource but does not focus on practical demonstration. This article focuses on the practical issues involved in counting by priority. 
+
+By the end of this article you will have an understanding of what priority numbers are and how to use them to generate descriptive patent statistics. You will also be aware of the challenges involved in using priority counts and how to address them. 
+
+We will use R inside RStudio because it provides much more flexibility than tools such as Excel. If you are new to R follow the instructions below on installing R and RStudio. If you are familiar with R but new to patent data, welcome to the challenge. We will use a tidy approach to working with the data and the `tidyverse` suite of packages. This allows us to write code that is easy to read and to be transparent about the steps we are taking. 
+
+### Installing R and RStudio
+
+To install R for your operating system choose the appropriate option [here](http://cran.rstudio.com/) and install R. Then download the free RStudio desktop for your system [here](https://www.rstudio.com/products/rstudio/download/#download). We will be using a suite of packages called the `tidyverse` that make it easy to work with data. When you have installed and opened RStudio run this line in your console. 
+
+```{r install, eval=FALSE}
+install.packages("tidyverse")
+```
+
+Next load the library
+
+```{r load_tidyverse, message=TRUE}
+library(tidyverse)
+```
+
+You will now see a bunch of messages as the packages are loaded. You should now be good to go. 
+
+If you would like to learn more about R then try the excellent [DataCamp](http://www.wipo.int/treaties/en/ip/paris/summary_paris.html) online courses or read Garrett Grolemund and Hadley Wickham's [R for Data Science](http://r4ds.had.co.nz/). Learning to do things in R will make a huge difference to your ability to work with patent and other data and to enjoy the support of the R community in addressing new challenges. There is never a better time to start learning to do things in R than right now.
+
+### The Drones Dataset
+
+The drones dataset consists of 18,970 patent publications that contain the words drone or drones somewhere in the text. The dataset is based on a search of the full text patent collections of the United States, the European Patent Office (covering members of the European Patent Convention), the Japan Patent Office, and the Patent Cooperation Treaty (WO) administered by the World Intellectual Property Organisation. The data is based on a search of the commercial [Clarivate Analytics Derwent Innovations](https://clarivate.com/products/derwent-innovation/) database which makes it easy to search and download full text data at scales up to 60,000 records at a time.
+
+We will be working with the drones `numbers` set that is confined to just patent numbers in their raw form as downloaded from Derwent Innovation. You can download the dataset [here](https://github.com/wipo-analytics/drones_data/blob/master/numbers.csv?raw=true) or import it directly by running the following in your RStudio console.
+
+```{r read in data}
+library(tidyverse)
+numbers <- read_csv("https://github.com/wipo-analytics/drones_data/blob/master/numbers.csv?raw=true")
+```
+
+```{r save, echo=FALSE, eval=FALSE}
+save(numbers, file = "numbers.rda", compress = "xz")
+```
+
+```{r load, echo=FALSE}
+load("/Users/pauloldham17inch/Desktop/open_source_master/blog/content/post/numbers.rda")
+```
+
+### The priority number
+
+In the table below we can see that we have a dataset consisting of five columns starting with the priority number.
+
+```{r head}
+numbers
+```
+
+We will only be working with the priority number and the application number, but as a general principle it is useful to understand the relationship between these fields which can be simply described as follows.
+
+priority number > application number > publication number > family members
+
+We can get a clearer understanding of the relationship between these numbers by looking at the front page of a patent document from our dataset using the popular esp@cenet database. You can access this example [here](https://worldwide.espacenet.com/publicationDetails/biblio?FT=D&date=20151210&DB=EPODOC&locale=en_EP&CC=US&NR=2015357831A1&KC=A1&ND=4).
+
+```{r witricity, echo=FALSE}
+knitr::include_graphics("/images/priority/witricity.png")
+```
+
+We can see that the front page or biblio of a patent record contains a large amount of information. It is typically this information that is used to generate patent statistics. For our  purposes we can see that the priority numbers field consists of one or more priority numbers. We might expect that there would only be one priority number as the original filing for the invention. However that is often not the case as we will discuss below. 
+
+From the front page we can see that if we proceed up from the priority numbers the first priority number in the list exactly matches the application number on the front page. This tells us that this is the first filing for this particular application. This application is then published as US2015357831A1.^[the date field is missing in our dataset and this is common, Clarivate also adds zeros as padding so it is US20150357831A1. esp@acenet adds the year following the kind code as US201514815121 20150731 whereas in our Derwent Innovation data the number is US14815121 20150731] We can clearly see the relationship we described above
+
+`priority number > application number > publication number`
+
+In a separate article we will address family members (patent publications that link to one or more of priority numbers) but these family members can be accessed through the INPADOC Patent Family [here](https://worldwide.espacenet.com/publicationDetails/inpadocPatentFamily?CC=US&NR=2015357831A1&KC=A1&FT=D&ND=4&date=20151210&DB=EPODOC&locale=en_EP) and will include our target publication. 
+
+For the moment however, let's make sure we have a good understanding of priority numbers.
+
+The OECD Manual on Patent Statistics describes the Priority number and the priority date as follows
+
+ > Priority number. This is the application or publication number of the priority application, if applicable. It makes it possible to identify the priority country, reconstruct patent families, etc.
+
+> Priority date. This is the first date of filing of a patent application, anywhere in the world (usually in the applicant’s domestic patent office), to protect an invention. It is the closest to the date of invention. (OECD 2009: 25)
+
+In practice there are other aspects to the priority number that we need to understand
+
+### Multiple Priority Numbers
+
+As we can see in the example above this record contains multiple priority numbers when intuitively we might have assumed that one invention = one priority number. The patent system does not actually work like that and there are two reasons for this that we need to understand. 
+
+1. Patent applicants frequently file in more than one country
+
+In a simple case there is a single priority number and the application number will be identical to that priority number. We can see this in the first example from our dataset. The priority number and the application number are the same. 
+
+```{r view_priority_appln, message=FALSE}
+library(tidyverse)
+numbers[1,] %>% 
+  select(priority_number, application_number)
+```
+
+However, the patent system is an international system. A patent applicant may choose to file for patent rights in up to 152 contracting parties to the [Patent Cooperation Treaty](http://www.wipo.int/pct/en/) (although applications in all member states is unusual). As the applications are submitted in multiple countries additional priority numbers will appear in the record. An example of this is provided below.
+
+```{r jp_wo_priority, echo=FALSE}
+knitr::include_graphics("/images/priority/japan.png")
+```
+
+In this case we can see that the earliest priority number is for Japan (JP20150122335 20150617) and the second priority number is for WO (the Patent Cooperation Treaty) and incorporates the country code of the first filing JP into the new priority number (WO2016JP67809 20160615). The Patent Cooperation Treaty is the vehicle through which applicants can submit applications in multiple countries. In this case we can see that the applicant from Japan has chosen to pursue an application in the United States using the Patent Cooperation Treaty (WO) resulting in the application number US201615322008 20160615 filed in 2016 that was then published as [US2017137104A1](https://worldwide.espacenet.com/publicationDetails/biblio?FT=D&date=20170518&DB=EPODOC&locale=en_EP&CC=US&NR=2017137104A1&KC=A1&ND=4).
+
+From this we might be tempted to assume that the earliest priority will always appear at the front of the list of priorities. However, this assumption is not safe as we will see below where the first filing appears at the end of the list of priorities. We will be on safer ground by identifying the earliest date in the sequence. 
+
+2. Multiple earlier inventions 
+
+The second situation where we observe multiple priority numbers is cases where multiple earlier applications by the same applicants contribute to the claimed invention. We can see this in the first example above. As an anecdotal observation, the presence of multiple other inventions in the priority field appears to vary by field. Thus, from personal experience, it is uncommon in agriculture, pharmaceuticals and biotechnology but appears to be more common in cases such as computing.  
+
+In the case of [US2015357831A1](https://worldwide.espacenet.com/publicationDetails/biblio?FT=D&date=20151210&DB=EPODOC&locale=en_EP&CC=US&NR=2015357831A1&KC=A1&ND=4) above we are dealing with a wireless power system for a drone with an electronic display. Close inspection of the priority numbers reveals that all the earlier priority numbers are filings in the United States with many containing the kind code P standing for Provisional application at the end of the number (e.g. US20090169240P 20090414). The Provisional application system was introduced in the United States in 1995 as a means of harmonizing its system with the wider international system.^[For details see the [USPTO web page on Provisional Applications](https://www.uspto.gov/patents-getting-started/patent-basics/types-patent-applications/provisional-application-patent)] A provisional patent application establishes the priority date for the invention, allowing the applicant to claim priority over other claims, but has no other legal meaning until a full patent application is submitted. Provisional patent applications are not published and are not accessible for analysis. 
+
+To understand this a bit better we can look at the list of actual applications that appear at the start of the sequence of priority numbers.
+
+1. US201514815121 20150731 is the priority filing for the new invention of a wireless power system for an electronic display with an impedance matching network with identical application number (US201514815121 20150731) and publication number [US2015357831A1](https://worldwide.espacenet.com/publicationDetails/biblio?DB=EPODOC&II=0&ND=3&adjacent=true&locale=en_EP&FT=D&date=20151210&CC=US&NR=2015357831A1&KC=A1).
+2. [US201113267750 20111006](https://worldwide.espacenet.com/publicationDetails/biblio?FT=D&date=20151210&DB=EPODOC&locale=en_EP&CC=US&NR=2015357831A1&KC=A1&ND=4#) is for a Wireless Powered Television
+3. [US201113232868 20110914](https://worldwide.espacenet.com/publicationDetails/biblio?FT=D&date=20151210&DB=EPODOC&locale=en_EP&CC=US&NR=2015357831A1&KC=A1&ND=4#) is for a wireless energy distribution system.
+
+As this makes clear, the first filing for this specific invention is the priority number that matches the application number. The other applications in the list could be described as contributing inventions. That is, the specific invention is based on combinations of elements of the other inventions in the list or elaborates on specific aspects of them as a new invention. Note that if we were to start exploring the provisional applications (kind code P) we would be confronted with lists of applications that arise from those provisional applications because provisional applications are not published directly except where they become full applications. You can test that with this example [US20100411490P](https://worldwide.espacenet.com/publicationDetails/biblio?DB=EPODOC&II=0&ND=3&adjacent=true&locale=en_EP&FT=D&date=20151210&CC=US&NR=2015357831A1&KC=A1#).
+
+What does this mean in terms of counting first filings or priority documents? If we choose the *earliest filing* in the list [US20090169240P 20090414](https://worldwide.espacenet.com/searchResults?PL=true&ND=5&DB=EPODOC&query=PR%3DUS20090169240P) we will be choosing a provisional application for a contributing invention at the base of a set of inventions. 
+
+So, we could:
+
+  1) Choose this filing as the earliest filing bearing in mind it is for a contributing invention rather than the invention itself, or
+  2) We could choose the priority number where the application number is identical as the first filing of the application claiming a wireless power system for an electronic display (US201514815121 20150731). 
+  
+  <!--- in the case of an non provisional application based on a provisinal application the nonprovisional application will enjoy the effective filing date of the provisional application---->
+  
+If our aim is to simply to identify the earliest filing then we would choose option one. This will take us to the earliest in the set of filings but that may be some years before the research and development leading to the specific invention. This is the easiest option because in effect all we have to do is identify the earliest priority date in a set. 
+
+However, if we choose option 2 we will identify the date that is closest to the investment in research and development leading to the specific invention. At first sight this is more attractive in using patent data as an indicator for technology trends but it is significantly more challenging in terms of methodology.
+  
+As this helps to clarify, when dealing with patent counts we are often dealing with *many to many relationships*. The application number, as we have just seen, is central to our ability to navigate these relationships and serves as the key field in patent databases such as the EPO World Patent Statistical Database (PATSTAT). The reason for this is that where an application number is identical to a priority number in a set we know it is the first filing. Any other priority numbers either reflect the filing route (national to regional to international) or are for contributing inventions. Any other application numbers or publications are members of the family linked to that first filing. We will address this in more detail in an article on family members. 
+
+In this article our aim will be to map priority filings by identifying the earliest priority dates in the set of priorities linked to an application. In the process we will explore some of the issues that need to be considered when counting patents by priority.
+
+### Summary
+
+We now have enough background to begin counting first filings using the priority number. In summary:
+
+1. The priority number records the first filing of a patent application anywhere in the world;
+2. Where a priority document is the first filing the application number will be identical to the priority number;
+3. A single application may contain multiple priority numbers that reflect:
+  - The history of the filing route of applications with the earliest priority date being the first filing;
+  - Multiple contributing inventions where the first filing of the target application will be the priority number that is identical to the application number and the earliest priority will be the base of a set of inventions or patent family.  
+
+## Counting Priority Numbers
+
+We are now in a position to begin working on counting first filings based on the identification of the earliest priority dates for a set of applications. 
+
+To approach this we will need to start by asking two questions:
+
+1) Does our dataset contain duplicate records? If so we will over count. 
+2) Does our dataset contain missing data? If so, what is the appropriate way to deal with that? 
+
+### Dealing with duplicates
+
+We will deal with the question of duplicate data first. This is extremely common with patent data. Duplication arises because a single patent application may be published and republished multiple times (as an application, grant or correction). Duplication is inherent to the system as a global system. Duplication is also prominent when working with patent data because the most common way of retrieving data from a patent database is through publication numbers. Put simply, we can't read a document that hasn't been published and so when querying databases it is publications that we see. It is also publications that are downloaded from databases. For some databases, such as Derwent Innovation, there does not appear to be a way to deduplicate the data prior to export and so this has to be handled after export. In other cases, such as the free Lens patent databases or other commercial databases, it is possible to reduce the data onto a single filing. However, the criteria that are applied when deduplicating at source are often unclear - and may vary between databases - so this can impact on your ability to understand the data. If in doubt choose the rawest form and work from there. 
+
+Let's look at the data again to gain an understanding of the duplication issue. We will arrange the data by the application number for reasons that will become clear in a moment. If you are following this in R then note that `arrange()` puts the application number in alphabetical order. `select()` using `-` drops the columns we don't want to see right now. Because the duplicates can be difficult to spot I have selected a few rows to make this clear.
+
+```{r view_concat}
+numbers %>% 
+  arrange(application_number) %>% 
+  select(-family_first, -family_number, -publication_number) %>% 
+  .[53:60,]
+```
+
+There are two things we need to note in this view. 
+
+First, some of our data is concatenated (joined) with `;` as the separator. Second, and more importantly for the moment, we can see that we seem to have duplicate application numbers e.g. EP1980400905A in the first and second rows and then onwards. 
+
+The reason that we have duplicates in the data is that a patent application may be published multiple times (for example as an application and as a grant or with corrections etc.). So, in the data above we can see that EP1980400905A 1980-06-19 has been published as EP22391A1 and EP22391B1 with the two letter `kind codes` at the end of the publication number representing the first publication of the application (A1) and kind code B1 representing the first publication of a patent grant.^[In formal terms kind codes refer to publication types and publication levels. Their use varies over time in individual countries and across countries and should therefore be approached with a degree of caution. At major patent offices kind code A typically denotes an application and kind code B a patent grant, except for US patent documents prior to 2001 where kind code A denotes a patent grant. As this suggests, caution is needed.] 
+
+
+```{r view_again}
+numbers %>% 
+  arrange(application_number) %>% 
+  select(-family_first, -family_number, - priority_number) %>% 
+  .[53:60,]
+```
+
+Where a document is republished the application number will be duplicated. This means that we will also end up with duplicated priority numbers and we will over count. Removing duplicate records is the key requirement for accurate counts of patent data. 
+
+So, lets remove the duplicate application numbers first. To do that we will use a simple piece of R code from the `dplyr` package (you loaded it with the tidyverse) to add a new column that identifies the duplicated records. We will create a new column called duplicated using `mutate()` which adds columns. We will add the duplicated column by applying the R function `duplicated()` to the application_number column. What this does is to loop over the column and identifies the first instance of the application_number and then duplicates of the application_number. The first instance of the application_number will be marked as FALSE (not duplicated) and the others as TRUE (duplicated). We will then use the `filter()` function from `dplyr` to limit the data to our non-duplicated numbers `== FALSE`. 
+
+A couple of other things to note is that we will put this in a new table called numbers unique by using the assignment `<-` operator. We also use the pipe `%>%` operator which takes what it finds on the left hand side and passes it into the right hand side. So, we see that `numbers %>% mutate()` passes the numbers table or data.frame from the left hand side into `mutate()` to create a new column based on the contents of the call to mutate. It's simple and logical when you become familiar with it. At the end of this chunk of code we will limit the data to just the priority_number and the application_number which we will be using as a key.^[in everyday practice you may want to keep the publication number to look up records and check you are on the right track] The `select()` function from `dplyr` will only select those columns that we name inside it and will drop the others. These three functions: `select()` for columns, `filter()` for rows, and `mutate()` to add new values connected with the pipe `%>%` represent the building blocks for almost everything you need to do with patent data in R. The rest such as `duplicated()` help you to perform particular operations and we will go into more detail with that below.
+
+```{r remove_duplicates}
+numbers_unique <- numbers %>%
+  mutate(duplicated = duplicated(application_number)) %>% 
+  filter(duplicated == "FALSE") %>% 
+  select(priority_number, application_number, publication_number)
+
+nrow(numbers_unique) # count the rows
+```
+
+This reduces our original 18,970 records to 15,776 records. We now want to take a look at our data to check for missingness. 
+
+### Missing Data
+
+We will be counting and graphing the priority numbers. So we will want to check that all of our records have a priority number. We will also be using dates to graph the data and it will be a very good idea to check the dates at this stage. The reason for this is that strange things can happen with patent dates and this is often linked to missingness in the data as we will see in a moment. 
+
+In R missing data is represented by NA for Not Available. Working with NA data can be awkward and a source of considerable frustration because NA is not a value, it is the absence of a value. We can solve this by adding a column using `mutate()` that will test the priority number field for NA values `is.na()`. We will then apply a filter to allow us to see the top results where the value for `is.na()` is TRUE. To see all the data add `%>% View()` to the end. 
+
+```{r detect_missing}
+numbers_unique %>% 
+  mutate(missing_priority = is.na(priority_number)) %>% 
+  filter(missing_priority == "TRUE")
+```
+
+The first thing we notice about this data is that the dates for the records are 0001-01-01. This type of device (along with 999999) is often used to denote the absence of a date. In this case if we look up some of these cases we will discover that they are very old records. For example [US322982A](https://worldwide.espacenet.com/publicationDetails/biblio?DB=EPODOC&II=0&ND=3&adjacent=true&locale=en_EP&FT=D&date=18850728&CC=US&NR=322982A&KC=A) dates to 1885. The Paris Convention did not enter into force in the United States until May 1887 and it is unclear when exactly the USPTO started using the system, so it is not surprising that these documents lack priority numbers.^[http://www.wipo.int/treaties/en/ShowResults.jsp?lang=en&treaty_id=2] If we continue to keep these records we will see an artificial spike of activity somewhere at the start of our graph. In this case we can safely drop these records using the handy `drop_na()` function from `dplyr`. We will simply overwrite the existing table and specify the priority number as the column where we will drop the rows with NA values.
+
+```{r unique}
+numbers_unique <- numbers_unique %>% 
+  drop_na(priority_number) %>% 
+  select(-publication_number)
+
+nrow(numbers_unique)
+```
+
+We have now reduced our dataset to 15,680 unique application numbers. Note that you may want to also use this type of `test, investigate, decide` approach with other fields but it is always a good idea to note down the decisions that you make when doing so, otherwise what Hadley Wickham has called "future you" will have no idea and your audience will also have no clue. 
+
+When working with this kind of data it is useful to create a reference number or even a full table that allows you to work out whether any operations you run afterwards are working correctly. In this case we now know that we have 15,680 application numbers. In the next section we will be working out the earliest priority dates for each of these documents. We therefore need to ensure that we end up with 15,680 application numbers. We will create a reference number called target from the number of rows `nrow()` in the dataset before we go any further. This can help us work out what is going wrong if we end up with different numbers at the end. For more complex cases try creating a copy of the full table that you can use to work out what is getting lost or not counting correctly. 
+
+```{r target}
+target <- nrow(numbers_unique)
+target
+```
+
+We now know that we have no missing priority dates so we can proceed to wrangling or processing the priority numbers. 
+
+### Wrangling the Priority Numbers
+
+We can't count concatenated data properly, so our next step is to separate out the concatenated priority numbers into individual rows. We will also want to extract the dates from the priority numbers that we will use later on to create a graph. We will do this in one go. In the first step we will use `separate_rows()` from `tidyr` to break the priority numbers onto individual rows using `;` as the separator. We then use `separate()` to separate out the priority number and the date component. This will create two new columns called priority and priority_date. We will then apply two functions to these columns using `mutate()`. The first will convert the priority date to date format in R. The second will trim any white space that appears at the front or end of the priority number field from the earlier separation. Trimming white space is an extremely important step. For example `US1234` and the same number with a white space at the front or rear _US1234, where `_` stands for the space, will be treated as a distinct number and will not count correctly. Trimming white space is a fundamental task when counting patent data and the single most common reason that your counts will not be correct at the end of all your hard work!  
+
+As a final step in data preparation we will add some additional features. We will identify the US provisional applications and we will count the number of priorities associated with an application. We will also extract the two letter country codes at the beginning of the priority and application number fields as they may assist us later and will be used in counts. Note that the count of priority numbers in `n` reveals the total number of priorities associated with an application number. We will not use all of these fields for this type of count but they are useful to assist with understanding the data as we move along.
+
+```{r}
+numbers_unique <- numbers_unique %>% 
+  separate_rows(priority_number, sep = ";") %>% 
+  mutate(priority_number = str_trim(priority_number, side = "both")) %>%
+  separate(priority_number, into = c("priority", "priority_date"), sep = " ", remove = FALSE) %>% 
+  mutate(priority_date = lubridate::ymd(priority_date)) %>% 
+  mutate(priority = str_trim(priority, side = "both")) %>%
+  mutate(priority_number = str_trim(priority_number, side = "both")) %>% 
+  mutate(provisional = str_detect(.$priority_number, "[[:digit:]]P ")) %>%
+  group_by(application_number) %>%
+  mutate(priority_count = seq_along(1)) %>%
+  add_tally(wt = priority_count) %>% 
+  ungroup() %>% 
+  mutate(priority_country = str_sub(.$priority_number, 1,2)) %>% 
+  mutate(application_country = str_sub(.$application_number, 1,2)) %>%
+  select(-priority_count, -priority) # drop temporary count and unused column
+
+numbers_unique
+```
+
+Let's quickly review what we just did in plain language. We separated each priority number onto its own row using the semicolon as the separator then we split off the priority number and the date and reformatted the date before finally trimming the white space around the numbers in the priority column. A couple of points to note here: in the call to separate we specified the separator or `sep` as a space, we opted to keep the original column with `remove = FALSE` (the default is true and removes the column). We then added a simple count because we know the number of application numbers are duplicated to the number of priorities and then grouped the applications to add a count of the total priorities per application with `add_tally`. We ungrouped the table and then extracted the priority country and application country. Ungrouping is important, but hard to remember, because if we do not ungroup the data then any calculation we apply will be applied by group. This will normally cause unexpected results or the calculation simply won't work.  
+
+When preparing data in this way one of the signs that there are unresolved issues with your data is that you will receive warnings about missing or extra pieces of data when you use `separate()`. If you see these messages go back and inspect your data. It can mean that there are NA values in the column you are separating or it can mean that you have extra spaces (so there will be too many pieces) or something else is present in the data. Issues with white space are common culprits with patent data (following separation) and this is one of the reasons that there are two calls to trim white space with `str_trim()` as a security blanket to avoid later problems. 
+
+To make this clearer lets just try and run separate on our original concatenated data using the space as the separator.
+
+```{r warning=TRUE}
+numbers %>% 
+  separate(priority_number, into = c("one", "two"), sep = " ")
+```
+
+We immediately get a warning about extra pieces in over 10,000 rows signifying that we need to go back and pay more attention to our data. In other cases you will not always be concerned about this, although it is an extremely good idea to be clear about why you are not concerned, and you can deal with extra data by specifying `extra = "merge"`. For fun let's try that. 
+
+```{r extra_merge}
+numbers %>% 
+  separate(priority_number, into = c("one", "two"), sep = " ", extra = "merge") %>% 
+  select(one, two)
+```
+
+As we would expect from using the space as a separator, the function is showing us the number in the first column and the date in the second but is then tacking on the rest of the data in cases with multiple priority numbers. Warnings and arguments such as `extra = "merge"` can help you get to grips with the issues in your data. 
+
+### Identifying the earliest priority date
+
+In the discussion of the options identified above we noted that we could:
+
+1. Identify the earliest priority document
+2. Identify the priority that is closest to the specific invention
+
+Here we will focus on simply identifying the earliest priority. We can do this in a straight forward way by grouping our application numbers and then using the `rank()` function inside a call to `mutate()` to rank the dates from 1 to x. A key point here is that the default ranking method for the rank function is actually average. We therefore need to specify `ties.method = "first"` to get what we want. We then ungroup our table and filter to the earliest priority date using `filing_order == 1`. 
+
+```{r}
+earliest <- numbers_unique %>% 
+  group_by(application_number) %>% 
+  mutate(filing_order = rank(priority_date, ties.method = "first")) %>%
+  ungroup() %>% 
+  filter(filing_order == 1)
+
+earliest
+```
+
+We now have a data frame that identifies the earliest priority numbers in a set. The 15,680 records corresponds match our target of 15,680 application numbers and so all is good. 
+
+The final step with this data is to remember that this dataset is based on unique *application numbers* and not unique priority numbers. In practice, some of the application numbers in our set will share priority numbers with other applications and will be follow on filings. We therefore need to identify duplicates in the priority numbers and deduplicate to unique priority numbers.
+
+```{r}
+earliest_unique <- earliest %>% 
+  mutate(duplicate_priority = duplicated(.$priority_number)) %>% 
+  filter(duplicate_priority == "FALSE")
+```
+
+This reduces our dataset to a total of 9,366 priority numbers. That is, these priority numbers are the earliest filings giving rise to the 15,680 applications in the drones dataset. 
+
+By pursuing this option we have arrived at the absolute earliest dateline in this dataset on drones through a process of deduplication. However, as the numbers suggest we have also taken out a lot of potentially useful information. At this point it is important to bear in mind that this type of calculation can only be used to graph baseline first filings. We will look at this in further depth in a follow on article.
+
+Let's quickly graph this data. Here we are using the popular R graphing package ggplot2 to draw quick graphs of the data. To learn more about using `ggplot2` try the excellent [R Graphics Cookbook by Winston Chang](http://www.cookbook-r.com/Graphs/) which is available in open access form online. A step by step walk through on using ggplot2 to visualise patent data is available in this [article](https://www.pauloldham.net/graphing-patent-data-with-ggplot2-part2/). If you prefer using Excel or Tableau then write the file to a .csv and then open it in your tool of choice. You can do this simply with the following line of code. 
+
+```{r}
+readr::write_csv(earliest_unique, "earliest_unique.csv")
+```
+
+ggplot2 is quite a lot more involved than working with Tableau, Excel or other tools but provides a powerful way to control graphing. Let's take a quick look at the data. 
+
+```{r echo=FALSE}
+earliest_unique %>% 
+  select(-n) %>% 
+  mutate(year = lubridate::year(priority_date)) %>% 
+  filter(year >= 1990 & year <= 2017) %>% 
+  group_by(year) %>%
+  tally() %>%  
+  ggplot(., aes(x = year, y = n)) +
+  geom_line() +
+  labs(title = "Trends in First Filings of Patent Applications for Drone Technology", x = "priority year", y = "first filings")
+```
+
+Note that graphs of priority data display a characteristic data cliff the closer that we move towards the present. This reflects the fact that patent applications are normally published at least 24 months after they were originally filed. This data cliff can easily mislead an audience into believing that interest in a technology has suddenly collapsed when in reality we are missing or only have partial data for the period. It is therefore important to pull the year range back to accommodate this. Depending on your data it is sensible to pull back the year by at least two years and possibly three years. 
+
+```{r}
+earliest_unique %>% 
+  select(-n) %>% 
+  mutate(year = lubridate::year(priority_date)) %>% 
+  filter(year >= 1990 & year <= 2015) %>% 
+  group_by(year) %>%
+  tally() %>%  
+  ggplot(., aes(x = year, y = n)) +
+  geom_line() +
+  labs(title = "Trends in First Filings of Patent Applications for Drone Technology", x = "priority year", y = "first filings")
+```
+
+Note the speed bump in the data around 2008 that is likely to reflect the impact of the financial crisis with filings relating to drone technology before accelerating rapidly in recent years.^[note that the drones dataset is a training set that includes noisy terms and is not expected to fully reflect trends in drone technology]
+
+In this dataset we can also gain an insight into the countries driving this trend by ranking them in a bar graph for the same period. 
+
+```{r echo}
+library(ggthemes)
+earliest_unique %>%
+  select(-n) %>% 
+  filter(priority_date >= "1990-01-01" & priority_date <= "2017-12-01") %>% 
+  group_by(priority_country) %>% 
+  tally(sort = TRUE) %>% 
+  filter(n > 100) %>% 
+  ggplot(aes(x = reorder(priority_country, n), y = n, fill = priority_country)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "First Filings by Priority Country", x = "Priority Country", y = "First Filings") +
+  geom_text(aes(y = n, label = n), size = 3, hjust = -0.1) +
+  theme_igray() +
+  scale_fill_tableau("tableau20") +
+  theme(legend.position = "none")
+```
+
+Note here that the United States emerges first in the top 5 followed by Japan, France, Korea and the Patent Cooperation Treaty (WO). It is important to bear in mind here that WO records will typically be filed through national offices, although no priority number will be present, as we can see in the references to country codes inside the WO priority documents.
+
+```{r}
+earliest_unique %>% 
+  filter(priority_country == "WO") %>% 
+  select(priority_number)
+```
+
+We can summarise this data by extracting the country codes in the middle of the WO numbers. This suggests that the country where the WO application was submitted was the US followed by China (CN) and so on. The reference to the IB in these numbers are for so called PCT direct filings that are filed directly with WIPO as the International Bureau (IB) for the Patent Cooperation Treaty. 
+
+```{r}
+earliest_unique %>% 
+  filter(priority_country == "WO") %>% 
+  select(priority_number) %>% 
+  mutate(wo_source = str_sub(.$priority_number, 7,8)) %>% 
+  count(wo_source, sort = TRUE)
+```
+
+As such, for a fuller count we might consider reallocating these priority numbers to their respective national country offices.  
+
+Note that we cannot go much further with this data to chart application countries accurately because we have deduplicated the priority numbers that would provide access to the application country data. A superior approach would be to create a temporary field for the unique priorities that allows the linked application countries to be viewed. 
+
+### Bringing together the code
+
+To finish off this discussion let's briefly summarise the code required to reduce the dataset to the early priority filings. Here we will present the code in one go following some pruning to remove extra elements that we did not use to generate this calculation.  
+
+```{r}
+earliest_priority <- numbers %>%
+  mutate(duplicated = duplicated(application_number)) %>% 
+  filter(duplicated == "FALSE") %>% 
+  select(priority_number, application_number, publication_number) %>% 
+  drop_na(priority_number) %>% 
+  separate_rows(priority_number, sep = ";") %>% 
+  mutate(priority_number = str_trim(priority_number, side = "both")) %>%
+  separate(priority_number, into = c("priority", "priority_date"), sep = " ", remove = FALSE) %>% 
+  mutate(priority_date = lubridate::ymd(priority_date)) %>% 
+  mutate(priority_number = str_trim(priority_number, side = "both")) %>% 
+  mutate(priority_country = str_sub(.$priority_number, 1,2)) %>% 
+  group_by(application_number) %>% 
+  mutate(filing_order = rank(priority_date, ties.method = "first")) %>% 
+  ungroup() %>% 
+  filter(filing_order == 1) %>% 
+  mutate(duplicate_priority = duplicated(.$priority_number)) %>% 
+  filter(duplicate_priority == "FALSE") %>% 
+  select(-priority)
+```
+
+Calculating the earliest priority from the moment of import involved 18 lines of code focusing on using `mutate(), filter(), select(), drop_na(), separate_rows(), group_by()`, and `ungroup()`. Inside the `mutate()` function we created new columns to test for duplicates using `duplicated()`, we trimmed white space with `str_trim()`, extracted data with `str_sub()` and ranked data with `rank()`. As this makes clear R functions from the tidyverse provide building blocks that can be chained together in an easy to read way to transform data into a desired result. For this reason we advocate a tidy approach to patent analytics with R. 
+
+One of the most important features of R as a functional programming language is that we can wrap this code (a collection of instructions to functions) into a single function. We will call it extract priority. This code basically reproduces that above but with some additional decoration to address something called [tidy evaluation](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html) in R. Tidy evaluation is intellectually challenging and will not be addressed here.^[See [Edwin Theon's blog](https://edwinth.github.io/blog/dplyr-recipes/) for an introduction along with the [RStudio video](https://www.rstudio.com/resources/webinars/tidy-eval/)  and [Mara Avericks's tidy eval resource roundup](https://maraaverick.rbind.io/2017/08/tidyeval-resource-roundup/)].
+
+```{r}
+extract_priority <- function(data = NULL, priority_number = NULL, key = NULL){
+  x <- data %>%
+    select(!!priority_number, !!key) %>%
+    mutate(duplicated = duplicated(.[[!!key]])) %>%
+    filter(duplicated == FALSE) %>%
+    drop_na(!!priority_number) %>%
+    separate_rows(!!priority_number, sep = ";") %>%
+    mutate(!!priority_number := str_trim(.[[!!priority_number]], side = "both")) %>%
+    separate(!!priority_number, into = c("priority", "priority_date"), sep = " ", remove = FALSE) %>%
+    mutate(priority_date = lubridate::ymd(priority_date)) %>%
+    mutate(!!key := str_trim(.[[!!key]], side = "both")) %>%
+    mutate(priority_country = str_sub(.[[!!priority_number]], 1,2)) %>% 
+    group_by(!!!rlang::syms(key)) %>% 
+    mutate(filing_order = rank(priority_date, ties.method = "first")) %>% 
+    ungroup() %>% 
+    filter(filing_order == 1) %>%
+    mutate(duplicate_priority = duplicated(.[[!!priority_number]])) %>% 
+    filter(duplicate_priority == "FALSE") %>% 
+    select(-priority, -duplicated, -filing_order, -duplicate_priority)
+}
+```
+
+This function takes three arguments. Data is a dataset, the priority number is the field that contains the raw priority number data and the key is the field that is used for grouping (assumed to be the application number).
+
+We can test this as follows:
+
+```{r}
+results <- extract_priority(data = numbers, priority_number = "priority_number", key = "application_number")
+results
+```
+
+What this means is that where we have a dataset with a priority number field and the application number field as a key we do not need to write all the code again by hand. We may have to adjust the code... for example if the numbers contain different separators (such as ;; in the case of the Lens database) or junk such as "[" is found in a data field. However, the ability to turn code into a reusable function is the most powerful feature of programming languages such as R and a powerful reason to engage with R when working with patent data.
+
+### Wrap Up
+
+In this article we have taken a deep dive into the exploration of how to count the first filings of patent applications using information in the priority number field. We have focused on reducing a set of 18,970 patent applications to the earliest filings and arrived at 9,366 results. 
+
+The key take home messages from this article are that to identify the earliest priority filing we have to do the following
+
+1. Deduplicate our data on application numbers
+2. Separate the individual priority numbers onto their own row
+3. Make sure we trim white space
+4. Group the data on application numbers and then identify the earliest priority date for each application
+5. Filter the data to the earliest priority date per application
+6. Identify and remove duplicate priority numbers
+
+As discussed above, this approach focuses on a straightforward method for identifying the earliest priority filing. A more sophisticated approach would break the dataset down to identify the cases where the priority number is identical to an application number and then work through the data focusing on provisional applications. The outcome of such an exercise will not be radically different, however it would arguably be more accurate in terms of identifying the priority date closest to the date of a specific invention and working through the filing route issues. For today however this is more than enough for a first deep dive into counting patent filings by priority. If you have survived this far congratulations. You now know more than most people alive about how to count priority filings. Yay!

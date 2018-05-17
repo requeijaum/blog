@@ -1,0 +1,67 @@
+---
+title: Useful Blogdown Tips
+author: Paul Oldham
+date: '2018-04-07'
+draft: true
+slug: useful-blogdown-tips
+description: blogdown rocks and there are some great tutorials but here is a compilation of useful things you might want to know.
+categories:
+  - R
+tags:
+  - blogdown
+---
+
+Many of the things you need to know about Blogdown are in the excellent blogdown book... and there are lots of tutorials out there. Here I'm going to compile some of the various posts providing tips, and add some of my own. 
+
+### Transferring to blogdown
+
+The blogdown book provides a very good description of how to move from Github or Wordpress to Blogdown with Netlify. But if you want to stay with Blogdown here are a few very useful posts:
+
+-
+-
+-
+
+### Setting up redirects
+
+If you get quite a bit of traffic on your old site then rather than simply delete it you will want to redirect. There seem to be two basic choices here:
+
+- A hard permanent redirect
+
+
+- A soft (http refresh)
+
+I used this in the end as I was unsure about the permanent redirect
+
+I used this option of the time being and found an easy to use Jekyll plugin
+
+- Netlify provides guidance on setting up redirects
+
+### Including Images
+
+I use the standard knitr approach of setting up the and then
+
+```{r}
+#knitr::include_graphics()
+```
+
+However, this may not suit your needs and xxxx has come up with a very useful ADD IMAGES ADD IN
+
+### Including Video
+
+This is a matter of becoming familiar with HUGO short codes. This will add a facebook video.
+
+
+### Twitter cards
+
+Twitter cards were a mystery to me until I read the xxxx post by xxxx. Make sure that you follow the code carefully replacing the authors code with your own. 
+
+### Making Giphy images work
+
+xxxx post used static images and I wanted to play withh animated gifs. I struggled a bit but in the end this worked for me. 
+
+### Adding a bibliography
+
+
+### Register your blog with Google
+
+Don't forget to register your blog with Google (to ask them to index it or no one will find it). Also set up Google Analytics and add the code to XXXX so that you can see if and where people are visiting, 

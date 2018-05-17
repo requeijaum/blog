@@ -6,7 +6,7 @@
     <description>Recent content in Patent Analytics Software on Paul Oldham&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Copyright @ Paul Oldham 2017</copyright>
+    <copyright>Copyright @ Paul Oldham 2017-2018</copyright>
     <lastBuildDate>Sun, 26 Jul 2015 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/patent-analytics-software/index.xml" rel="self" type="application/rss+xml" />
@@ -14,10 +14,10 @@
     
     <item>
       <title>An Overview of Patent Analytics Tools</title>
-      <link>/2015/07/26/overview-patent-analytics/</link>
+      <link>/overview-open-tools/</link>
       <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>/2015/07/26/overview-patent-analytics/</guid>
+      <guid>/overview-open-tools/</guid>
       <description>Introduction This article provides an overview of the open source and free software tools that are available for patent analytics. The aim of the chapter is to serve as a quick reference guide for some of the main tools in the tool kit.
 This article is now a chapter in the WIPO Manual on Open Source Patent Analytics. You can read the chapter in electronic book format here and find all the materials including presentations at the WIPO Analytics Github homepage.</description>
     </item>

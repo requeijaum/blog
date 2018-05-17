@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.32.2" />
+
+
+<title>Importing CSV files into R - Paul Oldham&#39;s Blog</title>
+<meta property="og:title" content="Importing CSV files into R - Paul Oldham&#39;s Blog">
+<meta property="og:type" content="article">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://www.pauloldham.net/images/paul-oval.png" >
+  
+
+
+<meta property="description" content="Article posted by Paul Oldham, on Wednesday, April 29nd, 2015">
+<meta property="og:description" content="Article posted by Paul Oldham, on Wednesday, April 29nd, 2015">
+
+
+
+<meta name="twitter:creator" content="@junglepaul">
+<meta name="twitter:site" content="">
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/paul-oval.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="https://twitter.com/junglepaul">@junglepaul</a></li>
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/poldham">GitHub</a></li>
+    
+    <li><a href="https://github.com/wipo-analytics">WIPO Analytics</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">23 min read</span>
+    
+
+    <h1 class="article-title">Importing CSV files into R</h1>
+
+    
+    <span class="article-date">2015/04/29</span>
+    
+
+    <div class="article-content">
+      <div id="TOC">
+<ul>
+<li><a href="#a-quick-2018-update">A Quick 2018 Update</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#reading-in-a-file-using-read.table-utils-package">Reading in a file using read.table (<code>utils</code> package)</a></li>
+<li><a href="#reading-a-.csv-from-the-web">Reading a .csv from the web</a><ul>
+<li><a href="#downloading-from-google-drive">Downloading From Google Drive</a></li>
+<li><a href="#downloading-from-github">Downloading from GitHub</a></li>
+</ul></li>
+<li><a href="#writing-a-.csv-file">Writing a .csv file</a></li>
+<li><a href="#reading-in-multiple-.csv-files">Reading in multiple .csv files</a></li>
+<li><a href="#using-the-new-readr-package.">Using the new <code>readr</code> package.</a></li>
+<li><a href="#writing-a-.csv-file-using-write_csv">Writing a .csv file using <code>write_csv()</code></a></li>
+<li><a href="#round-up">Round Up</a></li>
+</ul>
+</div>
+
+<div id="a-quick-2018-update" class="section level3">
+<h3>A Quick 2018 Update</h3>
+<p>This post is now showing its age and was the first thing I wrote about R. Everything still works but <code>readr</code>, which was brand new at the time, has made a big difference. I now suggest the following:</p>
+<ul>
+<li>Import local csv files into RStudio using <code>File &gt; Import &gt; From Text (readr)</code> as it is by far the easiest way to import files.</li>
+<li>If that fails consult the <code>readr</code> documentation and review the arguments.</li>
+<li>If that fails try the base R <code>read.csv()</code> making sure to set <code>stringsAsFactors = FALSE</code> unless you really want factors.</li>
+<li>When working with very large datasets use <code>fread()</code> from the <code>data.table</code> package… it rocks… but study the arguments.</li>
+<li>If looking at importing from online sources such as GitHub or Google Drive the approach below normally works fine.</li>
+<li>If you are working with Googlesheets the go to package is <code>googlesheets</code>.</li>
+<li>If looking to import multiple files at the same time the approach below will work well (but the steps could be joined together)… e.g. if you are doing the Coursera R course.</li>
+</ul>
+<p>I will update the post properly when time permits.</p>
+</div>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>As part of the <a href="https://github.com/wipo-analytics">WIPO Manual on Open Source Patent Analytics project</a> we will be working with patent data in R using <a href="http://www.rstudio.com">RStudio</a>. If you do not have a copy of RStudio follow the simple instructions for installing on your platform <a href="http://www.rstudio.com/products/rstudio/download/">here</a>. There are lots of resources on the site to help you get started including <a href="http://www.rstudio.com/resources/training/online-learning/">online learning</a>, <a href="http://www.rstudio.com/resources/webinars/">videos</a>, and <a href="http://www.rstudio.com/resources/cheatsheets/">cheatsheets</a>. The excellent <a href="http://www.r-bloggers.com">R-Bloggers site</a> will demonstrate why it is worth investing time in R when working with patent data.</p>
+<p>Comma separated value files (or .csv) files are one of the most common and useful ways for sharing data. This includes patent data.</p>
+<p>This walk through covers the basics of importing .csv files into R and writing .csv files. We will use the freely available <a href="https://drive.google.com/open?id=0B4piiKOCkRPDRlBlcGpxR0tMTms&amp;authuser=0">ritonavir</a> patent dataset as the example. You can grab the datasets by either forking or downloading the <a href="https://github.com/poldham/opensource-patent-analytics">GitHub repository</a> or downloading the <a href="https://github.com/poldham/opensource-patent-analytics/blob/master/2_datasets/datasets.zip?raw=true">zip file</a>. While we use patent data as the example, this will work for other types of .csv data.</p>
+<p>We will cover the following approaches to importing and writing .csv files here:</p>
+<ol style="list-style-type: decimal">
+<li>Importing .csv files from local directories using the standard read.table in the utils package.</li>
+<li>Writing .csv files using <code>write.csv()</code></li>
+<li>Importing multiple .csv files using <code>lapply()</code> and <code>ldply()</code></li>
+<li>Importing and writing .csv files using the new <a href="http://blog.rstudio.org/2015/04/09/readr-0-1-0/">readr</a> package.</li>
+<li>Downloading a .csv file from a URL, focusing on https: connections, using <code>Rcurl</code>.</li>
+</ol>
+<p>That should cover most needs. If you find that you are stuck with a function try calling the description for a particular function (?read.csv) or try <a href="http://stackoverflow.com/questions/tagged/r">stackoverflow.com</a> results tagged R or from a Google search (often the quickest route).</p>
+</div>
+<div id="reading-in-a-file-using-read.table-utils-package" class="section level2">
+<h2>Reading in a file using read.table (<code>utils</code> package)</h2>
+<p>Reading in a .csv file is easy and is part of <code>read.table</code> in the R <code>utils</code> package (installed by default). We can simply read in a .csv by creating an object linked to the function <code>read.csv()</code> followed by the path to the local file as follows. You will need to download the file from the link above.</p>
+<pre class="r"><code>ritonavir &lt;- read.csv(&quot;yourfilenamepath.csv&quot;)</code></pre>
+<p>In some European countries the delimiter in a .csv is a semicolon “;” and not a comma. In the unlikely event you come across these files use <code>read.csv2()</code> as above instead of <code>read.csv</code>.</p>
+<p>You now have a dataset called ritonavir in R. That is how easy it is. You can take a look at the data by simply typing ritonavir into the console. What you will see is a mass of data. We can improve on that by using <code>head(ritonavir)</code> but it is still a little difficult to view. We will come back to this in turning the data into a table data frame (<code>tbl_df()</code>).</p>
+<p>First, let’s look at the function read.csv. R functions have settings called arguments that can be used to control what is going on.</p>
+<pre class="r"><code>`?`(read.csv)</code></pre>
+<p><code>read.csv(file, header = TRUE, sep = &quot;,&quot;, quote = &quot;\&quot;&quot;, dec = &quot;.&quot;, fill = TRUE, comment.char = &quot;&quot;, ...)</code></p>
+<p>The arguments for this function can be very useful, for example,</p>
+<p><code>header = TRUE or FALSE</code>. Determines whether or not to import column headings from the first row.</p>
+<p><code>sep = &quot;,&quot;</code> . The separator for the values in each row.</p>
+<p>The <code>...</code> refers to additional arguments that might be applied. Among the most important of these using this function are:</p>
+<ol style="list-style-type: decimal">
+<li><code>stringsAsFactors = FALSE</code>. To prevent character columns being converted to factors. This is actually a lot more important than it sounds, and will generally be your default.<br />
+</li>
+<li><code>na.strings = &quot;NA&quot;</code>. NA refers to not available. In some cases this needs to be expanded to cover blank cells in the source data. for example <code>c(&quot;NA&quot;, &quot; &quot;, &quot;&quot;)</code> captures cells containing “NA”, cells with only a space &quot; &quot; or empty cells “”.</li>
+<li><code>strip.white = TRUE</code>. This will strip leading and trailing white space. Note that this will only work if you have specified sep = in the arguments.</li>
+<li><code>skip = n</code>. Specify the number of lines to skip before the data starts. Very useful for data tables with blank rows or text padding at the top of files.</li>
+</ol>
+<p>This means that we would often want a <code>read.csv()</code> function with the following additional arguments for our file. In this case we are reading the data in directly from the datasets repository <a href="https://github.com/poldham/opensource-patent-analytics/tree/master/2_datasets">here</a>. Where the file is located on your computer you will need to enter the file path. If you are a Windows user your file path will contain back slashes. These need to be changed to forward slashes as back slashes are an escape character on every other system (yes it really is a pain).</p>
+<pre class="r"><code>ritonavir &lt;- read.csv(&quot;https://github.com/poldham/opensource-patent-analytics/raw/master/2_datasets/ritonavir/ritonavir.csv&quot;, 
+    sep = &quot;,&quot;, na.strings = &quot;NA&quot;, strip.white = TRUE, stringsAsFactors = FALSE)</code></pre>
+<p>Note here that the use of <code>sep = &quot;,&quot;</code> is the condition for stripping leading and trailing white space on import using <code>strip.white = TRUE</code>. <code>strip.white</code> won’t work without the <code>sep</code>.</p>
+<p>If you intend to split the inventor and applicant data following import you may want to wait because the process will generate white space. It is always possible to write a .csv file after the cleaning process and reimport it with <code>strip.white</code> set to TRUE along with <code>sep= &quot;,&quot;</code>. We will write a .csv file below.</p>
+<p>We have not specified <code>skip = n</code> in the above as the column headers are in the first row in the original data. But, there are lots of occasions when skip can be useful.</p>
+<p>Lets look at the type or class of object that has been created from our latest import.</p>
+<pre class="r"><code>class(ritonavir)  ##class is &#39;data.frame&#39;</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<p>If we print the ritonavir R object we will get the first 500 rows of data. Try entering ritonavir in your console.</p>
+<p>That is not terribly helpful because we are overwhelmed with information and can’t see everything as a snap shot. The solution to this is to install and load <code>dplyr</code> package. We will be using this package a lot in the patent analysis tutorials so, if you don’t have it already, now is a good time.</p>
+<pre class="r"><code>install.packages(&quot;dplyr&quot;)</code></pre>
+<p>load the package</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<p>We can now use the <code>tbl_df()</code> function to create an easy to read dataframe table (<code>tbl_df()</code>) using our ritonavir dataset that lists columns as characters.</p>
+<pre class="r"><code>ritonavirtbl &lt;- tbl_df(ritonavir)</code></pre>
+<p>This creates an easy to read table dataframe.</p>
+<p>If we print the frame we will now have readable content.</p>
+<pre class="r"><code>ritonavirtbl</code></pre>
+<pre><code>## # A tibble: 804 x 20
+##    row.no publication.numb… kind.code title   priority.docume… priority.country
+##     &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;           
+##  1      1 AU2007202956      B2        Polymo… AU19990050037    Australia       
+##  2      2 CA2425495         A1        ANTI-R… CA2425495        Canada          
+##  3      3 CN101440091       A         Ritona… CN20081072486    China           
+##  4      4 CN101613325       A         Proces… CN20081031608    China           
+##  5      5 CN1247554         C         Proces… CN20031121091    China           
+##  6      6 DE10131036        A1        Medici… DE20011031036    Germany         
+##  7      7 DE10145361        A1        Steril… DE20011045361    Germany         
+##  8      8 DE102005012681    A1        New 1,… DE200510012681   Germany         
+##  9      9 DE102007030695    A1        Co-cry… DE200710063623   Germany         
+## 10     10 EP0490667         B1        HIV pr… JP19900409673    Japan           
+## # ... with 794 more rows, and 14 more variables: earliest.priority.date &lt;chr&gt;,
+## #   earliest.priority.year &lt;int&gt;, application.date &lt;chr&gt;,
+## #   publication.date &lt;chr&gt;, publication.year &lt;int&gt;, applicant &lt;chr&gt;,
+## #   inventors &lt;chr&gt;, ipc.classes &lt;chr&gt;, family.members &lt;chr&gt;,
+## #   family.size &lt;int&gt;, family.size.1 &lt;int&gt;, wo.in.family &lt;chr&gt;,
+## #   grant.or.application.type.families &lt;chr&gt;, granted.patent &lt;chr&gt;</code></pre>
+<p>That is a lot easier to read than our original (try typing ritonavir into the console to take a look, then try ritonavirtbl).</p>
+<p>There are two points to note here.</p>
+<ol style="list-style-type: decimal">
+<li>Spaces in column names such as publication number are filled with full stops. Use the new <code>janitor</code> package <code>clean_names()</code> function to deal with this.</li>
+<li>More importantly, by default character vectors are converted to factors (characters backed by a hidden number). It therefore makes sense to always use <code>StringsAsFactors = FALSE</code> unless you actually want columns to import as factors.</li>
+</ol>
+</div>
+<div id="reading-a-.csv-from-the-web" class="section level2">
+<h2>Reading a .csv from the web</h2>
+<p>Reading a .csv file from the web is also easy as we have seen above but it can involve some complications. We will cover a couple of cases here. If the URL begins with <code>http:</code> then it is as simple as entering the URL inside quotes. However, if it is the secure <code>https:</code> then it is a little bit more of a challenge.</p>
+<div id="downloading-from-google-drive" class="section level3">
+<h3>Downloading From Google Drive</h3>
+<p>For example if we try the following it will generally work with <code>http:</code> but not with <code>https:</code>. This will simply return an empty object with nothing in it and throw an error <code>Error in read.table(file = file, header = header, sep = sep, quote = quote, : more columns than column names</code></p>
+<pre class="r"><code>ritonavir_url &lt;- read.csv(&quot;https://drive.google.com/drive/folders/0B4piiKOCkRPDTGdSQmRMa1BOUEE&quot;, 
+    sep = &quot;,&quot;)</code></pre>
+<p>To deal with this we need to install and load the package RCurl.</p>
+<pre class="r"><code>install.packages(&quot;RCurl&quot;)</code></pre>
+<p>load the library</p>
+<pre class="r"><code>library(RCurl)</code></pre>
+<p>Now let’s try again and add a couple of arguments to make it work.</p>
+<pre class="r"><code>ritonavir_url &lt;- download.file(&quot;https://drive.google.com/drive/folders/0B4piiKOCkRPDTGdSQmRMa1BOUEE&quot;, 
+    &quot;ritonavir_url.csv&quot;, method = &quot;curl&quot;)</code></pre>
+<p>In this case we use <code>download.file</code> and the URL in quotes, followed by the destination filename (which will download into the current working directory). For this to work without an error we need finally to specify <code>method = &quot;curl&quot;</code> or an error reading <code>unsupported URL scheme</code> will appear.</p>
+<p>You now need to navigate to where the file is and import it</p>
+</div>
+<div id="downloading-from-github" class="section level3">
+<h3>Downloading from GitHub</h3>
+<p>In downloading from GitHub (where the project Google Drive datasets are also located), we have to go a step further. The URL that you see on the page in Github is basically a marker for the data location… not the actual dataset location. To access the actual dataset navigate to the relevant page <a href="https://github.com/poldham/opensource-patent-analytics/blob/master/datasets/ritonavir/ritonavir.csv">here</a>. However, then select the Raw button and copy that <em>URL</em>. The URL should begin with <a href="https:raw" class="uri">https:raw</a>. as below.</p>
+<pre class="r"><code>ritonavir_urlg &lt;- download.file(&quot;https://raw.githubusercontent.com/poldham/opensource-patent-analytics/master/datasets/ritonavir/ritonavir.csv&quot;, 
+    &quot;ritonavir_urlg.csv&quot;, method = &quot;curl&quot;)</code></pre>
+<p>Next you need to navigate to the file location and import as before.</p>
+<p>As an alternative to this approach in Github it can be easier to simply navigate to the repository (such as <a href="https://github.com/poldham/opensource-patent-analytics" class="uri">https://github.com/poldham/opensource-patent-analytics</a>) and then select <code>Clone in Desktop</code> (if you are using GitHub on your local machine) or ‘Download ZIP’. That will download the repository including the relevant datasets.</p>
+</div>
+</div>
+<div id="writing-a-.csv-file" class="section level2">
+<h2>Writing a .csv file</h2>
+<p>If we wanted to write this data table to a new .csv file we would use the ‘write.csv()’ command.</p>
+<p>Before we do that a critical point to remember is to give the file a new filename or it will overwrite your original data. It is also worth checking your working directory so that you know where it will be saved.</p>
+<pre class="r"><code>getwd()</code></pre>
+<p>If this is the wrong directory, locate and copy the path for the directory you want and then use <code>setwd()</code> to set the directory to save the file in.</p>
+<p>To write the file with a new file name we will use <code>write.csv()</code>.</p>
+<pre class="r"><code>write.csv(ritonavirtbl, &quot;ritonavirtbl.csv&quot;)</code></pre>
+<p>This will write a file called ritonavirtbl.csv to your working directory. If you take a look at the file note that an extra column will have been added at the beginning (we will come back to that) and column names will now contain full stops instead of spaces.</p>
+<p>Let’s take a look at the options for writing .csv files by calling help.</p>
+<pre class="r"><code>`?`(write.csv)</code></pre>
+<p>write.csv is a function in <code>write.table</code>. Let’s take a look at the arguments.</p>
+<p><code>write.table(x, file = &quot;&quot;, append = FALSE, quote = TRUE, sep = &quot; &quot;,             eol = &quot;\n&quot;, na = &quot;NA&quot;, dec = &quot;.&quot;, row.names = TRUE,             col.names = TRUE, qmethod = c(&quot;escape&quot;, &quot;double&quot;),             fileEncoding = &quot;&quot;)</code></p>
+<p>A couple of these settings may be useful.</p>
+<ol style="list-style-type: decimal">
+<li><code>append = TRUE or FALSE</code>. Do we want to append the data to an existing file of that name or not? If false and the same filename is used then it will overwrite the existing file. If TRUE it will append the data to the file of the same name.</li>
+<li><code>na = &quot;NA&quot;</code> the string that you want to use for missing data. This may need further definition depending on your data (e.g. <code>na = c(&quot;NA&quot;, &quot; &quot;, &quot;&quot;)</code>).</li>
+<li><code>row.names</code> and <code>col.names</code> may be useful depending on your dataset or needs. Note that the default is TRUE. This is generally correct for columns with patent data but not for rows.</li>
+</ol>
+<p>The <code>row.names = FALSE</code> argument is more important than it appears. As Garrett Grolemund points out in <a href="http://shop.oreilly.com/product/0636920028574.do">Hands-On Programming with R</a> every time that you write a .csv file in R it will add a row names column and keep on writing a new column each time you write the file. No one seems to quite understand why that happens but you will not be wanting that to happen. So the suggested default for <code>write.csv()</code> is</p>
+<pre class="r"><code>write.csv(ritonavirtbl, &quot;ritonavirtbl.csv&quot;, row.names = FALSE)</code></pre>
+<p>This will prevent R from writing an additional row names column.</p>
+<p>We will now take a look at a somewhat unusual import case. That is importing multiple files. I have left this until after we have worked on writing .csv files because realising that we can import, export and then reimport files into R is an important part of creating effective workflows in future work. Otherwise, we may spend hours in R to achieve something that can be done easily outside R. This particular example provides a good illustration of this point.</p>
+</div>
+<div id="reading-in-multiple-.csv-files" class="section level2">
+<h2>Reading in multiple .csv files</h2>
+<p>On some occasions we might want to read in multiple .csv files at the same time. Typically this will be where a patent dataset has been split into multiple files. If you would like to follow this discussion then download the <a href="https://drive.google.com/folderview?id=0B4piiKOCkRPDVUxhVVhkbGtQLVU&amp;usp=sharing">pizza_sliced dataset</a> which contains five .csv files plus a ReadMe file.</p>
+<p>Reading in multiple files is a task that is a little trickier than it should be. However, the approach below will work (assuming you have the files in a local folder). My suggestion would be to remove the Read Me file from the downloaded set for this exercise.</p>
+<pre class="r"><code>pizzasliced &lt;- list.files(&quot;/Users/pauloldham17inch/opensource-patent-analytics/2_datasets/pizza_sliced&quot;, 
+    full.names = TRUE)  ##create a vector of file names to read in
+pizzasliced</code></pre>
+<pre><code>## [1] &quot;/Users/pauloldham17inch/opensource-patent-analytics/2_datasets/pizza_sliced/pizza_sliced_20002002_319.csv&quot;
+## [2] &quot;/Users/pauloldham17inch/opensource-patent-analytics/2_datasets/pizza_sliced/pizza_sliced_20032005_366.csv&quot;
+## [3] &quot;/Users/pauloldham17inch/opensource-patent-analytics/2_datasets/pizza_sliced/pizza_sliced_20062008_439.csv&quot;
+## [4] &quot;/Users/pauloldham17inch/opensource-patent-analytics/2_datasets/pizza_sliced/pizza_sliced_20092012_428.csv&quot;
+## [5] &quot;/Users/pauloldham17inch/opensource-patent-analytics/2_datasets/pizza_sliced/pizza_sliced_20132014_274.csv&quot;
+## [6] &quot;/Users/pauloldham17inch/opensource-patent-analytics/2_datasets/pizza_sliced/pizza_sliced_codebook.txt&quot;</code></pre>
+<p>When we print pizza sliced we will now see a list of the full name of files including the full path.</p>
+<p>If we check the class of this object using <code>class(pizzasliced)</code> it will be a character type</p>
+<pre class="r"><code>class(pizzasliced)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>What we now need to do is to transform this into a list. To do that we will use the function <code>lapply()</code> for list apply. In this case we are saying “apply list apply to the R character object pizzasliced and then apply the function <code>read.csv</code> ensuring that headings are included from column names” as below.</p>
+<pre class="r"><code>pizzasliced1 &lt;- lapply(pizzasliced, read.csv, header = TRUE, stringsAsFactors = FALSE)</code></pre>
+<p>lapply will then iterate through and read in the five files to create a new object that we call pizzasliced1. Note that if doing this normally you would probably retain the same name and allow R to overwrite the object as you go along. Here we are showing the steps. If we now investigate the class of R object the answer will be a list.</p>
+<pre class="r"><code>class(pizzasliced1)</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<p>A list is an object that groups together R objects (in this case the data from our files). To demonstrate this if we now try and print pizzasliced1 then we will see an overwhelming amount of information rush by as R prints the five objects in the list.</p>
+<pre class="r"><code>print(pizzasliced1)  # try this in your console</code></pre>
+<p>What we now need to do is to convert the list into a data.frame. To do that however we need to turn to the <code>dplyr</code> package and the <code>bind_rows()</code> function.</p>
+<pre class="r"><code>install.packages(&quot;dplyr&quot;)</code></pre>
+<p>Load the library</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<p>We now simply apply <code>bind_rows()</code> to pizzasliced1 to turn the list of objects into a data.frame. We will call that pizzasliced2.</p>
+<pre class="r"><code>pizzasliced2 &lt;- bind_rows(pizzasliced1)</code></pre>
+<p>If we print pizzasliced2 into the console we will see another set of data rushing by. However, if we check the class we will see that we now have a data.frame object. A data.frame is actually a list of the class data.frame. To test that try typing <code>typeof(pizzasliced2)</code> into the console and the result will be “list”).</p>
+<pre class="r"><code>class(pizzasliced2)</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<p>We can take a look at the top of the dataset using <code>head()</code>. This will show rather crunched data and column headings</p>
+<pre class="r"><code>head(pizzasliced2)</code></pre>
+<pre><code>##                                                                     Title
+## 1                                                              PIZZA TRAY
+## 2                                 COOKING METHOD OF GREEN-TEA ADDED PIZZA
+## 3                                              METHOD FOR COOKING A PIZZA
+## 4                          Pizza preparation and delivery method and unit
+## 5                                  Method of making laminated pizza crust
+## 6 Container for transporting heated food, particularly pizza and the like
+##                  Publication.number Publication.date
+## 1                       CA93181 (S)       24/08/2001
+## 2                 KR20010107868 (A)       07/12/2001
+## 3     CA2731260 (A1); CA2731260 (C)       14/09/2000
+## 4 US2002048624 (A1); US6858243 (B2)       25/04/2002
+## 5                     US6126977 (A)       03/10/2000
+## 6 US2002040862 (A1); US6601758 (B2)       11/04/2002
+##                                                                                                                           Inventor.s.
+## 1                                                                                                                                    
+## 2                                                                                                         YOU YEN SIL\x89\xdb\xe2[KR]
+## 3                                                       HEDRINGTON JAMES ALAN\x89\xdb\xe2[US];  DRESSEL BRENT WILLIAM\x89\xdb\xe2[US]
+## 4 BLANCHET JEAN\x89\xdb\xe2[FR];  CATHELIN HERVE\x89\xdb\xe2[FR];  HEBERT CHRISTIAN\x89\xdb\xe2[FR];  NOUYRIT OLIVIER\x89\xdb\xe2[FR]
+## 5                                                                                                      BUBAR RONALD O\x89\xdb\xe2[US]
+## 6                                                                                                      LIZZIO FILIPPO\x89\xdb\xe2[IT]
+##                            Applicant.s.
+## 1 SCHWAN S FOOD MFG INC\x89\xdb\xe2[US]
+## 2           YOU YEN SIL\x89\xdb\xe2[KR]
+## 3        NAT PRESTO IND\x89\xdb\xe2[US]
+## 4             NESTEC SA\x89\xdb\xe2[US]
+## 5       PAULUCCI JENO F\x89\xdb\xe2[US]
+## 6        TERMOPIZZA SRL\x89\xdb\xe2[US]
+##                                                                   International.classification
+## 1                                                                                             
+## 2                                                                                    A21D13/00
+## 3                                                     A23L1/01; A21B1/00; A47J37/04; A47J37/06
+## 4 A23L1/48; A21B1/00; A21D8/00; A21D13/00; A21D15/02; B60P3/025; B60P3/14; A23L1/00; A21D13/00
+## 5                     A21C3/02; A21C11/00; A21D8/00; A21D8/02; A21D13/00; A21D13/08; A21D13/00
+## 6                                         B65D77/04; B65D81/26; B65D85/36; B65D85/36; B65D5/50
+##                                                        Cooperative.Patent.Classification
+## 1                                                                                       
+## 2                                                                                       
+## 3                                                                A47J37/0611; A47J37/043
+## 4                        A21D13/007; A21B1/00; A21D8/00; A21D15/02; B60P3/0257; B60P3/14
+## 5                                A21D13/0061; A21C3/02; A21C11/004; A21D8/02; A21D13/007
+## 6 B65D77/0433; B65D81/262; B65D81/263; B65D85/36; B65D2585/366; Y10S229/906; Y10S229/902
+##   Application.number Date.of.application
+## 1     CANDAT0093181F                   0
+## 2      KR20010069326            20011105
+## 3      CA20002731260            20000310
+## 4      US20010982377            20011018
+## 5      US19970968900            19971106
+## 6      US20010963393            20010927
+##                                Priority.number.s.
+## 1                         CANDAT0093181F 00000000
+## 2                          KR20010069326 20011105
+## 3  US19990267981 19990312; CA20002363329 20000310
+## 4                          EP20000122736 20001018
+## 5  US19970968900 19971106; US19950496894 19950630
+## 6 IT2000TO00900 20000928; IT2001TO00008U 20010119
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Patents.cited.in.the.search.report
+## 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+## 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+## 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+## 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        US3879564 (A); US4164591 (A); US4919477 (A); US5256432 (A)
+## 5 US628449 (A); US969173 (A); US1174826 (A); US1179294 (A); US1646921 (A); US2089396 (A); US2509035 (A); US2668767 (A); US3143424 (A); US3235390 (A); US3677769 (A); US3845219 (A); US3880069 (A); US4020184 (A); US4205091 (A); US4283424 (A); US4283431 (A); US4308286 (A); US4313961 (A); US4416910 (A); US4463020 (A); US4551337 (A); US4574090 (A); US4626188 (A); US4645673 (A); US4661361 (A); US4696823 (A); US4753813 (A); US4842882 (A); US4907501 (A); US5104669 (A); US5180603 (A); US5182123 (A); US5194273 (A); US5196223 (A); US5268188 (A); US5348751 (A); US5405626 (A); US5417150 (A); US5417996 (A); US5529799 (A); US5560946 (A); DE3704192 (A1); GB2241863 (A)
+## 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               US3026209 (A); US3515331 (A); US4197940 (A); US4441626 (A); US4883195 (A); US5052559 (A); US5385292 (A); US5445286 (A); US5482724 (A); US5588587 (A); US5895698 (A); EP0989067 (A1)
+##   Literature.cited.in.the.search.report Patents.cited.during.examination
+## 1                                                                       
+## 2                                                                       
+## 3                                                                       
+## 4                                                                       
+## 5                                                                       
+## 6                                                                       
+##   Literature.cited.during.examination Other.patent.citations
+## 1                                  NA                     NA
+## 2                                  NA                     NA
+## 3                                  NA                     NA
+## 4                                  NA                     NA
+## 5                                  NA                     NA
+## 6                                  NA                     NA
+##   Other.literature.citations Patents.used.in.opposition
+## 1                         NA                       &lt;NA&gt;
+## 2                         NA                       &lt;NA&gt;
+## 3                         NA                       &lt;NA&gt;
+## 4                         NA                       &lt;NA&gt;
+## 5                         NA                       &lt;NA&gt;
+## 6                         NA                       &lt;NA&gt;
+##   Literature.used.in.opposition                Patents.cited.by.the.applicant
+## 1                            NA                                              
+## 2                            NA                                              
+## 3                            NA                                              
+## 4                            NA US4361227 (A); US4791861 (A); JPH09299017 (A)
+## 5                            NA                                              
+## 6                            NA                                              
+##   Literature.cited.by.the.applicant International.search.citation
+## 1                                NA                              
+## 2                                NA                              
+## 3                                NA                              
+## 4                                NA                              
+## 5                                NA                              
+## 6                                NA                              
+##   International.search.NPL.citation Supplementary.international.search.citation
+## 1                                                                            NA
+## 2                                                                            NA
+## 3                                                                            NA
+## 4                                                                            NA
+## 5                                                                            NA
+## 6                                                                            NA
+##   Supplementary.international.search.NPL.citation espacenet.search.20.03.2015
+## 1                                              NA                          NA
+## 2                                              NA                          NA
+## 3                                              NA                          NA
+## 4                                              NA                          NA
+## 5                                              NA                          NA
+## 6                                              NA                          NA</code></pre>
+<p>We could also take a look at the bottom of the dataset</p>
+<pre class="r"><code>tail(pizzasliced2)</code></pre>
+<p>If we use <code>summary()</code> we will gain a slightly cleaner view that tries to sum up all of the data.</p>
+<pre class="r"><code>summary(pizzasliced2)</code></pre>
+<pre><code>##     Title           Publication.number Publication.date   Inventor.s.       
+##  Length:1716        Length:1716        Length:1716        Length:1716       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##  Applicant.s.       International.classification
+##  Length:1716        Length:1716                 
+##  Class :character   Class :character            
+##  Mode  :character   Mode  :character            
+##                                                 
+##                                                 
+##                                                 
+##                                                 
+##  Cooperative.Patent.Classification Application.number Date.of.application
+##  Length:1716                       Length:1716        Min.   :       0   
+##  Class :character                  Class :character   1st Qu.:20020816   
+##  Mode  :character                  Mode  :character   Median :20060413   
+##                                                       Mean   :20046941   
+##                                                       3rd Qu.:20100407   
+##                                                       Max.   :20140724   
+##                                                       NA&#39;s   :9          
+##  Priority.number.s. Patents.cited.in.the.search.report
+##  Length:1716        Length:1716                       
+##  Class :character   Class :character                  
+##  Mode  :character   Mode  :character                  
+##                                                       
+##                                                       
+##                                                       
+##                                                       
+##  Literature.cited.in.the.search.report Patents.cited.during.examination
+##  Length:1716                           Length:1716                     
+##  Class :character                      Class :character                
+##  Mode  :character                      Mode  :character                
+##                                                                        
+##                                                                        
+##                                                                        
+##                                                                        
+##  Literature.cited.during.examination Other.patent.citations
+##  Mode:logical                        Mode:logical          
+##  NA&#39;s:1716                           NA&#39;s:1716             
+##                                                            
+##                                                            
+##                                                            
+##                                                            
+##                                                            
+##  Other.literature.citations Patents.used.in.opposition
+##  Mode:logical               Length:1716               
+##  NA&#39;s:1716                  Class :character          
+##                             Mode  :character          
+##                                                       
+##                                                       
+##                                                       
+##                                                       
+##  Literature.used.in.opposition Patents.cited.by.the.applicant
+##  Mode:logical                  Length:1716                   
+##  NA&#39;s:1716                     Class :character              
+##                                Mode  :character              
+##                                                              
+##                                                              
+##                                                              
+##                                                              
+##  Literature.cited.by.the.applicant International.search.citation
+##  Mode:logical                      Length:1716                  
+##  NA&#39;s:1716                         Class :character             
+##                                    Mode  :character             
+##                                                                 
+##                                                                 
+##                                                                 
+##                                                                 
+##  International.search.NPL.citation Supplementary.international.search.citation
+##  Length:1716                       Mode:logical                               
+##  Class :character                  NA&#39;s:1716                                  
+##  Mode  :character                                                             
+##                                                                               
+##                                                                               
+##                                                                               
+##                                                                               
+##  Supplementary.international.search.NPL.citation espacenet.search.20.03.2015
+##  Mode:logical                                    Min.   :238                
+##  NA&#39;s:1716                                       1st Qu.:238                
+##                                                  Median :238                
+##                                                  Mean   :238                
+##                                                  3rd Qu.:238                
+##                                                  Max.   :238                
+##                                                  NA&#39;s   :1715</code></pre>
+<p>What is needed is an easier to read form and that is where we can use <code>tbl_df</code> again from the <code>dplyr</code> package that we used earlier.</p>
+<pre class="r"><code>pizzasliced3 &lt;- tbl_df(pizzasliced2)</code></pre>
+<!---Houston, we have a problem. That problem is that somewhere in the esp@cenet data that makes up the pizza_sliced dataset there is an issue with the character encoding that is preventing the `dplyr` function from working. Typically this will mean that the character encoding has become messed up in the underlying data. This of course is one of the reasons it is always worth checking the data first (as is suggested in this video [here](https://youtu.be/YYaMEbJW7Qw?list=PLsZOGmKUMi54n8R06U1HmxNywt0bAFays)). Clearly that is OK for small datasets but for large or multi-part datasets is a problem. So, another solution is needed. The problem as it turns out is in the inventor and the applicant fields in the space between the name and the country code entry which looks like this in Excel `BIANCHI MARCO‰Ûâ[IT]` and merely throws a `???` in Open Office Calc. 
+
+Working out how to solve this problem in R could take a while (although string replacement is a good bet). The issue therefore is how to get to a solution as quickly as possible. That solution is to take what we learned above to write the new data.frame to a .csv file, then open the file in Open Office or Excel and use find and replace on the corrupted strings (as is suggested in this video [here](https://youtu.be/YYaMEbJW7Qw?list=PLsZOGmKUMi54n8R06U1HmxNywt0bAFays)). 
+
+First check your working directory `getwd()` so you know where the file will go. Then `setwd(pathtoyourdirectory)` if that needs to change.--->
+<!---Open the file in either Open Office or Excel. Copy the corrupted characters in the Inventors or Applicants columns, select those columns and then find and replace with a space as the replacement (see the video link above). Then save the file writing over the original download. Now let's reimport it. --->
+<!---It can be worth printing the top of the file to check that the clean up has worked.--->
+<!---The inventors and applicant fields are now free of the encoding problem. We are now in a position to try again with the table data frame using `tbl_df()`. --->
+<p>Let’s print pizzasliced4.</p>
+<!---We can now see the first ten rows of a data frame that contains 1,707 rows and 24 columns. It will still be a little crunched but is much more readable. Also note that most of the columns are character fields (not factors).
+
+Using `dplyr` we can call up a View of the dataset in a new pop up window. This can be very useful for inspecting datasets.--->
+<p>Let’s finish off here by writing pizzasliced2 out to a .csv.</p>
+<pre class="r"><code>write.csv(pizzasliced2, &quot;pizzasliced2&quot;, row.names = FALSE)</code></pre>
+<p>While we would probably choose more informative filenames it is good practice to output work before moving on to other tasks or at some point it will be lost.</p>
+<p>We have now covered the basics of importing a .csv file into R and then writing a file. We have also covered importing multiple .csv files and a quick work around character encoding problems before exporting a data frame.</p>
+<p>It is useful to know these steps when you get into trouble, but in day to day practice you are most likely to use the <code>readr</code> package (or <code>data.table's</code> <code>fread()</code>).</p>
+</div>
+<div id="using-the-new-readr-package." class="section level2">
+<h2>Using the new <code>readr</code> package.</h2>
+<p>If you don’t have <code>readr</code> use the following to install it.</p>
+<pre class="r"><code>install.packages(&quot;readr&quot;)</code></pre>
+<p>If you do, or to check it has loaded, use:</p>
+<pre class="r"><code>library(readr)</code></pre>
+<p>If you have not done so already, let’s install and load <code>dplyr</code>.</p>
+<pre class="r"><code>install.packages(&quot;dplyr&quot;)</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<p>Let’s try loading our dataset again using the function <code>read_csv()</code></p>
+<pre class="r"><code>library(readr)
+ritonavir3 &lt;- read_csv(&quot;/Users/pauloldham17inch/opensource-patent-analytics/2_datasets/ritonavir/ritonavir.csv&quot;)</code></pre>
+<p>This will create a data frame and then display problems in red. The problems can be investigated by typing <code>problems()</code> in the console. We will ignore these in this case. As with <code>read.csv2()</code>, the <code>readr</code> function <code>read_csv2()</code> will read files with the <code>&quot;;&quot;</code> as the separator.</p>
+<p>To see the read_csv arguments let’s call help</p>
+<pre class="r"><code>`?`(read_csv)</code></pre>
+<p><code>read_csv(file, col_names = TRUE, col_types = NULL, na = &quot;NA&quot;, skip = 0,   n_max = -1, progress = interactive())</code></p>
+<p>This tells us that the function will assume that there are column names in the first row. <code>col_types = NULL</code> tells us that the function will attempt to calculate the column type from the first thirty rows of data. You can however specify the column types as character, double, integer, logical etc.</p>
+<p><code>skip</code> will specify the number of rows to skip as before. <code>n_max</code> will specify the maximum number of records to read. That can be helpful if the dataset is large and you just want to take a look at some of it to get a sense of the data.</p>
+<p>The main advantages of <code>read_csv</code> over <code>read.csv</code> are:</p>
+<ol style="list-style-type: decimal">
+<li><code>read_csv</code> does not automatically read in character vectors as factors. This means there is <strong>no need</strong> to specify <code>stringsAsFactors = FALSE</code> as part of the function’s arguments. This will be a very great relief to many people as it is one less thing to remember!</li>
+<li>The <code>problems()</code> prompt advises you that problems may exist with reading the file. You might be able to fix or ignore them.</li>
+<li>For larger files a progress indicator will display on loading (in interactive mode) where the load is over 5 seconds.</li>
+<li>Column names are left as is. That means that publication number stays as publication number rather than becoming publication.number and requiring renaming.</li>
+<li>By default, <code>readr</code> turns imported data into a <code>data.frame</code>, and a <code>table (tbl)</code> and a <code>table dataframe (tbl_df)</code>. You can test this by typing <code>class(ritonavir3)</code> into the console. That means if you are running <code>dplyr</code> then it will automatically show the first ten rows and the column name. That may not sound exciting but it is a lot better than masses of data rushing past.</li>
+</ol>
+<p>However, as <code>readr</code> is a new package that is being actively developed there are also some issues. You might want to check out the latest development version is available <a href="https://github.com/hadley/readr/blob/master/README.md">here</a>.</p>
+<p>Let’s take a look now at ritonavir3 but using the <code>View()</code> function to call up a dataset window.</p>
+<pre class="r"><code>View(ritonavir3)</code></pre>
+<p>If we scroll across then we can see that the date columns in the dataset have been transformed to <code>NA</code>. In some circumstances this is not a problem (remember that we still have the original dataset, what we see here is a data table). In other cases this could be a problem (if we wanted to use this data).</p>
+<p>At the time of writing, there does not seem to be a clear way to deal with this issue (but see the development page read.me on precisely this issue). This reflects the difficulty of dealing with dates because they can be ambiguous. We will discuss this elsewhere.</p>
+<p>For the moment, let’s call ritonavir3 into the console.</p>
+<pre class="r"><code>ritonavir3</code></pre>
+<p>What we see here is the data with column names left as is. We can also see that most of the columns (vectors) are character vectors and have not been transformed into factors meaning <strong>no more</strong> <code>stringsAsFactors = FALSE</code>. The date fields have been recognised as dates, but as we have seen have been transformed to NA (not available) because of the lack of clarity on the kind of date.</p>
+<p>We will update this part of the walkthrough as clarity on dealing with dates becomes available with <code>readr</code>.</p>
+</div>
+<div id="writing-a-.csv-file-using-write_csv" class="section level2">
+<h2>Writing a .csv file using <code>write_csv()</code></h2>
+<p>We can easily write a .csv file using the <code>write_csv()</code> function as follows</p>
+<pre class="r"><code>write_csv(ritonavir3, &quot;ritonavir3.csv&quot;)</code></pre>
+<p>The output from this has the advantage of preserving the column names as is so that “publication number” stays as is and does not become “publication.number”.</p>
+<p>The full list of arguments for <code>write_csv()</code> at the moment is</p>
+<p><code>write_csv(x, path, append = FALSE, col_names = !append)</code></p>
+<p><code>append = TRUE</code> will append the table to the existing file. <code>col_names = TRUE</code> will write column names at the top of the file. Expect more arguments to be added as <code>readr</code> develops.</p>
+<p>Bear in mind that <code>readr</code> does not possess the functionality of <code>read.csv</code> or <code>write.csv</code> in <code>read.table</code>. Part of the aim of <code>readr</code> is simplification based on the idea of doing a limited number of things well. Therefore, it is unlikely that <code>readr</code> will ever be as comprehensive as the <code>read.table</code> equivalents in the future. However, <code>readr</code> is likely to become the go to package because of its simplicity for most needs and because it links with the wider family of <code>tidyr</code>, <code>plyr</code> and <code>dplyr</code> packages under development at RStudio to make data wrangling and analysis easier.</p>
+</div>
+<div id="round-up" class="section level2">
+<h2>Round Up</h2>
+<p>In this walkthrough we have covered the fundamentals of reading and writing .csv files in R. This is pretty much the easiest file format to work with for patent data and considerably better than Excel which we will cover next. I, like almost everyone else, would encourage you to start working with .csv files wherever possible for the straightforward reason that they are cleaner and better to share across platforms and programmes than Excel or other proprietary format files.</p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113668064-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+</html>
+

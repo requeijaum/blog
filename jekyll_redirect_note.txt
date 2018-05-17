@@ -1,0 +1,11 @@
+I have a jekyll site hosted on my github.io domain that attracts a reasonable amount of traffic. I want to move this to the excellent blowdown with Netlify on my own domain and managed to set that up just fine.
+
+When moving the site I do not simply want to delete the GitHub.io site but to archive it and redirect to the new site. 
+
+There are a number of options for this
+
+1. jekyll-redirect-from
+
+Install with  gem install jekyll-redirect-from
+
+Add 
